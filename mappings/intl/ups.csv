@@ -1,0 +1,21 @@
+# Source: UPS Tracking API OpenAPI spec
+#   (infor/ups-api-documentation/Tracking.yaml, 用户提供 2026-05-13)
+# Reviewer: @zhatrix
+# Coverage: 🟡 PARTIAL — 仅 5 条数据，待补 UPS API Codes lookup table
+#   原因：UPS Tracking API OpenAPI spec 中所有状态码字段均为 type:string +
+#         description: "see API Codes for possible values"，没有内联 enum。
+#         具体码值在外部 UPS API Codes 文档（developer.ups.com 单独的代码表）。
+#   UPS 状态字段有三层：
+#     (1) currentStatus.statusCode (3 位数字，包级整体状态，如 "011" = Delivered)
+#     (2) activity[].status.code (2 字母事件代码，如 "PU"/"OD"/"SR")
+#     (3) activity[].status.statusCode (3 位数字事件详情码，如 "003")
+#     (4) activity[].status.type (1 字母事件类型，如 "X" = Exception 推测)
+#   用 `top:N` / `evt:CC` / `det:NNN` 前缀区分。
+# Next: 用户提供 UPS API Codes 完整对照表（包含 statusCode 全集 + activity status
+#       code 全集），预估补全后约 150-200 条 raw codes → ULSC 映射。
+carrier_code,carrier_name,olts_code,notes
+top:011,Delivered (currentStatus),delivered,UPS Tracking API spec example: currentStatus.description="Delivered"
+evt:PU,Pickup,picked_up,2 字母 activity status code (报告 §2.2 例)
+evt:OD,Out for Delivery,out_for_delivery,2 字母 activity status code (报告 §2.2 例)
+evt:SR,Customs Released,customs_released,activity status code = "Your package was released by the customs agency" (OpenAPI example)
+det:003,Customs Released (detail),customs_released,activity status.statusCode 3 位数字 (与 SR 同事件 OpenAPI 同例)

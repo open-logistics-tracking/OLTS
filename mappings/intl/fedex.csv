@@ -1,0 +1,39 @@
+# Source: FedEx Track API OpenAPI 3.0 spec
+#   (fedex-track.json, 用户提供 2026-05-13)
+# Reviewer: @zhatrix
+# Coverage: 🟡 PARTIAL — 19 条数据，待补 FedEx Code Lookup 完整 ScanEvent 表
+#   原因：FedEx Track API OpenAPI spec 中 ScanEvent.eventType / derivedStatusCode /
+#         StatusDetail.code 等核心 raw status code 字段均为 type:string，仅给出
+#         少量示例（PU, DE, DP, HL, OC），没有内联 enum 定义。
+#         完整 code 字典在 FedEx Developer 单独的 Code Lookup 工具/文档中。
+#   本映射纳入 OpenAPI 中 3 类有 enum 的 API 字段（已确认完整枚举）：
+#     (1) ScanEvent.eventType 已确认含义的示例 — 用 `evt:CC` 前缀
+#     (2) ServiceCommitMessage.type (14 条，service 承诺/事件性消息) — 用 `commit:` 前缀
+#     (3) notificationEventTypes (4 条，webhook 订阅事件) — 用 `notif:` 前缀
+#   未纳入（属于元数据分类而非 status event，避免语义错位）：
+#     - TrackingDateAndTime.type (时间字段类型)
+#     - DelayDetail.type / status (延迟子分类)
+#     - DeliveryOptionElgibilityDetails.option (派送选项配置)
+#     - locationType (位置类型)
+# Next: 用户提供 FedEx Code Lookup 完整 ScanEvent eventType 表，预估补全后约
+#       100-200 条 raw codes → ULSC 映射。
+carrier_code,carrier_name,olts_code,notes
+evt:PU,Picked Up,picked_up,ScanEvent.eventType / derivedStatusCode / StatusDetail.code 三处共同 example (含义已确认)
+commit:BROKER_DELIVERED_DESCRIPTION,Broker delivered description,delivered,
+commit:CANCELLED_DESCRIPTION,Cancelled description,order_cancelled,
+commit:DELIVERY_IN_MULTIPLE_PIECE_SHIPMENT,Delivery in multiple piece shipment,delivered,
+commit:ESTIMATED_DELIVERY_DATE_UNAVAILABLE,Estimated delivery date unavailable,exception,信息缺失型异常
+commit:EXCEPTION_IN_MULTIPLE_PIECE_SHIPMENT,Exception in multiple piece shipment,exception,
+commit:FINAL_DELIVERY_ATTEMPTED,Final delivery attempted,delivery_attempted,最后一次派送尝试
+commit:FIRST_DELIVERY_ATTEMPTED,First delivery attempted,delivery_attempted,首次派送尝试
+commit:HELD_PACKAGE_AVAILABLE_FOR_RECIPIENT_PICKUP,Held package available for recipient pickup,awaiting_pickup,
+commit:HELD_PACKAGE_AVAILABLE_FOR_RECIPIENT_PICKUP_WITH_ADDRESS,Held package available for recipient pickup with address,awaiting_pickup,
+commit:HELD_PACKAGE_NOT_AVAILABLE_FOR_RECIPIENT_PICKUP,Held package not available for recipient pickup,exception,
+commit:SHIPMENT_LABEL_CREATED,Shipment label created,label_printed,
+commit:SUBSEQUENT_DELIVERY_ATTEMPTED,Subsequent delivery attempted,delivery_attempted,
+commit:USPS_DELIVERED,USPS delivered (smart post),delivered,FedEx SmartPost: 末端由 USPS 派送
+commit:USPS_DELIVERING,USPS delivering (smart post),out_for_delivery,FedEx SmartPost: 末端由 USPS 派送
+notif:ON_DELIVERY,On delivery (webhook event type),delivered,
+notif:ON_ESTIMATED_DELIVERY,On estimated delivery (webhook event type),in_transit,送达预估通知（非实际投递）
+notif:ON_EXCEPTION,On exception (webhook event type),exception,
+notif:ON_TENDER,On tender (webhook event type),picked_up,Tender = 货件交付给 FedEx

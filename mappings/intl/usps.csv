@@ -1,0 +1,15 @@
+# Source: USPS Tracking V3 OpenAPI spec (usps-tracking_19.yaml, 用户提供 2026-05-13)
+# Reviewer: @zhatrix
+# Coverage: 🟡 PARTIAL — 仅 1 条数据，待补 Pub 199 lookup table
+#   原因：USPS Tracking V3 OpenAPI spec 中 trackingEvents[].eventCode 和
+#         trackingDetails.status / statusCategory 字段均为 type:string，
+#         没有内联 enum 定义，文档明确指向外部 lookup table：
+#           * USPS Publication 199 Appendix G-4: Domestic Tracking Scan Events
+#           * USPS Publication 199 Appendix G-5: Scan Event Codes - International Mail
+#         （http://postalpro.usps.com/pub199）
+#   YAML spec 内的 enum 字段（mailClass / mailType / itemShape / MailingEventType /
+#   accessControl 等）都是元数据分类，不是 tracking event status，故不进映射。
+# Next: 用户登录 PostalPro 后提供 Pub 199 Appendix G-4/G-5 状态码表，预估补全后约
+#       100+ 条 raw eventCode → ULSC 映射。
+carrier_code,carrier_name,olts_code,notes
+03,USPS in possession of item,picked_up,USPS Tracking V3 sample response example (Pub 199 完整表待补)
