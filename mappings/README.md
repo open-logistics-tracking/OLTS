@@ -9,12 +9,12 @@
 | 承运商 | 文件 | 状态 | 数据来源 |
 |---|---|---|---|
 | 圆通速递 | `yto.csv` | ✅ W2（11 条） | 调研报告 §2.1 |
-| 中通快递 | `zto.csv` | 🟡 W2 部分（3 条） | 调研报告 §2.2（原报告标注"推断"，待补） |
+| 中通快递 | `zto.csv` | ✅ W4 补完（24 条 = 10 中文 + 4 英文 + 10 数字） | japi.zto.com 物流轨迹接口文档（用户登录提供，替换原报告推断的 3 条）|
 | 顺丰速运 | `sf.csv` | ✅ W2（20 条 = 10 status + 10 opcode） | 调研报告 §2.5 |
 | 京东物流 | `jdl.csv` | ✅ W2 补缺（75 条 = 12 status + 63 state） | open.jdl.com 官方文档（用户登录后提供，2024-08-14 / 2024-01-03 / 2023-04-19 三份合并） |
 | 中国邮政 | `ems.csv` | ✅ W2 补缺（235 条 = 195 opcode + 24 signed + 16 unsigned） | api.ems.com.cn 协议客户开放平台官方文档（用户登录后提供）|
 | 申通快递 | `sto.csv` | ✅ W4 补缺（29 条 = 15 国内 + 14 国际） | open.sto.cn 物流详情接口文档（用户登录提供）|
-| 韵达速递 | `yunda.csv` | 🟡 W4 partial（2 条） | 调研报告 §2.3（仅 GOT/SIGNED） |
+| 韵达速递 | `yunda.csv` | ✅ W4 补完（26 条 = 5 status 整体 + 21 action 轨迹） | openapi.yundaex.com 物流轨迹接口文档（用户登录提供）|
 | 极兔速递 | `jtexpress.csv` | ✅ W4 补缺（46 条 = 14 scanType + 32 problemType） | openapi.jtexpress.com.cn 物流接口文档（用户登录提供）|
 | 菜鸟 | `cainiao.csv` | ✅ W4（13 核心 + 14-26 扩展范围未细化） | 调研报告 §2.6 |
 | 德邦快递 | `deppon.csv` | ✅ W4 补缺（24 条 = 9 订单级 + 15 轨迹级） | dpopen.deppon.com 订单+轨迹接口文档（用户登录提供）|

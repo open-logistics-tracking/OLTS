@@ -1,8 +1,40 @@
-# Source: 快递企业开放平台API对比分析报告.md §2.2（中通开放平台，2026-05 调研）
+# Source: 中通快递开放平台 (用户登录提供，2026-05-13)
+#   - 物流轨迹查询接口 zto.merchant.waybill.track.query
+#   - 物流轨迹订阅接口 zto.merchant.waybill.track.subsrcibe
+#   接口地址: japi.zto.com/zto.merchant.waybill.track.query
 # Reviewer: @zhatrix
-# Coverage: 🟡 原报告仅给出 3 个状态码且标注为"推断"，完整状态码体系需联系中通官方
-#          或从真实 API 响应反推。本映射在 v0.1 阶段视为不完整草案。
+# Coverage: ✅ W4 补完（24 条）
+#   - 10 个中文 scanType（标准场景：收件/发件/到件/派件/签收/退件 等）
+#   - 4 个英文 scanType（三方自提柜场景：ARRIVAL/SIGNED/DELIVERY/DEPARTURE）
+#   - 10 个数字 scanType（转单后场景：1=收件 / 2=发件 ... 44/45=第三方进出站）
+# Note: 中通 scanType 字段三种命名空间天然不冲突（中文/英文/数字），
+#       用原始码作为 carrier_code。
+# Note: 替换原 commit 80e45b7 中基于"报告推断"的 3 条占位映射（2/3/4 被认错）；
+#       新映射基于官方文档，数字 2/3/4 实为"发件/到件/派件"而非"在途中/签收/问题件"。
+# Note: scanType=事件 含义是"特殊事件"（详见原文档），本映射归通用 exception；
+#       scanType=安检 映射到 customs_inspection（与极兔 scan:12 一致）。
 carrier_code,carrier_name,olts_code,notes
-2,在途中,in_transit,
-3,签收,delivered,
-4,问题件,exception,问题件按通用异常处理；细分异常码（拒收/丢失/破损等）原报告未覆盖
+收件,收件 (scanType 中文),picked_up,
+发件,发件 (scanType 中文),departed_from_hub,
+到件,到件 (scanType 中文),arrived_at_hub,
+派件,派件 (scanType 中文),out_for_delivery,
+签收,签收 (scanType 中文),delivered,
+退件,退件 (scanType 中文),returned_to_sender,
+问题件,问题件 (scanType 中文),exception,
+事件,事件 (scanType 中文),exception,特殊事件 详见原文档
+转单,转单 (scanType 中文),transferred_to_carrier,
+安检,安检 (scanType 中文),customs_inspection,
+ARRIVAL,派件入三方自提柜 (scanType 英文),delivery_to_locker,三方自提柜场景；与一般快递的 ARRIVAL 语义不同
+SIGNED,派件出三方自提柜 (scanType 英文),delivered,用户从三方柜取走完成签收
+DELIVERY,上门派送 (scanType 英文),out_for_delivery,
+DEPARTURE,派件异常出站 (scanType 英文),exception,
+1,收件 (scanType 数字 转单后),picked_up,
+2,发件 (scanType 数字 转单后),departed_from_hub,
+3,到件 (scanType 数字 转单后),arrived_at_hub,
+4,派件 (scanType 数字 转单后),out_for_delivery,
+5,签收 (scanType 数字 转单后),delivered,
+7,第三方签收 (scanType 数字 转单后),signed_by_third_party,
+8,退件 (scanType 数字 转单后),returned_to_sender,
+9,转单 (scanType 数字 转单后),transferred_to_carrier,
+44,第三方进站 (scanType 数字 转单后),delivery_to_locker,第三方代收点投递
+45,第三方出站 (scanType 数字 转单后),out_for_delivery,从第三方代收点取出再投

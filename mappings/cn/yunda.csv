@@ -1,8 +1,43 @@
-# Source: 快递企业开放平台API对比分析报告.md §2.3 韵达开放平台
-#   接口: openapi.yundaex.com (前置条件: 必须先完成轨迹订阅)
+# Source: 韵达开放平台 openapi.yundaex.com (用户登录提供，2026-05-13)
+#   - 物流轨迹查询接口 /openapi/outer/logictis/query
+#   - 物流轨迹订阅接口 /openapi/outer/logictis/subscribe
+#   - 物流轨迹推送接口 (CP 提供推送 URL，韵达回推)
 # Reviewer: @zhatrix
-# Coverage: 🟡 W4 partial (仅 2 条) — 原报告标"文档仅展示 2 个状态码，
-#           完整列表需联系韵达获取"。待韵达官方/真实 API 响应样本补完。
+# Coverage: ✅ W4 补完（26 条 = 5 status 整体 + 21 action 轨迹）
+# Note: 韵达同时提供两个层级状态码：
+#       (1) status (整体节点状态，5 个，仅在查询响应顶层返回)：
+#           GOT/TRANSIT/SIGNED/RETURN/SIGNFAIL
+#       (2) action (轨迹动作，21 个，每条 step 都有 action)：
+#           ACCEPT/GOT/ARRIVAL/DEPARTURE/SENT/INBOUND/SIGNED/OUTBOUND/
+#           SIGNFAIL/RETURN/ISSUE/REJECTION/OTHER/OVERSEA_*/CLEARANCE_*/
+#           TRANSFER
+#       两层都有 GOT/SIGNED/RETURN/SIGNFAIL，用 `status:` 和 `action:` 前缀
+#       显式分离命名空间。
+# Note: 替换原 commit e1f23b4 中 2 条 partial 占位映射。
 carrier_code,carrier_name,olts_code,notes
-GOT,已揽收,picked_up,
-SIGNED,已签收,delivered,
+status:GOT,已揽件 (status 整体),picked_up,
+status:TRANSIT,运输中 (status 整体),in_transit,
+status:SIGNED,已签收 (status 整体),delivered,
+status:RETURN,退回件 (status 整体),returned_to_sender,
+status:SIGNFAIL,异常签收 (status 整体),exception,
+action:ACCEPT,收件扫描 (action),picked_up,接单态揽收 与 GOT 揽件扫描略有差异
+action:GOT,揽件扫描 (action),picked_up,
+action:ARRIVAL,入中转 (action),arrived_at_hub,
+action:DEPARTURE,出中转 (action),departed_from_hub,
+action:SENT,派件中 (action),out_for_delivery,
+action:INBOUND,第三方代收入库 (action),delivery_to_locker,
+action:SIGNED,已签收 (action),delivered,
+action:OUTBOUND,第三方代收快递员取出 (action),out_for_delivery,
+action:SIGNFAIL,签收失败 (action),delivery_attempted,
+action:RETURN,退回件 (action),return_initiated,
+action:ISSUE,问题件 (action),exception,
+action:REJECTION,拒收 (action),refused,
+action:OTHER,其他 (action),exception,
+action:OVERSEA_IN,海外入库扫描 (action),arrived_at_hub,海外段
+action:OVERSEA_OUT,海外出库扫描 (action),departed_from_hub,海外段
+action:CLEARANCE_START,清关开始 (action),customs_declared,
+action:CLEARANCE_FINISH,清关结束 (action),customs_released,
+action:CLEARANCE_FAIL,清关失败 (action),customs_held,
+action:OVERSEA_ARRIVAL,干线到达 (action),arrived_at_hub,运输模式（干线）归 notes
+action:OVERSEA_DEPARTURE,干线离开 (action),departed_from_hub,运输模式（干线）归 notes
+action:TRANSFER,转单 (action),transferred_to_carrier,
