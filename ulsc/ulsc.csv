@@ -1,0 +1,33 @@
+code,category,name_zh,name_en,description
+order_created,pre_shipment,下单,Order Created,运单已创建但尚未交接给承运商
+order_cancelled,pre_shipment,订单取消,Order Cancelled,运单在交接前被取消
+label_printed,pre_shipment,面单已生成,Label Printed,面单/电子运单已打印或生成
+pickup_scheduled,pickup,预约揽收,Pickup Scheduled,已预约揽收但尚未取件
+picked_up,pickup,已揽收,Picked Up,承运商已取件
+pickup_failed,pickup,揽收失败,Pickup Failed,揽收尝试失败
+arrived_at_hub,transit,到达转运中心,Arrived at Hub,到达分拣/转运中心
+departed_from_hub,transit,离开转运中心,Departed from Hub,从分拣/转运中心发出
+in_transit,transit,运输中,In Transit,通用运输中状态（未明确节点）
+transferred_to_carrier,transit,转交承运商,Transferred to Carrier,跨承运商转交（如末端合作派送商）
+arrived_at_destination,transit,到达目的地,Arrived at Destination,到达目的城市/末端网点
+customs_declared,customs,已申报,Customs Declared,已向海关申报
+customs_held,customs,海关扣留,Customs Held,海关扣留待处理
+customs_inspection,customs,海关查验,Customs Inspection,海关查验中
+customs_released,customs,海关放行,Customs Released,海关已放行
+customs_duty_paid,customs,关税已缴,Customs Duty Paid,关税/进口税已缴
+clearance_completed,customs,清关完成,Clearance Completed,清关流程整体完成
+out_for_delivery,delivery,派送中,Out for Delivery,快递员正在派送
+delivery_attempted,delivery,派送未果,Delivery Attempted,派送尝试未成功
+delivered,delivery,已签收,Delivered,收件人签收
+delivery_to_locker,delivery,投递自提柜,Delivered to Locker,投递至自提柜/驿站
+awaiting_pickup,delivery,待自提,Awaiting Pickup,在自提点/柜等待自提
+signed_by_third_party,delivery,他人代签,Signed by Third Party,非本人代签收
+exception,exception,异常,Exception,通用异常状态
+damaged,exception,包裹损坏,Damaged,包裹损坏
+lost,exception,包裹丢失,Lost,包裹丢失
+address_issue,exception,地址异常,Address Issue,地址错误或无法投递
+recipient_unavailable,exception,收件人不在,Recipient Unavailable,联系不上收件人
+refused,exception,拒收,Refused,收件人拒收
+return_initiated,return,退回发起,Return Initiated,退回流程已发起
+in_return_transit,return,退回运输中,In Return Transit,退回包裹运输中
+returned_to_sender,return,已退回发件人,Returned to Sender,包裹已退回发件人
