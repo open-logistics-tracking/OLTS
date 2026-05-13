@@ -1,0 +1,23 @@
+{
+  "eventTime": "2024-09-12T08:43:00-04:00",
+  "carrierCode": "usps",
+  "carrierEventCode": "B1",
+  "oltsCode": "clearance_completed",
+  "description": "Customs clearance — international mail",
+  "location": {
+    "name": "ISC Chicago",
+    "city": "CHICAGO",
+    "state": "IL",
+    "country": "United States",
+    "countryCode": "US",
+    "postalCode": "60666"
+  },
+  "transport": {
+    "mode": "AIR"
+  },
+  "notes": "Appendix G-5 international mail scan event",
+  "metadata": {
+    "statusCategory": "In Transit",
+    "appendix": "G-5"
+  }
+}

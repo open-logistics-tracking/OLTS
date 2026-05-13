@@ -1,8 +1,10 @@
 # Roadmap
 
-## v0.1 — 映射表先行（2026-05 → 2026-06）
+## v0.1 — 映射表先行（2026-05 ✅ 已完成）
 
 **形态**：状态码字典 + 承运商映射表（CSV）。不写 schema、不写 API spec、不写 SDK。
+
+**交付**：12 家承运商（国内 10 + 国际 4）、14 个映射文件、1761 条 raw status codes、ULSC 32/32 全启用、Python 校验脚本、首发文章草稿。
 
 | 周 | 任务 | 产出 |
 |---|---|---|
@@ -11,15 +13,19 @@
 | W3 | 国际 4 家映射 | `mappings/intl/{dhl,fedex,ups,usps}.csv`（含清关码验证） |
 | W4 | 国内剩余 5 家 + 验证脚本 + 首发文章 | `mappings/cn/{sto,yunda,jtexpress,cainiao,deppon}.csv`、`tools/validate.py`、`posts/why-olts.md` |
 
-## v0.2 — 从映射凝结 Schema（2026 Q3）
+## v0.2 — 从映射凝结 Schema（2026 Q3，🚧 启动中）
 
-把 W2–W4 在映射中积累的字段共识抽出为 JSON Schema：
+把 v0.1 在映射中积累的字段共识抽出为 JSON Schema：
 
-- `TrackingEvent` JSON Schema（事件实体）
-- `Shipment` JSON Schema（运单实体）
-- 时间字段：ISO 8601 + 时区偏移强制
-- 地址字段：ISO 3166-1 alpha-2 国家码 + 行政区 + 自由文本
-- Python 参考实现：`oltrack-py`（承运商响应 → OLTS 事件）
+- ✅ `TrackingEvent` JSON Schema Draft 1 — [schemas/v0.2/tracking-event.json](./schemas/v0.2/tracking-event.json)
+  - 必填: `eventTime` (ISO 8601) + `oltsCode` (ULSC 字典枚举)
+  - 可选: `carrierCode` / `carrierEventCode` / `location` (结构化地址含 ISO 3166-1 alpha-2 国家码) /
+    `operator` / `pieceId` / `transport` (mode + 车辆号) / `description` (单字符串或多语言字典) /
+    `isLogicalEvent` / `notes` / `metadata` (兜底扩展)
+- ⏳ `Shipment` JSON Schema — 运单实体（含 origin / destination / pieces[] / events[]）
+- ⏳ Python 参考实现：`oltrack-py`（承运商响应 → OLTS 事件转换器）
+
+示例: [examples/v0.2/](./examples/v0.2/) — sf / dhl / usps 三个真实事件实例。
 
 ## v0.5 — API 规范（2026 Q4）
 

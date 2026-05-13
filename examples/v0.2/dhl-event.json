@@ -1,0 +1,35 @@
+{
+  "eventTime": "2024-06-04T03:17:00+02:00",
+  "carrierCode": "dhl",
+  "carrierEventCode": "DLVRD:CUSTM",
+  "oltsCode": "customs_declared",
+  "description": {
+    "en": "Delivered / Customs",
+    "de": "Ausgeliefert / Übergabe an Zoll zur Prüfung und Zustellung",
+    "zh": "已交付海关，进入清关流程"
+  },
+  "location": {
+    "name": "Frankfurt Airport Customs Office",
+    "city": "Frankfurt",
+    "state": "Hesse",
+    "country": "Germany",
+    "countryCode": "DE",
+    "postalCode": "60547",
+    "coordinates": {
+      "latitude": 50.0379,
+      "longitude": 8.5622
+    }
+  },
+  "pieceId": "0034988765432-1",
+  "transport": {
+    "mode": "AIR",
+    "vehicleNumber": "LH8232",
+    "operatingCarrier": "LH"
+  },
+  "isLogicalEvent": false,
+  "metadata": {
+    "service": "express",
+    "iceEventCode": "DLVRD",
+    "iceRicCode": "CUSTM"
+  }
+}

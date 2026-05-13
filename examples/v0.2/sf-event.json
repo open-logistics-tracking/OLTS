@@ -1,0 +1,25 @@
+{
+  "eventTime": "2024-06-03T14:25:33+08:00",
+  "carrierCode": "sf",
+  "carrierEventCode": "opcode:100",
+  "oltsCode": "out_for_delivery",
+  "description": "派送中",
+  "location": {
+    "name": "上海浦东陆家嘴营业部",
+    "city": "上海",
+    "state": "上海",
+    "country": "中国",
+    "countryCode": "CN"
+  },
+  "operator": {
+    "name": "张师傅",
+    "phone": "186****1234",
+    "code": "SF12345"
+  },
+  "isLogicalEvent": false,
+  "metadata": {
+    "routeFrom": "上海浦东陆家嘴营业部",
+    "routeTo": null,
+    "expressStatus": 5
+  }
+}
