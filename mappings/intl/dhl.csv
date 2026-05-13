@@ -1,0 +1,301 @@
+# Source: DHL Tracking Unified API + DHL Parcel DE ICE event/RIC combinations
+#   (用户提供，2026-05-13)
+#   - StatusCode 顶层 5 个：track_6.yaml line 376 (OpenAPI spec)
+#   - event:ric 282 条：parcel_de_ice_event_ric_combinations_July_2024.csv
+#     (DHL 官方 ICE 事件×原因码完整组合，覆盖 DHL Paket / Paket International /
+#      Europaket 三个产品；同一 event:ric 可能在多产品适用)
+# Reviewer: @zhatrix
+# Note: DHL Tracking Unified API 提供两层状态码：
+#       (1) StatusCode（5 个，跨 service 通用高层粒度）—— 加 `status:` 前缀
+#       (2) event:ric 组合（事件×原因细粒度，DHL Parcel DE ICE 命名空间）——
+#           格式 EVENT:RIC，5 字母 event_code + 5 字母 ric_code
+# Note: carrier_name 列保留 DHL 原始的"event_name / ric_name"英文描述，方便
+#       消费者按业务语义 grep；具体德文/产品适用性请回查官方 CSV。
+carrier_code,carrier_name,olts_code,notes
+status:pre-transit,Pre-transit,order_created,运输前准备态
+status:transit,Transit,in_transit,
+status:delivered,Delivered,delivered,
+status:failure,Failure,exception,投递失败终态
+status:unknown,Unknown,exception,未知态视为异常
+ADVIS:DLVDT,Advise / DeLiVery DaTe,in_transit,客户通知 - 约定送达日期
+ADVIS:DLVTM,Advise / DeLiVery TiME,in_transit,客户通知 - 送达时间窗
+ADVIS:MSGER,Advise / Message Error,exception,消息推送失败
+ADVIS:MSGPC,Advise / Message processing,in_transit,SMS 处理中
+ADVIS:MSGST,Advise / Message sent,in_transit,通知短信已发
+ADVIS:ORDER,Advise / Ordered,order_created,
+ADVIS:PFLOC,Advise / Preferred Location/Neighbor,in_transit,客户指定派送位置
+ADVIS:REJCT,Advise / Rejected,exception,通知请求被拒
+ADVIS:ROUCR,Advise / reROUted on Customer Request,in_transit,客户请求改路由
+ADVIS:SECDA,Advise / SECond Delivery Attempt,delivery_attempted,二次派送通知
+ADVIS:STBSD,Advise / Stopped by sender,order_cancelled,发件人请求停止
+ALERT:BDADD,Alert / Bad address,address_issue,
+ALERT:DLVTM,Alert / DeLiVery TiME,in_transit,送达时间窗警告
+ASMVT:NRQRD,Assigned to movement / tour vehicle,in_transit,已分配运输车
+CANCL:NRQRD,Shipment order canceled by sender,order_cancelled,
+CHECK:SVCHG,Checked / Product feature check - Service changed,exception,产品特性检查导致服务变更
+CNFSC:LEGAT,Confiscation / LEGal AuThority,exception,法律权限没收
+CNRFC:HDFCT,Consignee notified - Ready for collection / Held at DHL facility,awaiting_pickup,
+CNRFC:NRQRD,Consignee notified - Ready for collection,awaiting_pickup,
+CNRFC:PCKST,Consignee notified - Ready for collection / Packstation,awaiting_pickup,Packstation 自提
+CNRFC:SERPT,Consignee notified - Ready for collection / Service Point,awaiting_pickup,Service Point 自提
+DLVRD:ACCDM,Delivered / Accepted - damaged,damaged,签收时发现损坏
+DLVRD:ACCPK,Delivered / Collected from automated site,delivered,Packstation 自提完成
+DLVRD:ACCPT,Delivered / Accepted,delivered,
+DLVRD:ACCSI,Delivered / Accepted - Shipment incomplete,delivered,签收但货件不完整
+DLVRD:AGENT,Delivered / Hand over/delivery to Agent,signed_by_third_party,代理签收
+DLVRD:CODAR,Delivered / Electronic shipment advise received,delivered,COD 电子通知确认
+DLVRD:CODRP,Delivered / COD remittance processed,delivered,COD 付款已处理
+DLVRD:CUSTM,Delivered / Customs,customs_declared,交付海关进入清关流程
+DLVRD:DIDLV,Delivered / Direct delivery at hub/delivery depot,delivered,
+DLVRD:FAMLY,Delivered / Delivery to a family member,signed_by_third_party,家庭成员代签
+DLVRD:HNDTC,Delivered / Handover to carrier,transferred_to_carrier,移交承运商
+DLVRD:NGHBR,Delivered / Delivery to neighbor,signed_by_third_party,邻居代签
+DLVRD:OTHER,Delivered / Other - Delivery to another person,signed_by_third_party,他人代签
+DLVRD:PCKAD,Delivered / Packstation Alternate Delivery,delivery_to_locker,Packstation 满改派
+DLVRD:PKBOX,Delivered / Delivery to Packetbox,delivery_to_locker,投递到包裹箱
+DLVRD:POBOX,Delivered / Postbox,delivered,投递到邮政信箱
+DLVRD:SECPL,Delivered / Secure Place,delivered,放置约定安全位置
+DLVRD:SERPT,Delivered / Service Point,delivery_to_locker,Service Point 自提点收件
+DLVRD:SPOUS,Delivered / Delivery to spouse,signed_by_third_party,配偶代签
+DLVRD:WINPL,Delivered / Preferred Neighbor/Place,signed_by_third_party,
+DLVRF:CROAT,Delivery refused / DHL arrived outside agreed time,delivery_attempted,因迟到拒收
+DLVRF:DMGED,Delivery refused / Damage under investigation,damaged,因损坏拒收
+DLVRF:NEXCH,Delivery refused / No exchange unit,exception,无换货单元
+DLVRF:NTORD,Delivery refused / Not ordered,refused,
+DLVRF:OTHER,Delivery refused / Other,refused,
+DLVRF:SHNCP,Delivery refused / Shipment not complete,refused,货件不完整拒收
+DLVRF:TRPMT,Delivery refused / Terms of payment,refused,付款条款拒收
+DMGDS:CSDOC,Damage discovered / ConSignee DOCumentation,damaged,
+DMGDS:CTCST,Damage discovered / Contacted customer,damaged,
+DMGDS:DMGED,Damage discovered / Damage under investigation,damaged,
+DMGDS:DMGPC,Damage discovered / Damaged in process,damaged,流程中损坏
+DMGDS:LDMGD,Damage discovered / Loaded Damaged,damaged,装载时已损坏
+DMGDS:NRQRD,Damage discovered,damaged,
+DMGDS:PUDMG,Damage discovered / Picked up damaged,damaged,揽收时已损坏
+DSPSD:BDADD,Disposed of / Bad address,address_issue,因地址错误处置
+DSPSD:CLREF,Disposed of / Clearance refused,customs_held,清关被拒导致处置
+DSPSD:CNCNR,Disposed of / Consignee could not be reached,recipient_unavailable,
+DSPSD:CRQST,Disposed of / Customer request,exception,客户请求处置
+DSPSD:CSREQ,Disposed of / ConSignee REQuest,exception,收件人请求处置
+DSPSD:DMGED,Disposed of / Damage under investigation,damaged,
+DSPSD:DMGPC,Disposed of / Damaged in process,damaged,
+DSPSD:FRMJR,Disposed of / Force majeur,exception,不可抗力
+DSPSD:FSCCH,Disposed of / Failed dangerous goods check,exception,危险品检查未通过
+DSPSD:GDNMS,Disposed of / Goods or packaging not meet standard,exception,
+DSPSD:MOVED,Disposed of / Moved,address_issue,收件人已搬迁
+DSPSD:MSLBL,Disposed of / Missing Label,exception,缺标签
+DSPSD:NRQRD,Disposed of,exception,
+DSPSD:NTCLM,Disposed of / Not claimed,exception,未被认领
+DSPSD:NTORD,Disposed of / Not ordered,refused,
+DTNPC:GHSTP,Data but no piece / Ghost piece,exception,有运单数据但无包裹实体
+DTNPC:NPRPF,Data but no piece / No piece received from previous facility,exception,
+EXPHD:BDADD,Exception hold / Bad address,address_issue,
+EXPHD:CAPEX,Exception hold / Capacity exceeded,exception,
+EXPHD:CLREF,Exception hold / Clearance refused,customs_held,
+EXPHD:DMGED,Exception hold / Damage under investigation,damaged,
+EXPHD:DMGPC,Exception hold / Damaged in process,damaged,
+EXPHD:DMPHD,Exception hold / Damaged by poor handling,damaged,
+EXPHD:EQUBF,Exception hold / Equipment unavailable broken down or faulty,exception,
+EXPHD:FFTCH,Exception hold / Failed product feature validation,exception,
+EXPHD:FRMJR,Exception hold / Force majeur,exception,不可抗力
+EXPHD:GDNMS,Exception hold / Goods or packaging not meet standard,exception,
+EXPHD:INCSH,Exception hold / Incomplete shipment,exception,
+EXPHD:INSPT,Exception hold / Inspection,exception,异常检验（非海关）
+EXPHD:LOSTX,Exception hold / Lost,lost,
+EXPHD:MSDOC,Exception hold / Missing Document,exception,
+EXPHD:MSLBL,Exception hold / Missing Label,exception,
+EXPHD:MSSDT,Exception hold / Missing data,exception,
+EXPHD:NRQRD,Exception hold,exception,
+EXPHD:OTHER,Exception hold / Other,exception,
+EXPHD:PWMFD,Exception hold / Paperwork missing,exception,
+EXPHD:RTTSP,Exception hold / Return to shipper,return_initiated,
+EXPHD:STBSD,Exception hold / Stopped by sender,order_cancelled,
+EXPHD:STPRB,Exception hold / Sort problem,exception,
+EXPHD:TRPMT,Exception hold / Terms of payment,exception,
+EXPHD:UDFPC,Exception hold / Unidentifiable piece,exception,
+EXPHD:WRGRI,Exception hold / Wrong Receiver Information,address_issue,
+FWDCF:SERPT,Forwarded to correct facility / Service Point,in_transit,
+HLDCC:HDFCT,Held for consignee collection / Held at DHL facility,awaiting_pickup,
+HLDCC:LDPCK,Held for consignee collection / Held in automated collection site,awaiting_pickup,
+HLDCC:NTCCN,Held for consignee collection / Not collected by consignee,awaiting_pickup,自提超时未取
+HLDCC:SERPT,Held for consignee collection / Service Point,awaiting_pickup,
+HLDCP:NORSN,Held for clearance purposes,customs_held,
+HLDCU:NORSN,Held by Customs,customs_held,
+HNDDE:SERPT,Handover to 3rd party - Delivery details expected,transferred_to_carrier,
+HNDND:CUSTM,Handover to 3rd party - No delivery details / Customs,customs_declared,移交海关
+ICPRC:FWEXH,Into clearance processing / ForWarded for Export Handling,customs_declared,出口清关
+ICPRC:NRQRD,Into clearance processing,customs_declared,
+ICPRC:OARRV,Into clearance processing / On arrival,customs_declared,到达时申报
+INFCL:CSREQ,In facility / ConSignee REQuest,in_transit,
+INFCL:CTCST,In facility / Contacted customer,in_transit,
+INFCL:DLVDT,In facility / DeLiVery DaTe,in_transit,
+INFCL:FWEXH,In facility / ForWarded for Export Handling,customs_declared,
+INFCL:HLDAY,In facility / HoLiDAY,in_transit,假期延迟
+INFCL:HLDSR,In facility / HeLD on Shipper Request,exception,发件人请求暂存
+INFCL:HNDCA,In facility / Held for Next working Day delivery,in_transit,
+INFCL:INCSH,In facility / Incomplete shipment,exception,
+INFCL:NRQRD,In facility,in_transit,
+INFCL:OARRV,In facility / On arrival,arrived_at_hub,
+INFCL:SERPT,In facility / Service Point,in_transit,
+ITBAR:CSTBA,In bonded area / Customs bonded area,customs_held,保税区暂存
+ITBAR:FWEXH,In bonded area / ForWarded for Export Handling,customs_declared,
+ITBAR:OARRV,In bonded area / On arrival,customs_declared,
+LDEXC:BDADD,Loading exception / Bad address,address_issue,
+LDEXC:MSDLA,Loading exception / Missed delivery cycle - Received after cut off,exception,
+LDEXC:OVRLD,Loading exception / Overload,exception,
+LDTHU:NRQRD,Loaded to handling unit,in_transit,
+LDTMV:FWEXH,Loaded to movement vehicle / ForWarded for Export Handling,customs_declared,
+LDTMV:MVMTV,Loaded to movement vehicle / Movement vehicle,in_transit,
+LDTMV:NRQRD,Loaded to movement vehicle,in_transit,
+LDTMV:PCKST,Loaded to movement vehicle / Packstation,out_for_delivery,装车派送 Packstation
+LDTMV:SECDA,Loaded to movement vehicle / SECond Delivery Attempt,delivery_attempted,二次派送装车
+LDTMV:SERPT,Loaded to movement vehicle / Service Point,in_transit,
+MSRTD:CRRCS,Mis routed / Correct Routing info but delivered to wrong,exception,
+MSRTD:CRRFN,Mis routed / Correct routing info but at wrong facility,exception,
+MSRTD:NRQRD,Mis routed,exception,
+MSRTD:WRGTR,Mis routed / Wrong tour,exception,
+MVARR:NRQRD,Movement vehicle arrived,arrived_at_hub,
+MVDEX:FRMJR,Movement vehicle departure exception / Force majeur,exception,
+MVDPT:NRQRD,Movement vehicle departed,departed_from_hub,
+MVTEX:FRMJR,Movement vehicle exception / Force majeur,exception,
+MVTEX:TCATC,Movement vehicle exception / Traffic Congestion / Air traffic control,exception,
+MVTEX:TCHBD,Movement vehicle exception / Technical or Breakdown,exception,
+MVTEX:VHARU,Movement vehicle exception / Vehicle or aircraft unavailable,exception,
+NTADT:NPRPF,Not assigned to delivery tour / No piece received from previous facility,exception,
+NTDEL:AGNEG,Not delivered / Age-Check negative,delivery_attempted,
+NTDEL:BDADD,Not delivered / Bad address,address_issue,
+NTDEL:CAPEX,Not delivered / Capacity exceeded,exception,
+NTDEL:CLOSD,Not delivered / Closed,delivery_attempted,收件处关门
+NTDEL:CNCNR,Not delivered / Consignee could not be reached,recipient_unavailable,
+NTDEL:CPUNK,Not delivered / Company dissolved or unknown,address_issue,
+NTDEL:CRROT,Not delivered / Courier out of time,delivery_attempted,
+NTDEL:CTCNI,Not delivered / Customer could not identify themselves,delivery_attempted,
+NTDEL:CTCST,Not delivered / Contacted customer,delivery_attempted,
+NTDEL:DMGED,Not delivered / Damage under investigation,damaged,
+NTDEL:DRCRU,Not delivered / Driver or crew unavailable,exception,
+NTDEL:FRMJR,Not delivered / Force majeur,exception,
+NTDEL:HLDAY,Not delivered / HoLiDAY,delivery_attempted,
+NTDEL:IDDMG,Not delivered / ID damaged or not readable,delivery_attempted,
+NTDEL:IDNEG,Not delivered / Identitycheck negative,delivery_attempted,
+NTDEL:MOVED,Not delivered / Moved,address_issue,
+NTDEL:MSDOC,Not delivered / Missing Document,exception,
+NTDEL:MSLBL,Not delivered / Missing Label,exception,
+NTDEL:MSSDT,Not delivered / Missing data,exception,
+NTDEL:NAGTB,Not delivered / Not According to General Terms of Business,exception,
+NTDEL:NHOME,Not delivered / Not home,recipient_unavailable,
+NTDEL:NTCCN,Not delivered / Not collected by consignee,awaiting_pickup,自提超时未取
+NTDEL:NTIHU,Not delivered / Not in Handling Unit,exception,
+NTDEL:OTHER,Not delivered / Other,delivery_attempted,
+NTDEL:OTHRE,Not delivered / Other reason,delivery_attempted,
+NTDEL:PCKST,Not delivered / Packstation,delivery_attempted,Packstation 不可用
+NTDEL:RFUSD,Not delivered / Refused,refused,
+NTDEL:RSEXW,Not delivered / Return to Shipper EXWorks error,exception,
+NTDEL:SECDA,Not delivered / SECond Delivery Attempt,delivery_attempted,
+NTDEL:SERPT,Not delivered / Service Point,delivery_attempted,
+NTDEL:SHINF,Not delivered / SHipper INFormation,exception,
+NTDEL:TCHBD,Not delivered / Technical or Breakdown,exception,
+NTDEL:TRPMT,Not delivered / Terms of payment,refused,
+NTDEL:UDLVR,Not delivered / Undeliverable,exception,
+NTDEL:WRGPN,Not delivered / Wrong Post-ID,address_issue,
+NTDEL:WRGRI,Not delivered / Wrong Receiver Information,address_issue,
+NTDEL:WRGTR,Not delivered / Wrong tour,exception,
+NTPUP:BDADD,Not picked up / Bad address,address_issue,
+NTPUP:CLOSD,Not picked up / Closed,pickup_failed,
+NTPUP:CLRTE,Not picked up / Tour exception,pickup_failed,
+NTPUP:CPUNK,Not picked up / Company dissolved or unknown,address_issue,
+NTPUP:CRROT,Not picked up / Courier out of time,pickup_failed,
+NTPUP:DMGED,Not picked up / Damage under investigation,damaged,
+NTPUP:GDNMS,Not picked up / Goods or packaging not meet standard,exception,
+NTPUP:GDNRD,Not picked up / Goods not ready,pickup_failed,
+NTPUP:NAGTB,Not picked up / Not According to General Terms of Business,exception,
+NTPUP:NHOME,Not picked up / Not home,pickup_failed,
+NTPUP:NPYMT,Not picked up / No payment,pickup_failed,
+NTPUP:NTHND,Not picked up / Customer refused to hand over,pickup_failed,
+NTPUP:NTHNG,Not picked up / Nothing to collect,pickup_failed,
+NTPUP:OTHER,Not picked up / Other,pickup_failed,
+NTPUP:SPCNR,Not picked up / Shipper cannot be reached,pickup_failed,
+NTPUP:TRPMT,Not picked up / Terms of payment,pickup_failed,
+NTPUP:WRGTR,Not picked up / Wrong tour,pickup_failed,
+OFWRD:CNCNR,Onforwarded / Consignee could not be reached,recipient_unavailable,
+OFWRD:CNRFW,Onforwarded / Consignee request to forward to another address,address_issue,
+OFWRD:CRFRD,Onforwarded / Customer request for redirection,address_issue,
+OFWRD:CRRFN,Onforwarded / Correct routing but at wrong facility,in_transit,
+OFWRD:CSREQ,Onforwarded / ConSignee REQuest,address_issue,
+OFWRD:NRQRD,Onforwarded,in_transit,
+OFWRD:PBNBR,Onforwarded / PO box number,address_issue,
+OFWRD:RDRCR,Onforwarded / Redirected by customer request,address_issue,
+OFWRD:RDRDO,Onforwarded / Redirected by redirection order,address_issue,
+OFWRD:RTSCR,Onforwarded / Return to shipper at customer request,return_initiated,
+OFWRD:RTSSA,Onforwarded / Return to shipper by customer standard agreement,return_initiated,
+PARCV:NRQRD,PAN Received by Carrier,transferred_to_carrier,
+PBNDT:NDRFC,Piece but no data / No data received from customer,exception,
+PBNDT:NDRFN,Piece but no data / No data received from network,exception,
+PBNDT:NORSN,Piece but no data,exception,
+PCKDU:PFLOC,Picked up / Preferred Location/Neighbor,picked_up,
+PCKDU:PKBOX,Picked up / from Packetbox,picked_up,
+PCKDU:PUBCR,Picked up / Piece pickup,picked_up,
+PCKDU:WINPL,Picked up / Preferred Neighbor/Place,picked_up,
+PMTCR:NRQRD,Payments received from courier,in_transit,业务操作
+PMTCS:NRQRD,Payment received from customer,order_created,
+PMTCS:SERPT,Payment received from customer / Service Point,order_created,
+PURCR:BDADD,Pick up request created / Bad address,address_issue,
+PURCR:BOOKN,Pick up request created / Booking,pickup_scheduled,
+PURCR:NRQRD,Pick up request created,pickup_scheduled,
+PURCR:OTHER,Pick up request created / Other,pickup_scheduled,
+PURCR:REJCT,Pick up request created / Rejected,pickup_failed,
+PURCR:SECPL,Pick up request created / Secure Place,pickup_scheduled,
+RCCLS:GHSTP,Record closed / Ghost piece,exception,
+RCCLS:LOSTX,Record closed / Lost,lost,
+RELBL:NRQRD,Relabeled,label_printed,重新打标
+RELBL:PLDMG,Relabeled / Piece label damaged,label_printed,原标签损坏后重打
+RELBL:PPQLT,Relabeled / Poor quality piece label,label_printed,
+REPCK:DMGPC,Repacked / Damaged in process,damaged,损坏后已重新包装
+REPCK:LDMGD,Repacked / Loaded Damaged,damaged,
+REPCK:MVMTV,Repacked / Movement vehicle,in_transit,
+REPCK:NRQRD,Repacked,in_transit,
+REPCK:RDRDO,Repacked / Redirected by redirection order,in_transit,
+REPCK:WRGRI,Repacked / Wrong Receiver Information,address_issue,
+RETRN:BDADD,Shipment will be returned to origin / Bad address,return_initiated,
+RETRN:CLREF,Shipment will be returned to origin / Clearance refused,return_initiated,
+RETRN:CNCNR,Shipment will be returned to origin / Consignee could not be reached,return_initiated,
+RETRN:CSREQ,Shipment will be returned to origin / ConSignee REQuest,return_initiated,
+RETRN:DMGED,Shipment will be returned to origin / Damage under investigation,return_initiated,
+RETRN:DMGPC,Shipment will be returned to origin / Damaged in process,return_initiated,
+RETRN:FRMJR,Shipment will be returned to origin / Force majeur,return_initiated,
+RETRN:FSCCH,Shipment will be returned to origin / Failed dangerous goods check,return_initiated,
+RETRN:GDNMS,Shipment will be returned to origin / Goods not meet standard,return_initiated,
+RETRN:INSPF,Shipment will be returned to origin / Inspection failed,return_initiated,
+RETRN:MOVED,Shipment will be returned to origin / Moved,return_initiated,
+RETRN:MSDLA,Shipment will be returned to origin / Missed delivery cycle,return_initiated,
+RETRN:MSSDT,Shipment will be returned to origin / Missing data,return_initiated,
+RETRN:NAGTB,Shipment will be returned to origin / Not According to General Terms of Business,return_initiated,
+RETRN:NEXCH,Shipment will be returned to origin / No exchange unit,return_initiated,
+RETRN:NHOME,Shipment will be returned to origin / Not home,return_initiated,
+RETRN:NTCCN,Shipment will be returned to origin / Not collected by consignee,return_initiated,
+RETRN:NTORD,Shipment will be returned to origin / Not ordered,return_initiated,
+RETRN:OTHER,Shipment will be returned to origin / Other,return_initiated,
+RETRN:RFUSD,Shipment will be returned to origin / Refused,return_initiated,
+RETRN:RTSCR,Shipment will be returned to origin / Return at customer request,return_initiated,
+RETRN:RTSSA,Shipment will be returned to origin / Return by customer standard agreement,return_initiated,
+RETRN:UDFPC,Shipment will be returned to origin / Unidentifiable piece,return_initiated,
+RETRN:WRGDT,Shipment will be returned to origin / Wrong Date,return_initiated,
+RETRN:WRGID,Shipment will be returned to origin / Wrong Check-ID,return_initiated,
+RETRN:WRGTR,Shipment will be returned to origin / Wrong tour,return_initiated,
+ROUCR:PKBOX,Re-Routed on customer request / Delivery to Packetbox,in_transit,
+RSDCP:FWEXH,Released from clearance processing / ForWarded for Export Handling,customs_released,
+RSDCP:OARRV,Released from clearance processing / On arrival,customs_released,
+SECHK:CCPSD,Security checked / Content Check - Passed,customs_inspection,内容查验通过
+SECHK:DGCPS,Security checked / Dangerous goods check - Passed,customs_inspection,危险品查验通过
+SECHK:INSPT,Security checked / Inspection,customs_inspection,
+SECHK:NRQRD,Security checked,customs_inspection,
+SHRCU:NRQRD,Shipment Received from customer,picked_up,
+SHRCU:PCKST,Shipment Received from customer / Packstation,picked_up,Packstation 投递
+SHRCU:SERPT,Shipment Received from customer / Service Point,picked_up,Service Point 投递
+SRTED:FWAPS,Sorted / ForWarded for Army Postal Service,in_transit,
+SRTED:FWEXH,Sorted / ForWarded for Export Handling,in_transit,
+SRTED:FWEXP,Sorted / ForWarded for EXPress handling,in_transit,
+SRTED:NRQRD,Sorted,in_transit,
+STORN:NRQRD,Previous event was deleted by driver,exception,事件冲销
+TRBCR:NRQRD,Transferred between carriers,transferred_to_carrier,
+ULFMV:OARRV,Unloaded from movement vehicle / On arrival,arrived_at_hub,
+ULFMV:UNLDD,Unloaded from movement vehicle / Unloaded,arrived_at_hub,
