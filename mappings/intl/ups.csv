@@ -13,9 +13,13 @@
 #       activity[].status.statusCode（3 位数字详情码）和 currentStatus.statusCode
 #       属于不同字段命名空间，需要 UPS API Codes 完整字典补全（待社区贡献）。
 # Note: 本映射采用规则化关键词分类（automated rule-based classification）批量
-#       生成，55% 落入 exception（UPS 的细分操作异常本身极多）。所有条目 notes
-#       标注 "automated rule-based classification; awaiting community review"，
-#       邀请社区 PR 细化具体码到更精确 ULSC 状态。
+#       生成。初版（rule v1）55% 落入 exception；2026-05 增加 rule v2 round-1+2
+#       重分类，把 lost/customs_held/recipient_unavailable/address_issue/
+#       order_cancelled/in_transit/awaiting_pickup 等模式从 exception 中挖出，
+#       共重分类 80 条，exception 比例降至 44.7%（346/774）。剩余 exception
+#       多为真实 admin/operational edge cases（计费异议/计量异常/系统监控等）。
+#       所有条目 notes 仍保留 "automated rule-based classification; awaiting
+#       community review"，邀请社区 PR 进一步细化具体码。
 carrier_code,carrier_name,olts_code,notes
 AA,A CORRECT SUITE NUMBER IS NEEDED FOR DELIVERY. UPS ATTEMPTING TO OBTAIN INFO,address_issue,automated rule-based classification; awaiting community review
 AB,RECEIVER NOT LISTED ON BUILDING DIRECTORY. UPS ATTEMPTING TO OBTAIN ADD’L INFO,address_issue,automated rule-based classification; awaiting community review
