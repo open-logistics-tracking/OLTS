@@ -1,6 +1,39 @@
-# Source: 德邦快递开放平台（待调研）
+# Source: 德邦快递开放平台 dpopen.deppon.com (用户登录后提供，2026-05-13)
+#   - 订单状态推送 (statusType: 9 条订单级状态)
+#   - 标准轨迹订阅 + 推送 + 查询 (trace.status: 15 条轨迹级状态)
 # Reviewer: @zhatrix
-# Coverage: ❓ PLACEHOLDER — 原报告未单独覆盖德邦（其定位为大件/零担为主，
-#           与一般小件快递业务模式有差异）。待从德邦开放平台官方文档独立
-#           调研补充。德邦轨迹模型可能引入"零担承运单"等大件物流特有概念。
+# Coverage: ✅ W4 (24 条 = 9 订单级 statusType + 15 轨迹级 status)
+# Note: 德邦同时提供两个层级状态码：
+#       (1) statusType (订单推送，整单级)：CANCEL/FAILGOT/GOBACK/GOT/INVALID/
+#           RECEIPTING/SHOUTCAR/SIGNFAILED/SIGNSUCCESS
+#       (2) trace.status (轨迹推送/查询，事件级)：GOT/DEPARTURE/ARRIVAL/
+#           SENT_SCAN/ERROR/FAILED/SIGNED 等
+#       两层都映射到此文件，用 `order:` 和 `trace:` 前缀显式分离命名空间。
+#       两层都有 GOT，但订单级是"已开单"（整单建立），轨迹级是"开单"
+#       （首事件）——本质同一事件不同字段视角。
+# Note: 德邦定位为大件/零担+快递，scanType 比纯快递承运商颗粒度略粗。
 carrier_code,carrier_name,olts_code,notes
+order:CANCEL,已取消 (statusType),order_cancelled,
+order:FAILGOT,揽货失败 (statusType),pickup_failed,
+order:GOBACK,已退回 (statusType),returned_to_sender,
+order:GOT,已开单 (statusType),order_created,与 trace:GOT 同事件不同字段
+order:INVALID,已作废 (statusType),order_cancelled,
+order:RECEIPTING,接货中 (statusType),pickup_scheduled,推送时 comments 字段带揽收员信息
+order:SHOUTCAR,已约车 (statusType),pickup_scheduled,
+order:SIGNFAILED,异常签收 (statusType),exception,
+order:SIGNSUCCESS,正常签收 (statusType),delivered,
+trace:GOT,开单 (trace.status),order_created,与 order:GOT 同事件不同字段
+trace:DEPARTURE,出站 (trace.status),departed_from_hub,
+trace:ARRIVAL,进站 (trace.status),arrived_at_hub,
+trace:ADVANCE_NOTICE,提前通知 (trace.status),in_transit,
+trace:ADVANCE_DELIVERY,预派送 (trace.status),out_for_delivery,旧版查询接口字段
+trace:SENT_SCAN,派送 (trace.status),out_for_delivery,
+trace:ERROR,滞留/延时派送 (trace.status),exception,
+trace:FAILED,运单作废/客户拒签 (trace.status),refused,转寄退回时产生
+trace:INBOUND,暂存 (trace.status),in_transit,
+trace:SIGNED,签收 (trace.status),delivered,
+trace:BACK_SIGNED,退回签收 (trace.status),returned_to_sender,
+trace:STA_SIGN,取件码签收 (trace.status),delivered,自提柜签收完成
+trace:STA_INBOUND,自提柜入柜 (trace.status),delivery_to_locker,
+trace:OPERATETRACK,转寄 (trace.status),in_transit,旧版查询接口字段
+trace:OTHER,其他 (trace.status),exception,通用占位

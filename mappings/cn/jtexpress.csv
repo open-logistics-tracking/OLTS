@@ -1,6 +1,58 @@
-# Source: 快递企业开放平台API对比分析报告.md §2.4 极兔速递开放平台
+# Source: 极兔速递开放平台 openapi.jtexpress.com.cn (用户登录后提供，2026-05-13)
+#   - 物流详情查询接口 /webopenplatformapi/api/logistics/trace
+#   - 物流详情推送接口 (subscribe + 推送回调)
 # Reviewer: @zhatrix
-# Coverage: ❓ PLACEHOLDER — 原报告 §2.4 仅描述了 scanType 字段（轨迹中的
-#           扫描类型/物流状态），但未给出具体码值枚举。待官方文档或真实
-#           API 响应样本补完。
+# Coverage: ✅ W4 (46 条 = 14 scanType + 32 problemType)
+# Note: 极兔 details 数组中事件有两个码集：
+#       (1) scanType: 数字 1-14 主事件类型（揽收/分拣/派送/签收等）
+#       (2) problemType: A1-A35 问题件子原因（scanType=11 问题件扫描 时附加）
+#       两套通过前缀 `scan:N` 和 `problem:AN` 显式分离命名空间。
+# Note: scanType=2 入仓扫描 文档标"停用"，本映射保留以兼容历史数据。
+# Note: A5/A6/A22 等问题码原文档未列入，可能是预留或废弃；本映射不构造未列出的码。
 carrier_code,carrier_name,olts_code,notes
+scan:1,快件揽收,picked_up,
+scan:2,入仓扫描 (停用),arrived_at_hub,文档明确标停用 兼容历史数据保留
+scan:3,发件扫描,departed_from_hub,
+scan:4,到件扫描,arrived_at_hub,
+scan:5,出仓扫描,departed_from_hub,
+scan:6,入库扫描,delivery_to_locker,投至代理点/快递柜
+scan:7,代理点收入扫描,delivery_to_locker,
+scan:8,快件取出扫描,out_for_delivery,从代收点取回再投
+scan:9,出库扫描,out_for_delivery,
+scan:10,快件签收,delivered,
+scan:11,问题件扫描,exception,子原因在 problem:* 系列
+scan:12,安检扫描,customs_inspection,
+scan:13,其他扫描,in_transit,通用占位
+scan:14,退件扫描,return_initiated,
+problem:A1,客户取消寄件-网点,order_cancelled,
+problem:A2,客户拒收,refused,
+problem:A3,更改派送地址,address_issue,
+problem:A4,退回件-网点,return_initiated,
+problem:A7,异常件提醒,exception,
+problem:A8,包裹异常-网点,exception,
+problem:A9,收件人联系不上,recipient_unavailable,
+problem:A10,收件人联系不上,recipient_unavailable,与 A9 同义不同触发链
+problem:A11,多次派件失败,delivery_attempted,
+problem:A12,收件人信息错误,address_issue,
+problem:A13,更改派送时间,delivery_attempted,
+problem:A14,客户拒收,refused,与 A2 同义不同触发链
+problem:A15,收件地址不详,address_issue,
+problem:A16,收件地址错误,address_issue,
+problem:A17,包裹存放至网点,awaiting_pickup,
+problem:A18,包裹存放至网点,awaiting_pickup,与 A17 同义不同触发链
+problem:A19,收件地址禁止,address_issue,
+problem:A20,包裹异常,exception,
+problem:A21,包裹暂存网点,awaiting_pickup,
+problem:A23,包裹延迟-节假日,delivery_attempted,
+problem:A24,包裹异常-中心,exception,
+problem:A25,退回件-中心,return_initiated,
+problem:A26,客户取消寄件-中心,order_cancelled,
+problem:A27,异常天气,exception,
+problem:A28,自然灾害,exception,
+problem:A29,代收/到付结算异议拒付,refused,
+problem:A30,货未到齐,exception,
+problem:A31,作废件,order_cancelled,
+problem:A32,未录进仓编码,exception,
+problem:A33,政府管制,exception,
+problem:A34,乡镇件,delivery_attempted,乡镇件派送特殊调度
+problem:A35,发票问题客户拒收,refused,

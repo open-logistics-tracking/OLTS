@@ -1,6 +1,46 @@
-# Source: 申通快递开放平台（待调研）
+# Source: 申通快递开放平台 open.sto.cn (用户登录后提供，2026-05-13)
+#   - 物流详情推送 STO_TRACE_PLATFORM_PUSH (STO 请求 CP)
+#   - 物流详情查询 STO_TRACE_QUERY_COMMON (CP 请求 STO)
+#   - 帮助中心 #3 scanType 枚举值（国内件 + 国际件 Action Code）
+#   接口地址: cloudinter-linkgateway.sto.cn/gateway/link.do
 # Reviewer: @zhatrix
-# Coverage: ❓ PLACEHOLDER — 原报告 §1 总名单列入了申通，但 §2 各章节未
-#           独立覆盖申通的认证、字段或状态码体系。待从申通开放平台官方
-#           文档独立调研补充。
+# Coverage: ✅ W4 (29 条 = 15 国内 scanType + 14 国际 Action Code)
+# Note: 申通 scanType 字段在不同业务有不同命名空间：
+#       (1) 国内件: 中文短语 scanType (如"收件"、"派件")
+#       (2) 国际件: 英文 Action Code (PU_PICKUP_SUCCESS / CC_IM_* 等)
+#       两套命名空间天然不冲突；国际段用 `intl:` 前缀显式区分以便消费方
+#       按业务线 grep。
+# Note: 已废弃的 4 类 scanType（"留仓件 / 代取快递 / 派件入柜 / 第三方代收"）
+#       原文档明确标"已取消的类型"，本映射不纳入。
+# Note: 问题件子分类 issueName（如"拒收"）和驿站类型 stationType（如"自提柜"）
+#       是 scanType=问题件 / 入库扫描 时的附加字段，本映射不独立列入。
 carrier_code,carrier_name,olts_code,notes
+收件,收件 (scanType),picked_up,
+发件,发件 (scanType),departed_from_hub,
+到件,到件 (scanType),arrived_at_hub,
+派件,派件 (scanType),out_for_delivery,
+第三方代派,第三方代派 (scanType),out_for_delivery,第三方派件 派件的一种
+柜机代收,柜机代收 (scanType),delivery_to_locker,自提柜代收
+驿站代收,驿站代收 (scanType),delivery_to_locker,
+快件取出,快件取出 (scanType),out_for_delivery,快递员将包裹从快递柜中取出后续继续派送或退回
+驿站出库,驿站出库 (scanType),delivery_to_locker,
+问题件,问题件 (scanType),exception,子原因在 issueName 字段
+退回件,退回件 (scanType),returned_to_sender,
+改地址件,改地址件 (scanType),address_issue,
+转邮,转邮 (scanType),in_transit,
+转同行,转同行 (scanType),transferred_to_carrier,
+签收,签收 (scanType),delivered,客户签收
+intl:PU_PICKUP_SUCCESS,国际揽收 (Action Code),picked_up,
+intl:MOT_TRANSIT,中转 (Action Code),in_transit,
+intl:SC_INBOUND_SUCCESS,分拣 (Action Code),arrived_at_hub,
+intl:SC_ORDER_WEIGHT,称重 (Action Code),in_transit,
+intl:SC_ORDER_PAY_SUCCESS,付款 (Action Code),order_created,付款生效订单
+intl:SC_ORDER_PACKET_SUCCESS,集包 (Action Code),in_transit,
+intl:SC_ORDER_PACKET_OUT,退出集包 (Action Code),in_transit,
+intl:LH_DEPART,出发 (Action Code),departed_from_hub,
+intl:LH_ARRIVE,抵达 (Action Code),arrived_at_hub,
+intl:CC_START,提货 (Action Code),in_transit,
+intl:CC_IM_START,清关中 (Action Code),customs_declared,
+intl:CC_IM_SUCCESS,清关完成 (Action Code),customs_released,
+intl:CC_IM_FAILURE,清关异常 (Action Code),customs_held,
+intl:GOT,清关转交成功 (Action Code),transferred_to_carrier,
