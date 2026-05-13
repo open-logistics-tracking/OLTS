@@ -25,8 +25,8 @@ AE,A CORRECT STREET NUMBER IS NEEDED FOR DELIVERY. UPS ATTEMPTING TO OBTAIN INFO
 AF,A CORRECT STREET NAME IS NEEDED FOR DELIVERY. UPS ATTEMPTING TO OBTAIN THIS INFO,address_issue,automated rule-based classification; awaiting community review
 AG,ADDRESS INCOMPLETE.  UPS IS ATTEMPTING TO OBTAIN THE INFO NECESSARY FOR DELIVERY,address_issue,automated rule-based classification; awaiting community review
 AH,THE ADDRESS HAS BEEN CORRECTED. THE DELIVERY HAS BEEN RESCHEDULED.,address_issue,automated rule-based classification; awaiting community review
-AI,WE’RE WORKING TO DELIVER YOUR PACKAGE AS SOON AS POSSIBLE.,exception,automated rule-based classification; awaiting community review
-AJ,FALLOUT/MERCHANDISE MISSING. UPS WILL NOTIFY THE SENDER WITH THE DETAILS,exception,automated rule-based classification; awaiting community review
+AI,WE’RE WORKING TO DELIVER YOUR PACKAGE AS SOON AS POSSIBLE.,in_transit,automated rule-based classification; awaiting community review
+AJ,FALLOUT/MERCHANDISE MISSING. UPS WILL NOTIFY THE SENDER WITH THE DETAILS,lost,automated rule-based classification; awaiting community review
 AK,THE STATE IS INCORRECT. UPS ATTEMPTING TO OBTAIN THE INFO NECESSARY FOR DELIVERY,address_issue,automated rule-based classification; awaiting community review
 AL,THE POSTAL CODE FOR THE RECEIVER IS INCORRECT,address_issue,automated rule-based classification; awaiting community review
 AM,THE RECEIVER CANCELED THE ORDER AND REFUSED THIS DELIVERY,order_cancelled,automated rule-based classification; awaiting community review
@@ -38,7 +38,7 @@ AR,THE RECEIVER STATED THE ORDER WAS TOO EXPENSIVE AND REFUSED THIS DELIVERY,ref
 AS,THE RECEIVER STATED THE ORDER WAS SHIPPED TOO LATE AND REFUSED THIS DELIVERY,refused,automated rule-based classification; awaiting community review
 AT,THE RECEIVER HAS REQUESTED A DELAYED DELIVERY.,delivery_attempted,automated rule-based classification; awaiting community review
 AV,RR STREET #. UPS ATTEMPTING TO DETERMINE PREVIOUSLY ASSIGNED STREET NAME/#,address_issue,automated rule-based classification; awaiting community review
-AW,RURAL ROUTE NOT ASSIGND. UPS ATTEMPTING TO DETERMINE INFO NECESSARY FOR DELIVERY,exception,automated rule-based classification; awaiting community review
+AW,RURAL ROUTE NOT ASSIGND. UPS ATTEMPTING TO DETERMINE INFO NECESSARY FOR DELIVERY,address_issue,automated rule-based classification; awaiting community review
 AX,THE RECEIVER IS ON VACATION.,recipient_unavailable,automated rule-based classification; awaiting community review
 AY,RECEIVER CLOSED; 3RD DELIVERY ATTEMPT,delivery_attempted,automated rule-based classification; awaiting community review
 AZ,DELIVERY HAS BEEN RESCHEDULED DUE TO HOLIDAY CLOSURES.,delivery_attempted,automated rule-based classification; awaiting community review
@@ -50,7 +50,7 @@ A5,THE BUILDING BURNED. UPS IS ATTEMPTING TO OBTAIN DELIVERY INFO; NOT DELIVERED
 A6,P.O. BOX. UPS IS ATTEMPTING TO OBTAIN DELIVERY INFO; NOT DELIVERED,address_issue,automated rule-based classification; awaiting community review
 A7,THE RECEIVER HAS MOVED. UPS ATTEMPTING TO LOCATE RECEIVER; NO DELIVERY MADE,address_issue,automated rule-based classification; awaiting community review
 A8,A CORRECT APARTMENT NUMBER IS NEEDED. UPS ATTEMPTING TO OBTAIN THIS INFORMATION,address_issue,automated rule-based classification; awaiting community review
-A9,DIRECTIONS TO RECEIVERS LOCATION NEEDED. UPS ATTEMPTS TO OBTAIN THIS INFORMATION,exception,automated rule-based classification; awaiting community review
+A9,DIRECTIONS TO RECEIVERS LOCATION NEEDED. UPS ATTEMPTS TO OBTAIN THIS INFORMATION,address_issue,automated rule-based classification; awaiting community review
 BA,THERE IS AN INADEQUATE DESCRIPTION OF MERCHANDISE. NEED MORE DOCUMENTATION,customs_held,automated rule-based classification; awaiting community review
 BB,THE VALUE IS MISSING ON THE INVOICE AND IS REQUIRED FOR CLEARANCE,customs_declared,automated rule-based classification; awaiting community review
 BC,THERE IS NO FURTHER INFORMATION AVAILABLE FOR THIS EXCEPTION,exception,automated rule-based classification; awaiting community review
@@ -62,25 +62,25 @@ BH,POWER OF ATTORNEY DOCUMENTATION IS MISSING AND IS REQUIRED FOR CLEARANCE,cust
 BJ,AN IMPORT LICENSE IS MISSING AND IS REQUIRED FOR CLEARANCE,customs_declared,automated rule-based classification; awaiting community review
 BK,A CERTIFICATE OF ORIGIN DOCUMENT IS MISSING AND IS REQUIRED FOR CLEARANCE,customs_declared,automated rule-based classification; awaiting community review
 BP,A PHONE NUMBER IS NEEDED PRIOR TO CLEARANCE OR DELIVERY,customs_declared,automated rule-based classification; awaiting community review
-BQ,NO ONE ANSWERED THE PHONE WHEN UPS CALLED,exception,automated rule-based classification; awaiting community review
-BR,A MESSAGE HAS BEEN LEFT FOR THE RECEIVER TO CALL UPS,exception,automated rule-based classification; awaiting community review
-BT,A POSTCARD HAS BEEN SENT TO REQUEST THE RECIPIENT TO CONTACT UPS,exception,automated rule-based classification; awaiting community review
+BQ,NO ONE ANSWERED THE PHONE WHEN UPS CALLED,recipient_unavailable,automated rule-based classification; awaiting community review
+BR,A MESSAGE HAS BEEN LEFT FOR THE RECEIVER TO CALL UPS,recipient_unavailable,automated rule-based classification; awaiting community review
+BT,A POSTCARD HAS BEEN SENT TO REQUEST THE RECIPIENT TO CONTACT UPS,recipient_unavailable,automated rule-based classification; awaiting community review
 BU,SHIPMENT TRANSFERRED TO FREE TRADE ZONE OR ALTERNATE BROKER PER CUSTOMER REQUEST,customs_declared,automated rule-based classification; awaiting community review
 BV,THE SHIPMENT IS BEING HELD BY BROKERAGE FOR REASONS BEYOND UPS’ CONTROL,customs_held,automated rule-based classification; awaiting community review
-BW,AGRICULTURAL HOLD,exception,automated rule-based classification; awaiting community review
+BW,AGRICULTURAL HOLD,customs_held,automated rule-based classification; awaiting community review
 BX,CLEARANCE AGENCY STRIKE,customs_declared,automated rule-based classification; awaiting community review
-BY,NO AUTOMATIC IMPORTER MATCH,exception,automated rule-based classification; awaiting community review
-BZ,PACKAGE ABANDONED BY THE SENDER AND THE RECEIVER,exception,automated rule-based classification; awaiting community review
-B1,A WORK STOPPAGE AT THE RECEIVER’S LOCATION HAS PREVENTED DELIVERY.,exception,automated rule-based classification; awaiting community review
+BY,NO AUTOMATIC IMPORTER MATCH,customs_held,automated rule-based classification; awaiting community review
+BZ,PACKAGE ABANDONED BY THE SENDER AND THE RECEIVER,lost,automated rule-based classification; awaiting community review
+B1,A WORK STOPPAGE AT THE RECEIVER’S LOCATION HAS PREVENTED DELIVERY.,recipient_unavailable,automated rule-based classification; awaiting community review
 B3,SHIPMENT BEING PROCESSED FOR SUBMISSION TO FOOD/DRUG ADMIN AND/OR DEPT OF AG PPQ,customs_declared,automated rule-based classification; awaiting community review
-B4,FISH AND WILDLIFE AGENCY HOLD,exception,automated rule-based classification; awaiting community review
+B4,FISH AND WILDLIFE AGENCY HOLD,customs_held,automated rule-based classification; awaiting community review
 B5,A VALID TAX IDENTIFICATION NUMBER OR DEFERMENT NUMBER IS REQUIRED FOR CLEARANCE,customs_declared,automated rule-based classification; awaiting community review
 B6,A SPECIAL CUSTOMS DELAY IS REQUIRED FOR THIS LIVE ENTRY,customs_declared,automated rule-based classification; awaiting community review
 B7,SHIPMENT WAS SEIZED BY CUSTOMS - CONTACT DESTINATION BROKERAGE FOR MORE DETAIL,customs_declared,automated rule-based classification; awaiting community review
 B8,A CLEARANCE AGENCY HOLD WAS PLACED ON THE AIRCRAFT CONTAINING YOUR SHIPMENT,customs_held,automated rule-based classification; awaiting community review
-B9,THE COMMERCIAL INVOICE IS MISSING AND IS REQUIRED FOR EXPORT,exception,automated rule-based classification; awaiting community review
+B9,THE COMMERCIAL INVOICE IS MISSING AND IS REQUIRED FOR EXPORT,customs_held,automated rule-based classification; awaiting community review
 CA,THE PACKAGE/PALLET EXCEEDS THE MAXIMUM DIMENSIONS ACCEPTABLE IN THE UPS SYSTEM,exception,automated rule-based classification; awaiting community review
-CC,PACKAGE LEFT IN VEHICLE. EXPECT AT LEAST 1 BUSINESS DAY DELAY.,exception,automated rule-based classification; awaiting community review
+CC,PACKAGE LEFT IN VEHICLE. EXPECT AT LEAST 1 BUSINESS DAY DELAY.,in_transit,automated rule-based classification; awaiting community review
 CD,WE’VE LEFT THE PACKAGE ON ONE OF OUR PLANES. THIS MAY CAUSE A DELAY.,departed_from_hub,automated rule-based classification; awaiting community review
 CE,COMMODITY RESTRICTION SHIPMENT WILL BE PROCESSED PER SENDER’S INSTRUCTIONS,in_transit,automated rule-based classification; awaiting community review
 CF,CARNET SHIPMENTS ARE NOT ACCEPTED BY UPS,exception,automated rule-based classification; awaiting community review
@@ -111,8 +111,8 @@ C8,THE RECEIVER IS OUT OF BUSINESS,exception,automated rule-based classification
 C9,THE PACKAGE EXCEEDS THE MAXIMUM LENGTH ACCEPTABLE IN THE UPS SYSTEM,exception,automated rule-based classification; awaiting community review
 DA,RELEASED BY CLEARING AGENCY. NOW IN-TRANSIT,customs_released,automated rule-based classification; awaiting community review
 DB,THIS SHIPMENT IS WAREHOUSED UNTIL IT IS RELEASED BY CLEARING AGENCY,customs_released,automated rule-based classification; awaiting community review
-DC,YOUR PACKAGE ARRIVED LATE TO THE DESTINATION CITY CAUSING A DELIVERY DELAY.,exception,automated rule-based classification; awaiting community review
-DD,UPS WAS UNABLE TO CONTACT THE RECEIVER,exception,automated rule-based classification; awaiting community review
+DC,YOUR PACKAGE ARRIVED LATE TO THE DESTINATION CITY CAUSING A DELIVERY DELAY.,in_transit,automated rule-based classification; awaiting community review
+DD,UPS WAS UNABLE TO CONTACT THE RECEIVER,recipient_unavailable,automated rule-based classification; awaiting community review
 DE,CLEARING AGENCY IS REQUIRING AN INVOICE COMPARISON TO THE ITEMS BEING SHIPPED,customs_declared,automated rule-based classification; awaiting community review
 DF,A NATURAL DISASTER HAS DELAYED DELIVERY.,delivery_attempted,automated rule-based classification; awaiting community review
 DG,CIVIL UNREST HAS DELAYED DELIVERY.,delivery_attempted,automated rule-based classification; awaiting community review
@@ -128,7 +128,7 @@ DS,THE ADDRESS LABEL IS MISSING OR ILLEGIBLE,exception,automated rule-based clas
 DT,A FAX / EMAIL OR TELEGRAM HAS BEEN SENT TO REQUEST THE RECIPIENT TO CONTACT UPS,exception,automated rule-based classification; awaiting community review
 DU,WE WERE UNABLE TO LOAD THE PACKAGE ON THE PLANE AS SCHEDULED.,exception,automated rule-based classification; awaiting community review
 DV,SHIPMENT ON THE PRE-ALERT LIST DID NOT ARRIVE. HAS BEEN LISTED AS SHORT LANDED,exception,automated rule-based classification; awaiting community review
-DW,RECEIVER’S LOCATION IS VACANT,exception,automated rule-based classification; awaiting community review
+DW,RECEIVER’S LOCATION IS VACANT,address_issue,automated rule-based classification; awaiting community review
 DX,TRANSFER NOTIFICATION TO OBTAIN ADDITIONAL INFORMATION REQUIRED FOR DELIVERY,transferred_to_carrier,automated rule-based classification; awaiting community review
 DY,UPS IS AWAITING PAYMENT AUTHORIZATION FROM THE RECEIVER,exception,automated rule-based classification; awaiting community review
 D1,WE’VE MISROUTED THE PACKAGE. THIS MAY CAUSE A DELAY.,in_transit,automated rule-based classification; awaiting community review
@@ -154,13 +154,13 @@ EX,THIS INDIVIDUAL PACKAGE EXCEEDS THE UPS WEIGHT LIMIT,exception,automated rule
 EY,A CONFIRMATION OF DELIVERY LETTER WAS SENT TO THE REQUESTER,exception,automated rule-based classification; awaiting community review
 E1,A CORRECT FLOOR NUMBER IS NEEDED FOR DELIVERY. UPS ATTEMPTING TO OBTAIN INFO,address_issue,automated rule-based classification; awaiting community review
 E2,PACKAGE MUST BE PICKED UP WITHIN 5 BUSINESS DAYS.,picked_up,automated rule-based classification; awaiting community review
-E3,PACKAGE LEFT IN UPS FACILITY. EXPECT AT LEAST 1 BUSINESS DAY DELAY.,exception,automated rule-based classification; awaiting community review
-E4,GOVERNMENT AGENCY HOLD,exception,automated rule-based classification; awaiting community review
+E3,PACKAGE LEFT IN UPS FACILITY. EXPECT AT LEAST 1 BUSINESS DAY DELAY.,in_transit,automated rule-based classification; awaiting community review
+E4,GOVERNMENT AGENCY HOLD,customs_held,automated rule-based classification; awaiting community review
 E5,IMAGE OF DELIVERY RECORD REQUESTED,exception,automated rule-based classification; awaiting community review
 E6,AN IMAGE OF THE RECEIVERS SIGNATURE IS BEING FORWARDED TO THE SENDER,exception,automated rule-based classification; awaiting community review
 E7,CLAIM NUMBER ISSUED,exception,automated rule-based classification; awaiting community review
 E8,A QUARANTINE WAS REQUESTED BY A GOVERNMENT REGULATORY AGENCY,exception,automated rule-based classification; awaiting community review
-E9,A GOVERNMENT AGENCY HAS REQUESTED A HOLD FOR CENSORSHIP REVIEW,exception,automated rule-based classification; awaiting community review
+E9,A GOVERNMENT AGENCY HAS REQUESTED A HOLD FOR CENSORSHIP REVIEW,customs_held,automated rule-based classification; awaiting community review
 FA,UPS HAS BEEN UNABLE TO RESOLVE THE INCORRECT ADDRESS,address_issue,automated rule-based classification; awaiting community review
 FE,THE RECEIVER DISPUTES OR REFUSES TO PAY DUTY OR TAXES FOR THE PACKAGE.,refused,automated rule-based classification; awaiting community review
 FF,NEED ‘RETURN TO SENDER’ AUTHORIZATION,exception,automated rule-based classification; awaiting community review
@@ -172,10 +172,10 @@ FN,RECEIVER ACKNOWLEDGES RECEIPT,exception,automated rule-based classification; 
 FP,SENDER ACKNOWLEDGES RECEIPT,exception,automated rule-based classification; awaiting community review
 FQ,RFI (INVESTIGATION) REJECTED,exception,automated rule-based classification; awaiting community review
 FR,NO RECORD OF DELIVERY,exception,automated rule-based classification; awaiting community review
-FS,PACKAGE WAS DRIVER RELEASED,exception,automated rule-based classification; awaiting community review
+FS,PACKAGE WAS DRIVER RELEASED,delivered,automated rule-based classification; awaiting community review
 FT,THE RECEIVER PICKED UP THE PACKAGE THAT WAS BEING HELD FOR THEM,picked_up,automated rule-based classification; awaiting community review
 FU,RECEIVER SIGNATURE REQUEST-RECEIVER UNKNOWN,exception,automated rule-based classification; awaiting community review
-FW,A UPS AGENT HAS REQUESTED A PROACTIVE RESPONSE INTERCEPT FOR THIS PACKAGE,exception,automated rule-based classification; awaiting community review
+FW,A UPS AGENT HAS REQUESTED A PROACTIVE RESPONSE INTERCEPT FOR THIS PACKAGE,order_cancelled,automated rule-based classification; awaiting community review
 F3,NON-DIAD SIGNATURE REQUEST SENT,exception,automated rule-based classification; awaiting community review
 F4,PACKAGE/SHIPMENT DELIVERED,delivered,automated rule-based classification; awaiting community review
 F6,VOID ENTRY,order_cancelled,automated rule-based classification; awaiting community review
@@ -234,14 +234,14 @@ IJ,DIRECTIONS TO RECEIVER’S LOCATION FOUND.  THE DELIVERY HAS BEEN RESCHEDULED
 I1,SHIPPER REQUESTED UPS TO RETURN PACKAGE; CONTACT SHIPPER FOR MORE  INFORMATION,exception,automated rule-based classification; awaiting community review
 I2,UNAUTH. ALCOHOL DESTROYED. UNABLE TO DELIVER/RTS DUE TO REGULATORY REQUIREMENTS,lost,automated rule-based classification; awaiting community review
 I3,ALTERNATE ARRANGEMENTS CAN BE PROVIDED FOR THIS PACKAGE; CALL 1-800-457-4022,exception,automated rule-based classification; awaiting community review
-JA,DELIVERY INTERCEPT REQUEST FOR THIS PACKAGE  WAS SUCCESSFULLY COMPLETED,exception,automated rule-based classification; awaiting community review
-JB,UPS INITIATED DELIVERY INTERCEPT REQUEST FOR THIS PKG WAS SUCCESSFULLY COMPLETED,exception,automated rule-based classification; awaiting community review
-JC,THE INTERCEPT REQUEST WAS SUCCESSFULLY COMPLETED,exception,automated rule-based classification; awaiting community review
+JA,DELIVERY INTERCEPT REQUEST FOR THIS PACKAGE  WAS SUCCESSFULLY COMPLETED,order_cancelled,automated rule-based classification; awaiting community review
+JB,UPS INITIATED DELIVERY INTERCEPT REQUEST FOR THIS PKG WAS SUCCESSFULLY COMPLETED,order_cancelled,automated rule-based classification; awaiting community review
+JC,THE INTERCEPT REQUEST WAS SUCCESSFULLY COMPLETED,order_cancelled,automated rule-based classification; awaiting community review
 JD,HOLD FOR INSTRUCTION,exception,automated rule-based classification; awaiting community review
 JG,LOCATE PACKAGE AND RE-ICE,exception,automated rule-based classification; awaiting community review
 JH,THE SHIPPER HAS REQUESTED A MODIFIED INTERCEPT FOR THIS PACKAGE,exception,automated rule-based classification; awaiting community review
 JI,UPS HAS REQUESTED A MODIFIED INTERCEPT FOR THIS PACKAGE,exception,automated rule-based classification; awaiting community review
-JJ,THE PROACTIVE RESPONSE INTERCEPT REQUEST ON THIS PACKAGE HAS BEEN MODIFIED,exception,automated rule-based classification; awaiting community review
+JJ,THE PROACTIVE RESPONSE INTERCEPT REQUEST ON THIS PACKAGE HAS BEEN MODIFIED,order_cancelled,automated rule-based classification; awaiting community review
 J8,DISPATCH FOR ONE ADDITIONAL DAY,exception,automated rule-based classification; awaiting community review
 J9,REFRIGERATE,exception,automated rule-based classification; awaiting community review
 KA,NO DELIVERY STATUS AVAILABLE,exception,automated rule-based classification; awaiting community review
@@ -268,14 +268,14 @@ KW,SHIPPER ERROR CAUSED IMPORT SERVICE DELAY,exception,automated rule-based clas
 KX,NOT AVAILABLE ON 2ND ATTEMPT. A 3RD ATTEMPT WILL BE MADE,delivery_attempted,automated rule-based classification; awaiting community review
 KY,UNAVAILABLE FOR PICKUP ON THE 2ND ATTEMPT. A 3RD PICKUP ATTEMPT WILL BE MADE,delivery_attempted,automated rule-based classification; awaiting community review
 KZ,NO FUNDS AVAILABLE ON 2ND DELIVERY ATTEMPT. A 3RD DELIVERY ATTEMPT WILL BE MADE,delivery_attempted,automated rule-based classification; awaiting community review
-K1,WE’VE MISSED THE SCHEDULED PICKUP TIME. THIS MAY CAUSE A DELAY.,exception,automated rule-based classification; awaiting community review
-K2,YOUR PACKAGE MISSED THE PROCESSING DEADLINE AND WILL DELAY DELIVERY,exception,automated rule-based classification; awaiting community review
+K1,WE’VE MISSED THE SCHEDULED PICKUP TIME. THIS MAY CAUSE A DELAY.,in_transit,automated rule-based classification; awaiting community review
+K2,YOUR PACKAGE MISSED THE PROCESSING DEADLINE AND WILL DELAY DELIVERY,in_transit,automated rule-based classification; awaiting community review
 K3,THE SUPERVISOR APPROVED THE GUARANTEED SERVICE REFUND,exception,automated rule-based classification; awaiting community review
 K4,SECURITY SCREENING HOLD,exception,automated rule-based classification; awaiting community review
 K5,THE FREIGHT CHARGES HAVE BEEN REFUNDED,exception,automated rule-based classification; awaiting community review
-K6,THE GUARANTEED SERVICE REFUND HAS BEEN VOIDED. CALL UPS FOR DETAILS,exception,automated rule-based classification; awaiting community review
+K6,THE GUARANTEED SERVICE REFUND HAS BEEN VOIDED. CALL UPS FOR DETAILS,order_cancelled,automated rule-based classification; awaiting community review
 K7,CUSTOMER HAS ACKNOWLEDGED RECEIPT OF THE SHIPMENT,in_transit,automated rule-based classification; awaiting community review
-K8,THE PROACTIVE RESPONSE INTERCEPT REQUEST AT THE INTL AIR HUB WAS SUCCESSFUL,exception,automated rule-based classification; awaiting community review
+K8,THE PROACTIVE RESPONSE INTERCEPT REQUEST AT THE INTL AIR HUB WAS SUCCESSFUL,order_cancelled,automated rule-based classification; awaiting community review
 K9,INTERCEPT PROCESSING REQUESTED FOR THE PACKAGE,exception,automated rule-based classification; awaiting community review
 LA,NO ACTIVE PERFORMANCE BASED BILLING PLAN,exception,automated rule-based classification; awaiting community review
 LB,TRACKING NUMBER RECORDED BY DRIVER INCORRECTLY AT DELIVERY,exception,automated rule-based classification; awaiting community review
@@ -294,14 +294,14 @@ LQ,DAMAGE INSPECTION SCHEDULED,damaged,automated rule-based classification; awai
 LR,TRANSPORTABLE,exception,automated rule-based classification; awaiting community review
 LS,NON TRANSPORTABLE,exception,automated rule-based classification; awaiting community review
 LU,UPS HAS INTERCEPTED THIS PACKAGE AS IT HAS BEEN IDENTIFIED AS A FRAUD RISK,exception,automated rule-based classification; awaiting community review
-LV,PACKAGE HAS BEEN FORWARDED TO GOVERNMENT AGENCY FOR FURTHER INVESTIGATION,exception,automated rule-based classification; awaiting community review
+LV,PACKAGE HAS BEEN FORWARDED TO GOVERNMENT AGENCY FOR FURTHER INVESTIGATION,customs_held,automated rule-based classification; awaiting community review
 LW,CALL TAG INDICATOR,exception,automated rule-based classification; awaiting community review
 LX,PKG TRANSFERRED TO LOCAL POST OFFICE. ALLOW 1 TO 2 ADDITIONAL DAYS FOR DELIVERY,transferred_to_carrier,automated rule-based classification; awaiting community review
 LY,IN TRANSIT FOR FINAL DELIVERY/FINAL RECEIVER IN APPROXIMATELY 1 TO 2 DAYS,in_transit,automated rule-based classification; awaiting community review
 LZ,SHIPPER REQUESTED 1 ATTEMPT; THE CUSTOMER MUST PICK UP THE PACKAGE AT UPS,exception,automated rule-based classification; awaiting community review
 L1,RECEIVER’S LOCATION CLOSED ON 2ND DELIVERY ATTEMPT; 3RD ATTEMPT WILL BE MADE,delivery_attempted,automated rule-based classification; awaiting community review
 L2,THE RECEIVER REFUSES TO PAY THE CHARGES BECAUSE OF A CONFLICT IN PRICE,refused,automated rule-based classification; awaiting community review
-L3,GOVERNMENT AGENCY DISPUTES VALUE ON INVOICE AND HAS REQUESTED RE-EVALUATION,exception,automated rule-based classification; awaiting community review
+L3,GOVERNMENT AGENCY DISPUTES VALUE ON INVOICE AND HAS REQUESTED RE-EVALUATION,customs_held,automated rule-based classification; awaiting community review
 L5,THE CONTENTS DESCRIPTION DOES NOT MATCH THE DOCUMENTATION,exception,automated rule-based classification; awaiting community review
 L7,PAYMENT COLLECTION SERVICE SHIPMENT: VERIFY TAG IS ATTACHED TO SHIPMENT,exception,automated rule-based classification; awaiting community review
 L8,DESTINATION NOT ELIGIBLE FOR PERFORMANCE BASED BILLING,exception,automated rule-based classification; awaiting community review
@@ -314,7 +314,7 @@ MZ,MISLOAD PACKAGE CHARGED DUE TO BEING IN A BAG ULD NOT LINKED TO AN OUTER ULD,
 NI,DISPOSED OF PER SENDER REQUEST; CONTACT SENDER FOR MORE INFORMATION,exception,automated rule-based classification; awaiting community review
 NJ,OTHER IMPORT LICENCE; VISA; OR CERT MISSING FROM DOCUMENT POUCH AT IMPORT,exception,automated rule-based classification; awaiting community review
 NK,CUSTOMER INVOICE MISSING FROM CUSTOMS DOCUMENT POUCH AT IMPORT COUNTRY,customs_declared,automated rule-based classification; awaiting community review
-NL,NO VALUE KEYED BY EXPORT SITE. DELIVERY MAY BE DELAYED UNTIL INFO IS OBTAINED,exception,automated rule-based classification; awaiting community review
+NL,NO VALUE KEYED BY EXPORT SITE. DELIVERY MAY BE DELAYED UNTIL INFO IS OBTAINED,in_transit,automated rule-based classification; awaiting community review
 NM,A WRONG OR ALTERED VALUE WAS ELECTRONICALLY RECEIVED FROM EDI OR EXPORT,exception,automated rule-based classification; awaiting community review
 NP,COUNTRY OF ORIGIN WAS NOT KEYED BY EXPORT SITE,exception,automated rule-based classification; awaiting community review
 NQ,THE IMPORTER ID WAS NOT KEYED BY THE EXPORT SITE,exception,automated rule-based classification; awaiting community review
@@ -338,7 +338,7 @@ OL,INVALID SCAN DATE IS IDENTIFIED IN SCANNED VOLUME UPLOAD,exception,automated 
 OM,SCANNED VOLUME DATA UPLOAD IS NOT TIMELY,exception,automated rule-based classification; awaiting community review
 ON,SHIPMENT REWRAP REQUIRED,exception,automated rule-based classification; awaiting community review
 OP,ADDRESS CORRECTION NOT CAPTURED; PLAN DELV SLIC DOES NOT MATCH ACTUAL,exception,automated rule-based classification; awaiting community review
-OQ,SHIPMENT ON HOLD AWAITING PAYMENT OF DUTY & TAX,exception,automated rule-based classification; awaiting community review
+OQ,SHIPMENT ON HOLD AWAITING PAYMENT OF DUTY & TAX,customs_held,automated rule-based classification; awaiting community review
 OR,PACKAGE HELD DUE TO LITHIUM BATTERIES EXCEEDING LIMIT FOR THE SCHEDULED MOVEMENT,exception,automated rule-based classification; awaiting community review
 OS,PACKAGE HELD DUE TO A PROCESSING DELAY IN HANDLING LITHIUM BATTERY SHIPMENTS,exception,automated rule-based classification; awaiting community review
 OT,SCAN VOLUME DATA ASSOCIATED TO A NON NUMERIC SLIC; BLANK COUNTRY CODE,exception,automated rule-based classification; awaiting community review
@@ -351,8 +351,8 @@ OZ,X-RAY FAILED,exception,automated rule-based classification; awaiting communit
 O1,A DELIVERY CHANGE FOR THIS PACKAGE IS IN PROGRESS.,exception,automated rule-based classification; awaiting community review
 O2,THE DELIVERY CHANGE REQUEST FOR THIS PACKAGE WAS MODIFIED,exception,automated rule-based classification; awaiting community review
 O3,A SECOND DCR WAS REQUESTED FOR THIS PACKAGE,exception,automated rule-based classification; awaiting community review
-O4,RETURN TO SENDER PENDING,exception,automated rule-based classification; awaiting community review
-O5,AS REQUESTED; THE RECEIVER WILL PICKUP AT A UPS FACILITY WITHIN 5 BUSINESS DAYS,exception,automated rule-based classification; awaiting community review
+O4,RETURN TO SENDER PENDING,return_initiated,automated rule-based classification; awaiting community review
+O5,AS REQUESTED; THE RECEIVER WILL PICKUP AT A UPS FACILITY WITHIN 5 BUSINESS DAYS,awaiting_pickup,automated rule-based classification; awaiting community review
 O6,RESCHEDULED DELIVERY,delivery_attempted,automated rule-based classification; awaiting community review
 O7,DELIVER TO ANOTHER ADDRESS,exception,automated rule-based classification; awaiting community review
 O8,SAME DAY WILL CALL,awaiting_pickup,automated rule-based classification; awaiting community review
@@ -372,7 +372,7 @@ P2,THE EXPORT SITE FAILED TO KEY AN ADEQUATE DESCRIPTION,exception,automated rul
 P4,THE EXPORT SITE FAILED TO KEY CORRECT CURRENCY CODE FROM THE INVOICE,exception,automated rule-based classification; awaiting community review
 P7,SAMPLE; MARKED; OR MUTILATED WAS NOT KEYED BY EXPORT,exception,automated rule-based classification; awaiting community review
 P8,SENDER INFORMATION SUCH AS NAME AND/OR ADDRESS NOT KEYED BY EXPORT,exception,automated rule-based classification; awaiting community review
-P9,SHIPMENT DETAINED BY LISTED GOVT AGENCY FOR FURTHER INVESTIGATION,exception,automated rule-based classification; awaiting community review
+P9,SHIPMENT DETAINED BY LISTED GOVT AGENCY FOR FURTHER INVESTIGATION,customs_held,automated rule-based classification; awaiting community review
 RA,FCC INFORMATION REQUIRED FOR RELEASE,exception,automated rule-based classification; awaiting community review
 RB,HOLD PENDING CLEARANCE OF TSCA (TOXIC SUBSTANCE CONTROL ACT),customs_held,automated rule-based classification; awaiting community review
 RC,DEPARTMENT OF TRANSPORTATION REQUIREMENTS MUST BE MET FOR CLEARANCE,customs_declared,automated rule-based classification; awaiting community review
@@ -392,7 +392,7 @@ RR,INVOICE AND RECEIVER FEDERAL TAX ID # REQUIRED FOR SUBMISSION TO U.S. CUSTOMS
 RS,CUSTOMS REQUIRES MORE DETAILED COMMODITY INFORMATION & RECEIVER’S TAX ID #,customs_declared,automated rule-based classification; awaiting community review
 RT,FLIGHT MECHANICAL DELAY WITH NO SERVICE IMPACT,exception,automated rule-based classification; awaiting community review
 RU,RECEIVER ASSIGNED CLEARANCE TO NON-UPS BROKER; SHIPMENT STILL IN UPS CONTROL,customs_declared,automated rule-based classification; awaiting community review
-RV,RETURN TO SENDER ON SATURDAY,exception,automated rule-based classification; awaiting community review
+RV,RETURN TO SENDER ON SATURDAY,return_initiated,automated rule-based classification; awaiting community review
 RW,SAME DAY SECOND DELIVERY ATTEMPT,delivery_attempted,automated rule-based classification; awaiting community review
 RX,FDA CLEARANCE AND POWER OF ATTORNEY REQUIRED FOR SUBMISSION TO U.S. CUSTOMS,customs_declared,automated rule-based classification; awaiting community review
 RY,A NON-UPS LABOR DISPUTE HAS DELAYED DELIVERY.,delivery_attempted,automated rule-based classification; awaiting community review
@@ -404,7 +404,7 @@ R4,COMMODITY INFORMATION; CLEARANCE THROUGH DEPT OF AGRICULTURE & PPQ REQUIRED,c
 R5,SUBMITTED TO FOOD/DRUG ADMINISTRATION AND/OR DEPT OF AG/PPQ; WAITING FOR RELEASE,customs_declared,automated rule-based classification; awaiting community review
 R6,U.S. CUSTOMS REQUIRES POWER OF ATTORNEY & MORE DETAILED COMMODITY INFORMATION,customs_declared,automated rule-based classification; awaiting community review
 R7,POWER OF ATTORNEY & RECEIVER’S FEDERAL TAX ID # REQUIRED FOR CUSTOMS SUBMISSION,customs_declared,automated rule-based classification; awaiting community review
-R8,UNKNOWN SHIPPER # FAILED FLIGHT GUARDIAN AUDIT; CONTACT SHIPPER FOR REQ INFO,exception,automated rule-based classification; awaiting community review
+R8,UNKNOWN SHIPPER # FAILED FLIGHT GUARDIAN AUDIT; CONTACT SHIPPER FOR REQ INFO,customs_held,automated rule-based classification; awaiting community review
 R9,INVOICE MISSING AND NEEDS TO BE PULLED FROM SHIPMENT FOR BROKERAGE CLEARANCE,customs_declared,automated rule-based classification; awaiting community review
 SC,REPLACE INVOICE,exception,automated rule-based classification; awaiting community review
 SD,REPLACE WAYBILL,exception,automated rule-based classification; awaiting community review
@@ -413,8 +413,8 @@ SH,ONE SHIPMENT WITH MULTIPLE RECEIVERS REQUIRING SPECIAL HANDLING,exception,aut
 SI,SHIPMENT NOT PROCESSED BY UPS BROKERAGE.,customs_declared,automated rule-based classification; awaiting community review
 SJ,ORIGIN GOODS BEING RETURNED. EXPORT INVOICE REQUIRED FOR DUTY RELIEF,return_initiated,automated rule-based classification; awaiting community review
 SK,SHIPMENT NOT RATED BY BROKERAGE; NOT RELEASED BY CUSTOMS,customs_released,automated rule-based classification; awaiting community review
-SL,ADDITIONAL DOCUMENTS REQUIRED FOR DUTY RELIEF,exception,automated rule-based classification; awaiting community review
-SM,ORIGINAL GSP CERTIFICATE REQUIRED FOR DUTY RELIEF,exception,automated rule-based classification; awaiting community review
+SL,ADDITIONAL DOCUMENTS REQUIRED FOR DUTY RELIEF,customs_held,automated rule-based classification; awaiting community review
+SM,ORIGINAL GSP CERTIFICATE REQUIRED FOR DUTY RELIEF,customs_held,automated rule-based classification; awaiting community review
 SN,CUSTOMS FORM FOR PERSONAL BELONGINGS REQUIRED FROM RECEIVER,customs_declared,automated rule-based classification; awaiting community review
 SP,COMPLETE TEMPORARY IMPORT DETAILS REQUIRED FROM RECEIVER,exception,automated rule-based classification; awaiting community review
 SQ,ACCOUNTS DEPARTMENT CREDIT CHECK REQUIRED BEFORE CLEARANCE TO BROKERAGE,customs_declared,automated rule-based classification; awaiting community review
@@ -430,7 +430,7 @@ S4,EU PACKAGE-NOT IN FREE CIRCULATION-CUSTOMS CLEARANCE REQUIRED,customs_declare
 S5,PKG DELAYED - NO CONNECTION TO CUSTOMS,customs_declared,automated rule-based classification; awaiting community review
 S6,CONSIGNEE WILL NOT ACCEPT DELIVERY DURING A CERTAIN TIME PERIOD,exception,automated rule-based classification; awaiting community review
 S7,THE RECEIVER REQUESTED THIS PACKAGE TO BE HELD FOR PICKUP AT THE UPS FACILITY.,awaiting_pickup,automated rule-based classification; awaiting community review
-S8,A LATE UPS TRAILER ARRIVAL HAS CAUSED A DELAY.,exception,automated rule-based classification; awaiting community review
+S8,A LATE UPS TRAILER ARRIVAL HAS CAUSED A DELAY.,in_transit,automated rule-based classification; awaiting community review
 S9,UNKNOWN LOST AND FOUND-PACKAGE LABEL MISSING OR ILLEGIBLE,lost,automated rule-based classification; awaiting community review
 TA,UPS CONTACTED THE SENDER,exception,automated rule-based classification; awaiting community review
 TB,RECEIVER REQUESTED TEMPORARY CHANGE OF ADDRESS,exception,automated rule-based classification; awaiting community review
@@ -450,7 +450,7 @@ TO,SAME DAY WILL CALL FOR COURIER PICK UP,awaiting_pickup,automated rule-based c
 TP,SHIPMENT DESTROYED BY CLEARING AGENCY,lost,automated rule-based classification; awaiting community review
 TQ,DUE TO AN INTERNAL MIGRATION OF UPS DATA; NO FURTHER INFORMATION  IS AVAILABLE,exception,automated rule-based classification; awaiting community review
 TR,PICK-UP IS SCHEDULED FOR NEXT BUSINESS DAY,exception,automated rule-based classification; awaiting community review
-TS,UNABLE TO PICK UP PACKAGE. THE RETURN SERVICE LABEL HAS BEEN DISCARDED.,exception,automated rule-based classification; awaiting community review
+TS,UNABLE TO PICK UP PACKAGE. THE RETURN SERVICE LABEL HAS BEEN DISCARDED.,lost,automated rule-based classification; awaiting community review
 TT,PACKAGE RESUBMITTED TO CLEARING AGENCY FOR CLEARANCE,customs_declared,automated rule-based classification; awaiting community review
 TU,KNOWN LOST AND FOUND-(DOMESTIC-RETURN TO SENDER INTERNATIONAL-CONTACT SENDER),lost,automated rule-based classification; awaiting community review
 TV,DAMAGED IN TRANSIT-CHEMICAL/LIQUID,damaged,automated rule-based classification; awaiting community review
@@ -466,7 +466,7 @@ T8,YOUR PACKAGE HAS BEEN REMOVED FROM A CLIMATE CONTROLLED ENVIRONMENT.,address_
 T9,THE CONSIGNEE HAS REFUSED UPS AS CUSTOMS BROKER,refused,automated rule-based classification; awaiting community review
 UD,THE RECEIVER REQUESTED THE PACKAGE BE DELIVERED TO AN ALTERNATE ADDRESS,delivered,automated rule-based classification; awaiting community review
 UE,SPECIAL ACCOUNT PKG IS BEING HELD AT UPS FOR PICKUP WITHIN 5 DAYS,awaiting_pickup,automated rule-based classification; awaiting community review
-UF,RETURN TO SHIPPER PENDING,exception,automated rule-based classification; awaiting community review
+UF,RETURN TO SHIPPER PENDING,return_initiated,automated rule-based classification; awaiting community review
 UG,THE PACKAGE IS BEING HELD FOR FUTURE DELIVERY,awaiting_pickup,automated rule-based classification; awaiting community review
 UH,DAMAGE CALL TAG UPDATE,damaged,automated rule-based classification; awaiting community review
 UI,AGENT PICKUP; IN TRANSIT TO UPS FACILITY,in_transit,automated rule-based classification; awaiting community review
@@ -483,19 +483,19 @@ UY,DAMAGE REPORTED,damaged,automated rule-based classification; awaiting communi
 UZ,SAME DAY WILL CALL FOR COURIER PICK UP,awaiting_pickup,automated rule-based classification; awaiting community review
 U1,ADJUSTMENT TO INCORRECT BILLED WEIGHT; MAY INVOLVE OVERSIZE OR DIM WEIGHT,exception,automated rule-based classification; awaiting community review
 U2,BILL ADJUSTMENT FOR ADD’L HANDLING AS DEFINED IN UPS RATE BOOK,exception,automated rule-based classification; awaiting community review
-U7,REMOVE COMMERCIAL INVOICE FROM SHIPMENT,exception,automated rule-based classification; awaiting community review
+U7,REMOVE COMMERCIAL INVOICE FROM SHIPMENT,customs_held,automated rule-based classification; awaiting community review
 U8,COMMERCIAL INVOICE WAS REMOVED FROM SHIPMENT BY UPS PER CUSTOMER REQUEST,address_issue,automated rule-based classification; awaiting community review
 VA,THE CUSTOMER HAS CANCELLED THE SAME DAY WILL CALL REQUEST; TO BE REDELIVERED,order_cancelled,automated rule-based classification; awaiting community review
 VB,PACKAGE AVAILABLE FOR WILL CALL ON DAY AFTER SAME DAY WILL CALL REQUEST,awaiting_pickup,automated rule-based classification; awaiting community review
 VD,UPS WILL REDELIVER TO SAME ADDRESS ON DAY AFTER SAME DAY WILL CALL REQUEST,awaiting_pickup,automated rule-based classification; awaiting community review
 VE,CUSTOMER HAS CONFIRMED AND WILL PICK UP PACKAGES THIS EVENING,exception,automated rule-based classification; awaiting community review
-VF,CUSTOMER HAS MADE ARRANGEMENTS TO MEET THE DRIVER TO PICK UP ON AREA,exception,automated rule-based classification; awaiting community review
+VF,CUSTOMER HAS MADE ARRANGEMENTS TO MEET THE DRIVER TO PICK UP ON AREA,awaiting_pickup,automated rule-based classification; awaiting community review
 VG,DRIVER WILL MAKE A SAME DAY REDELIVERY ATTEMPT,delivery_attempted,automated rule-based classification; awaiting community review
 VH,ARRANGEMENTS HAVE BEEN CONFIRMED WITH CUSTOMER,exception,automated rule-based classification; awaiting community review
-VI,UNABLE TO CONTACT CUSTOMER AT PRIMARY NUMBER,exception,automated rule-based classification; awaiting community review
-VJ,UNABLE TO CONTACT CUSTOMER AT ALTERNATE NUMBER,exception,automated rule-based classification; awaiting community review
+VI,UNABLE TO CONTACT CUSTOMER AT PRIMARY NUMBER,recipient_unavailable,automated rule-based classification; awaiting community review
+VJ,UNABLE TO CONTACT CUSTOMER AT ALTERNATE NUMBER,recipient_unavailable,automated rule-based classification; awaiting community review
 VK,REGISTERED WITH CLEARING AGENCY. SHIPMENT RELEASE PENDING REVIEW,customs_declared,automated rule-based classification; awaiting community review
-VL,MIDDLE EAST WEEKEND DELIVERY DELAY DUE TO DIFFERENT WORKING PRACTICES,exception,automated rule-based classification; awaiting community review
+VL,MIDDLE EAST WEEKEND DELIVERY DELAY DUE TO DIFFERENT WORKING PRACTICES,in_transit,automated rule-based classification; awaiting community review
 VM,THE DELIVERY CHANGE REQUEST FOR THIS PACKAGE HAS BEEN COMPLETED,exception,automated rule-based classification; awaiting community review
 VN,SAME DAY WILL CALL. AS REQUESTED; THE RECEIVER WILL PICKUP AT A UPS FACILITY,awaiting_pickup,automated rule-based classification; awaiting community review
 VO,PACKAGE HAS BEEN RE-PACKED,exception,automated rule-based classification; awaiting community review
@@ -510,7 +510,7 @@ XC,SHIPMENTS HELD TO VERIFY VALUE DUE TO COMMODITY OR HIGH WEIGHT,exception,auto
 XD,SHIPMENT WILL REQUIRE ORIGINAL DOCUMENT FOR CLEARANCE. PKG AND DOCS ENROUTE,customs_declared,automated rule-based classification; awaiting community review
 XE,ORIGINAL DOCUMENTS REQUIREDá (IMMIGRATION DOCUMENTS; VISA; ETC),exception,automated rule-based classification; awaiting community review
 XF,SHIPMENT ID PURGED FROM BOSS. REKEY SHIPMENT WITH NEW TRACKING # PRIOR TO EXPORT,exception,automated rule-based classification; awaiting community review
-XG,INCORRECT CURRENCY CODE ON THE INVOICE,exception,automated rule-based classification; awaiting community review
+XG,INCORRECT CURRENCY CODE ON THE INVOICE,customs_held,automated rule-based classification; awaiting community review
 XH,DOCUMENTS IMAGED OR FAXED FROM THE ORIGIN SITE ARE UNREADABLE OR NOT VIEWABLE,exception,automated rule-based classification; awaiting community review
 XI,NCTS TAD (TRANSIT ACCOMPANYING DOCUMENT) WAS PRODUCED AND WILL ACCOMPANY SHPMENT,exception,automated rule-based classification; awaiting community review
 XJ,CLEARING AGENCY OFFICE CLOSED; TEMP UNABLE TO CLEAR SHIPMENT. WILL SUBMIT ASAP,customs_declared,automated rule-based classification; awaiting community review
@@ -519,12 +519,12 @@ XL,SHIPMENT REQUIRES INSPECTION BY FISH & WILDLIFE AND FDA,customs_inspection,au
 XN,INVALID TEL#; NEED TO CONTACT CNEE FOR CLEARANCE AUTHORIZATION,customs_declared,automated rule-based classification; awaiting community review
 XO,IMPORTER DISPUTES VALUE/INFO ON INVOICE; SHIPMENT HELD FOR SHIPPER VERIFICATION,awaiting_pickup,automated rule-based classification; awaiting community review
 XP,NOT SCANNED AT EXPORT SITE; RESULTING IN A SERVICE  FAILURE,exception,automated rule-based classification; awaiting community review
-XQ,BTA SHIPMENT IS MISSING INFORMATION THAT IS REQUIRED TO SUBMIT THE PRIOR NOTICE,exception,automated rule-based classification; awaiting community review
+XQ,BTA SHIPMENT IS MISSING INFORMATION THAT IS REQUIRED TO SUBMIT THE PRIOR NOTICE,customs_held,automated rule-based classification; awaiting community review
 XR,INSUFFICIENT BTA INFO TO SUBMIT PRIOR NOTICE & FDA CLEARANCE REQUIRED,customs_declared,automated rule-based classification; awaiting community review
-XS,BTA INFO MISSING THAT IS REQ’D TO SUBMIT PRIOR NOTICE & AGRICULTURE INSPECTION,exception,automated rule-based classification; awaiting community review
+XS,BTA INFO MISSING THAT IS REQ’D TO SUBMIT PRIOR NOTICE & AGRICULTURE INSPECTION,customs_held,automated rule-based classification; awaiting community review
 XT,SHIPMENT IS SUBMITTED FOR PRECLEARANCE AND HAS NOT YET MISSED INTENDED SORT,customs_declared,automated rule-based classification; awaiting community review
-XU,BTA SHIPMENT MISSING INFO REQUIRED TO SUBMIT PRIOR NOTICE & NO INVOICE,exception,automated rule-based classification; awaiting community review
-XV,SHIPMENT IS HELD TO VERIFY COMMODITY DESCRIPTION FOR CORRECT CLASSIFICATION,exception,automated rule-based classification; awaiting community review
+XU,BTA SHIPMENT MISSING INFO REQUIRED TO SUBMIT PRIOR NOTICE & NO INVOICE,customs_held,automated rule-based classification; awaiting community review
+XV,SHIPMENT IS HELD TO VERIFY COMMODITY DESCRIPTION FOR CORRECT CLASSIFICATION,customs_held,automated rule-based classification; awaiting community review
 XW,THE CUSTOMER’S UNIQUE CUSTOMS NUMBER IS REQUIRED BEFORE SHIPMENT IS RELEASED,customs_released,automated rule-based classification; awaiting community review
 XY,SHIPMENT DELAYED AT EXPORT - AWAITING RELEASE FROM CUSTOMS,customs_declared,automated rule-based classification; awaiting community review
 XZ,SHIPMENT RELEASED TOO LATE FOR SCHEDULED AIRCRAFT OR TRUCK DEPARTURE,exception,automated rule-based classification; awaiting community review
@@ -543,7 +543,7 @@ YD,LOCAL POST OFFICE ATTEMPTED DELIVERY AND LEFT A NOTICE.  PICKUP REQUIRED,deli
 YE,THE LOCAL POST OFFICE ATTEMPTED DELIVERY; BUT THE RECEIVER REFUSED DELIVERY,refused,automated rule-based classification; awaiting community review
 YF,LOCAL POST OFFICE ATTEMPTED DELIVERY; PACKAGE IS UNDELIVERABLE AS ADDRESSED,delivery_attempted,automated rule-based classification; awaiting community review
 YG,PACKAGE FORWARDED TO RECEIVER’S ADDRESS THAT IS ON FILE WITH LOCAL POST OFFICE,exception,automated rule-based classification; awaiting community review
-YI,AN INCORRECT SORT ROUTED THE PACKAGE TO THE WRONG LOCAL POST OFFICE,exception,automated rule-based classification; awaiting community review
+YI,AN INCORRECT SORT ROUTED THE PACKAGE TO THE WRONG LOCAL POST OFFICE,in_transit,automated rule-based classification; awaiting community review
 YJ,PACKAGE RETURNED TO SENDER BY LOCAL POST OFFICE DUE TO INCORRECT ADDRESS,address_issue,automated rule-based classification; awaiting community review
 YK,PACKAGE RETURNED TO SENDER BY LOCAL POST OFFICE; UNDELIVERABLE AS ADDRESSED,exception,automated rule-based classification; awaiting community review
 YL,PACKAGE UNDELIVERABLE BY LOCAL POST OFFICE; PACKAGE DISPOSED,exception,automated rule-based classification; awaiting community review
@@ -585,14 +585,14 @@ Z2,AN ADDITIONAL HOLD EXISTS FOR THIS SHIPMENT,exception,automated rule-based cl
 Z3,RECEIVER’S CUSTOMS BROKER ASSIGNED. SHIPMENT RELEASED FOR TRANSIT MOVEMENT,customs_released,automated rule-based classification; awaiting community review
 Z4,THE EXCEPTION ENTERED HAS BEEN RESOLVED,exception,automated rule-based classification; awaiting community review
 Z5,TEMPORARY BOND RELEASED BY CUSTOMS; CUSTOMER MAY OPEN SHIP NEXT DAY AFTER NOON,customs_released,automated rule-based classification; awaiting community review
-01,PACKAGE MISSED AT DESTINATION LOCATION,exception,automated rule-based classification; awaiting community review
+01,PACKAGE MISSED AT DESTINATION LOCATION,in_transit,automated rule-based classification; awaiting community review
 02,DELIVERY WILL BE RESCHEDULED.,delivery_attempted,automated rule-based classification; awaiting community review
 03,WE’VE MISSED THE SCHEDULED TRANSFER TIME. THIS MAY CAUSE A DELAY.,transferred_to_carrier,automated rule-based classification; awaiting community review
 04,MISSORTED TO AN INCORRECT LOCATION,in_transit,automated rule-based classification; awaiting community review
 05,A REQUIRED REGULATORY INSPECTION HAS DELAYED DELIVERY.,delivery_attempted,automated rule-based classification; awaiting community review
 06,WE’VE MISROUTED THE PACKAGE. THIS MAY CAUSE A DELAY.,in_transit,automated rule-based classification; awaiting community review
 07,WE’VE MISROUTED THE PACKAGE. THIS MAY CAUSE A DELAY.,in_transit,automated rule-based classification; awaiting community review
-08,WE’VE HELD THE PACKAGE AT THIS FACILITY. THIS MAY CAUSE A DELAY.,exception,automated rule-based classification; awaiting community review
+08,WE’VE HELD THE PACKAGE AT THIS FACILITY. THIS MAY CAUSE A DELAY.,in_transit,automated rule-based classification; awaiting community review
 1I,USPS DDU REZONE; TRANSFER PACKAGE TO CORRECT USPS DDU,transferred_to_carrier,automated rule-based classification; awaiting community review
 1J,ADDRESS CORRECTED DUE TO USPS DDU BUILDING MOVE OR CLOSURE,exception,automated rule-based classification; awaiting community review
 10,NOT LATE (CLEARS LATE DESIGNATION),exception,automated rule-based classification; awaiting community review
@@ -601,9 +601,9 @@ Z5,TEMPORARY BOND RELEASED BY CUSTOMS; CUSTOMER MAY OPEN SHIP NEXT DAY AFTER NOO
 14,THE SERVICE HAS BEEN CHANGED AND THE DELIVERY IS BEING RESCHEDULED.,delivery_attempted,automated rule-based classification; awaiting community review
 15,A TRAIN DERAILMENT HAS DELAYED DELIVERY.,delivery_attempted,automated rule-based classification; awaiting community review
 16,A MECHANICAL FAILURE HAS DELAYED DELIVERY.,delivery_attempted,automated rule-based classification; awaiting community review
-17,A LATE UPS TRAILER ARRIVAL HAS CAUSED A DELAY.,exception,automated rule-based classification; awaiting community review
-18,A LATE FLIGHT HAS CAUSED A DELAY.,exception,automated rule-based classification; awaiting community review
-19,A LATE UPS TRAILER ARRIVAL HAS CAUSED A DELAY.,exception,automated rule-based classification; awaiting community review
+17,A LATE UPS TRAILER ARRIVAL HAS CAUSED A DELAY.,in_transit,automated rule-based classification; awaiting community review
+18,A LATE FLIGHT HAS CAUSED A DELAY.,in_transit,automated rule-based classification; awaiting community review
+19,A LATE UPS TRAILER ARRIVAL HAS CAUSED A DELAY.,in_transit,automated rule-based classification; awaiting community review
 2A,RECENT WEATHER HAS CAUSED DELIVERY DELAYS. RECOVERY EFFORTS ARE UNDER WAY.,exception,automated rule-based classification; awaiting community review
 2B,MILITARY SHIPMENT HELD PENDING DOCS AND CUSTOMS APPROVAL FOR DUTY FREE CLEARANCE,customs_held,automated rule-based classification; awaiting community review
 2L,SECONDARY SCREENING REQUIRED,exception,automated rule-based classification; awaiting community review
@@ -615,17 +615,17 @@ Z5,TEMPORARY BOND RELEASED BY CUSTOMS; CUSTOMER MAY OPEN SHIP NEXT DAY AFTER NOO
 2V,UPS HAS TRANSFERRED THIS PACKAGE BACK TO THE LOCAL POST OFFICE FOR DELIVERY,transferred_to_carrier,automated rule-based classification; awaiting community review
 2X,NOT AVAILABLE ON 1ST ATTEMPT. DELIVERY WILL BE MADE TO A NEARBY UPS ACCESS POINT,delivery_to_locker,automated rule-based classification; awaiting community review
 2Y,WE HAVE NOT YET UNLOADED THE PACKAGE FROM THE TRAILER. THIS MAY DELAY DELIVERY.,exception,automated rule-based classification; awaiting community review
-2Z,WE WERE UNABLE TO DISPATCH THE TRAILER ON TIME. THIS MAY CAUSE A DELAY.,exception,automated rule-based classification; awaiting community review
-20,A LATE UPS TRAILER ARRIVAL HAS CAUSED A DELAY.,exception,automated rule-based classification; awaiting community review
+2Z,WE WERE UNABLE TO DISPATCH THE TRAILER ON TIME. THIS MAY CAUSE A DELAY.,in_transit,automated rule-based classification; awaiting community review
+20,A LATE UPS TRAILER ARRIVAL HAS CAUSED A DELAY.,in_transit,automated rule-based classification; awaiting community review
 21,IN-TRANSIT INTERCEPT IS NOW PENDING CAPTURE WITHIN A UPS FACILITY,in_transit,automated rule-based classification; awaiting community review
-22,WE WERE UNABLE TO DISPATCH THE TRAILER ON TIME. THIS MAY CAUSE A DELAY.,exception,automated rule-based classification; awaiting community review
+22,WE WERE UNABLE TO DISPATCH THE TRAILER ON TIME. THIS MAY CAUSE A DELAY.,in_transit,automated rule-based classification; awaiting community review
 23,A MECHANICAL FAILURE HAS DELAYED DELIVERY.,delivery_attempted,automated rule-based classification; awaiting community review
-24,MERCHANDISE MISSING; BALANCE RETURNED. UPS WILL NOTIFY THE SENDER WITH DETAILS,exception,automated rule-based classification; awaiting community review
+24,MERCHANDISE MISSING; BALANCE RETURNED. UPS WILL NOTIFY THE SENDER WITH DETAILS,lost,automated rule-based classification; awaiting community review
 25,MERCHANDISE MISSING; BALANCE DELIVERED. UPS WILL NOTIFY SENDER WITH DETAILS,delivered,automated rule-based classification; awaiting community review
-26,ALL MERCHANDISE MISSING; EMPTY CARTON DISCARDED. UPS WILL NOTIFY SENDER,exception,automated rule-based classification; awaiting community review
-27,ALL MERCHANDISE MISSING; EMPTY CARTON RETURNED. UPS WILL NOTIFY SENDER,exception,automated rule-based classification; awaiting community review
+26,ALL MERCHANDISE MISSING; EMPTY CARTON DISCARDED. UPS WILL NOTIFY SENDER,lost,automated rule-based classification; awaiting community review
+27,ALL MERCHANDISE MISSING; EMPTY CARTON RETURNED. UPS WILL NOTIFY SENDER,lost,automated rule-based classification; awaiting community review
 29,C.O.D. PENDING; AWAITING A CONFIRMATION FAX FROM THE CUSTOMER,exception,automated rule-based classification; awaiting community review
-3A,PACKAGE LEFT IN OUR FACILITY. THIS MAY CAUSE AT LEAST ONE BUSINESS DAY DELAY.,exception,automated rule-based classification; awaiting community review
+3A,PACKAGE LEFT IN OUR FACILITY. THIS MAY CAUSE AT LEAST ONE BUSINESS DAY DELAY.,in_transit,automated rule-based classification; awaiting community review
 3B,WE HAVE NOT YET UNLOADED THE PACKAGE FROM THE TRAILER.,exception,automated rule-based classification; awaiting community review
 3C,A UPS FACILITY OUTAGE HAS DELAYED DELIVERY.,delivery_attempted,automated rule-based classification; awaiting community review
 3J,UPS ACCESS POINT CLOSED,delivery_to_locker,automated rule-based classification; awaiting community review
@@ -636,17 +636,17 @@ Z5,TEMPORARY BOND RELEASED BY CUSTOMS; CUSTOMER MAY OPEN SHIP NEXT DAY AFTER NOO
 3P,PACKAGE RECEIVED FROM UPS ACCESS POINT. WILL PROCESS AS NECESSARY.,delivery_to_locker,automated rule-based classification; awaiting community review
 3Q,UPGRADE COMPLETED; DELIVER TO SAME ADDRESS,exception,automated rule-based classification; awaiting community review
 3R,UPGRADE COMPLETED; DELIVER TO ANOTHER ADDRESS,exception,automated rule-based classification; awaiting community review
-3S,UPGRADE COMPLETED; RECEIVER WILL PICKUP AT UPS FACILITY WITHIN 5 BUSINESS DAYS,exception,automated rule-based classification; awaiting community review
+3S,UPGRADE COMPLETED; RECEIVER WILL PICKUP AT UPS FACILITY WITHIN 5 BUSINESS DAYS,awaiting_pickup,automated rule-based classification; awaiting community review
 3U,UPGRADE COMPLETED; RESCHEDULED DELIVERY,delivery_attempted,automated rule-based classification; awaiting community review
 3V,UPGRADE COMPLETED; DELIVER TO A UPS ACCESS POINT,delivery_to_locker,automated rule-based classification; awaiting community review
 3W,UPS MY CHOICE UPGRADE WAS NOT COMPLETED,exception,automated rule-based classification; awaiting community review
 30,THE REQUEST FOR THIS PACKAGE WAS CANCELLED,order_cancelled,automated rule-based classification; awaiting community review
-31,PACKAGE LEFT IN OUR FACILITY. THIS MAY CAUSE AT LEAST ONE BUSINESS DAY DELAY.,exception,automated rule-based classification; awaiting community review
+31,PACKAGE LEFT IN OUR FACILITY. THIS MAY CAUSE AT LEAST ONE BUSINESS DAY DELAY.,in_transit,automated rule-based classification; awaiting community review
 33,THE BILLING OPTION SELECTED BY THE SENDER IS NOT AVAILABLE,exception,automated rule-based classification; awaiting community review
-34,PACKAGE INCORRECTLY SORTED AT FACILITY. MAY CAUSE AT LEAST 1 BUSINESS DAY DELAY.,exception,automated rule-based classification; awaiting community review
+34,PACKAGE INCORRECTLY SORTED AT FACILITY. MAY CAUSE AT LEAST 1 BUSINESS DAY DELAY.,in_transit,automated rule-based classification; awaiting community review
 35,PROCESSING ERROR AT DESTINATION SITE,exception,automated rule-based classification; awaiting community review
 36,RECEIVED C.O.D. CONFIRMATION FAX INTERCEPT IS PENDING AWAITING PACKAGE CAPTURE,exception,automated rule-based classification; awaiting community review
-37,INTERCEPT REQUEST WAS SUCCESSFULLY COMPLETED,exception,automated rule-based classification; awaiting community review
+37,INTERCEPT REQUEST WAS SUCCESSFULLY COMPLETED,order_cancelled,automated rule-based classification; awaiting community review
 39,THE SENDER REQUESTED THIS PACKAGE BE HELD FOR PICKUP AT A UPS FACILITY.,awaiting_pickup,automated rule-based classification; awaiting community review
 4G,TIME WAITED TO COMPLETE PICKUP,exception,automated rule-based classification; awaiting community review
 4H,LIFT GATE USED TO COMPLETE PICKUP,exception,automated rule-based classification; awaiting community review
@@ -699,16 +699,16 @@ Z5,TEMPORARY BOND RELEASED BY CUSTOMS; CUSTOMER MAY OPEN SHIP NEXT DAY AFTER NOO
 5Z,UNABLE TO DELIVER TO UPS ACCESS POINT; 2ND ATTEMPT AT RECEIVER ADDR WILL BE MADE,delivery_to_locker,automated rule-based classification; awaiting community review
 51,NO FUNDS AVAILABLE ON 1ST DELIVERY ATTEMPT. A 2ND DELIVERY ATTEMPT WILL BE MADE,delivery_attempted,automated rule-based classification; awaiting community review
 52,NO FUNDS AVAILABLE ON THE 3RD DELIVERY ATTEMPT,delivery_attempted,automated rule-based classification; awaiting community review
-54,AS REQUESTED; THE RECEIVER WILL PICKUP AT A UPS FACILITY WITHIN 5 BUSINESS DAYS,exception,automated rule-based classification; awaiting community review
+54,AS REQUESTED; THE RECEIVER WILL PICKUP AT A UPS FACILITY WITHIN 5 BUSINESS DAYS,awaiting_pickup,automated rule-based classification; awaiting community review
 55,THE RECEIVING BUSINESS WAS CLOSED.,recipient_unavailable,automated rule-based classification; awaiting community review
-56,THIS DELIVERY WAS MADE AFTER THE UPS SERVICE COMMITMENT TIME OF NOON,exception,automated rule-based classification; awaiting community review
+56,THIS DELIVERY WAS MADE AFTER THE UPS SERVICE COMMITMENT TIME OF NOON,delivered,automated rule-based classification; awaiting community review
 58,THE SHIPPING CHARGES ARE BEING REFUNDED TO THE SENDER OR RECEIVER,exception,automated rule-based classification; awaiting community review
-59,THIS DELIVERY WAS MADE AFTER THE UPS SERVICE COMMITMENT TIME OF 10:30 AM,exception,automated rule-based classification; awaiting community review
+59,THIS DELIVERY WAS MADE AFTER THE UPS SERVICE COMMITMENT TIME OF 10:30 AM,delivered,automated rule-based classification; awaiting community review
 6A,CONSIGNEE’S ADDRESS IS OUTSIDE THE AREA OF AN AVAILABLE ADL,exception,automated rule-based classification; awaiting community review
 6B,UPS ACCESS POINT CLOSED; CONTACT CUSTOMER WITH NEXT STEPS TO GET PACKAGE,delivery_to_locker,automated rule-based classification; awaiting community review
 6C,PACKAGES ARE READY FOR UPS PICKUP AND WILL BE RETURNED DUE TO AGING,exception,automated rule-based classification; awaiting community review
-6D,WE’RE WORKING TO DELIVER YOUR PACKAGE AS SOON AS POSSIBLE.,exception,automated rule-based classification; awaiting community review
-6E,WE DO NOT HAVE POSSESSION OF THE PACKAGE YET. THIS MAY CAUSE A DELAY.,exception,automated rule-based classification; awaiting community review
+6D,WE’RE WORKING TO DELIVER YOUR PACKAGE AS SOON AS POSSIBLE.,in_transit,automated rule-based classification; awaiting community review
+6E,WE DO NOT HAVE POSSESSION OF THE PACKAGE YET. THIS MAY CAUSE A DELAY.,in_transit,automated rule-based classification; awaiting community review
 6F,UPGRADE 3DS INTO 2DA SYSTEM,exception,automated rule-based classification; awaiting community review
 6G,MODIFICATION OF THE RECEIVER’S ADDRESS,exception,automated rule-based classification; awaiting community review
 6H,AS REQUESTED; PACKAGE WILL BE DELIVERED TO CUSTOMER’S PREFERRED UPS ACCESS POINT,delivery_to_locker,automated rule-based classification; awaiting community review
@@ -743,8 +743,8 @@ Z5,TEMPORARY BOND RELEASED BY CUSTOMS; CUSTOMER MAY OPEN SHIP NEXT DAY AFTER NOO
 7E,SUREPOST PKG UPGRADED; PREF UPS ACCESS POINT NOT AVAIL; UPS CONTACTING CUSTOMER,delivery_to_locker,automated rule-based classification; awaiting community review
 7F,PACKAGE HAS DUTIES AND/OR TAXES DUE AND PAYABLE BY RECIPIENT,exception,automated rule-based classification; awaiting community review
 7G,DISRUPTION IN NETWORK - TRACTOR TRAILER,exception,automated rule-based classification; awaiting community review
-7H,THE PACKAGE IS MISSING DUTY INFORMATION AND WILL BE RETURNED TO EXPORT LOCATION.,exception,automated rule-based classification; awaiting community review
-7I,THE PACKAGE MISSED THE SCHEDULED RAIL CONNECTION.,exception,automated rule-based classification; awaiting community review
+7H,THE PACKAGE IS MISSING DUTY INFORMATION AND WILL BE RETURNED TO EXPORT LOCATION.,customs_held,automated rule-based classification; awaiting community review
+7I,THE PACKAGE MISSED THE SCHEDULED RAIL CONNECTION.,in_transit,automated rule-based classification; awaiting community review
 7J,R2R PACKAGE REFUSED AT THE UPS ACCESS POINT - HOLD PACKAGE AND CONTACT SHIPPER,refused,automated rule-based classification; awaiting community review
 7L,CUSTOMER NOT IN; DELIVER TO A UPS ACCESS POINT CANCELLED; DELIVERED TO CONSIGNEE,order_cancelled,automated rule-based classification; awaiting community review
 7M,PACKAGE IS BEING HELD TO PREPARE BOND PAPERWORK FOR ALTERNATE SITE - UPS BROKER,awaiting_pickup,automated rule-based classification; awaiting community review
@@ -759,7 +759,7 @@ Z5,TEMPORARY BOND RELEASED BY CUSTOMS; CUSTOMER MAY OPEN SHIP NEXT DAY AFTER NOO
 7V,AN EMERGENCY SITUATION OR SEVERE WEATHER CONDITION HAS DELAYED DELIVERY.,delivery_attempted,automated rule-based classification; awaiting community review
 7W,SEVERE WEATHER CONDITIONS HAVE DELAYED DELIVERY.,delivery_attempted,automated rule-based classification; awaiting community review
 7X,RECENT WEATHER HAS CAUSED DELIVERY DELAYS. RECOVERY EFFORTS ARE UNDER WAY.,exception,automated rule-based classification; awaiting community review
-7Y,PACKAGE LEFT IN UPS FACILITY. EXPECT AT LEAST 1 BUSINESS DAY DELAY.,exception,automated rule-based classification; awaiting community review
+7Y,PACKAGE LEFT IN UPS FACILITY. EXPECT AT LEAST 1 BUSINESS DAY DELAY.,in_transit,automated rule-based classification; awaiting community review
 7Z,YOUR PKG ENCOUNTERED A DELAY. EXPECT DELIVERY TO BE POSTPONED BY 1 BUSINESS DAY.,exception,automated rule-based classification; awaiting community review
 71,INCOMPLETE OR MISSING DOCUMENTATION MUST BE OBTAINED FOR CLEARANCE,customs_declared,automated rule-based classification; awaiting community review
 72,SHIPMENT IS BEING HELD UNTIL ALL ASSOCIATED PKGS IN THIS SHIPMENT HAVE ARRIVED,awaiting_pickup,automated rule-based classification; awaiting community review
@@ -769,7 +769,7 @@ Z5,TEMPORARY BOND RELEASED BY CUSTOMS; CUSTOMER MAY OPEN SHIP NEXT DAY AFTER NOO
 77,FORWARDED TO THE FACILITY IN THE DESTINATION CITY,exception,automated rule-based classification; awaiting community review
 78,THE SENDER REQUESTED A DELIVERY CHANGE FOR THIS PACKAGE.,exception,automated rule-based classification; awaiting community review
 79,UPS HAS REQUESTED A DELIVERY INTERCEPT FOR THIS PACKAGE,exception,automated rule-based classification; awaiting community review
-8A,YOUR PACKAGE MISSED THE PROCESSING DEADLINE AND WILL DELAY DELIVERY,exception,automated rule-based classification; awaiting community review
+8A,YOUR PACKAGE MISSED THE PROCESSING DEADLINE AND WILL DELAY DELIVERY,in_transit,automated rule-based classification; awaiting community review
 8B,ROUTING OF PCIS AND GIO ELECTRONIC DATA,exception,automated rule-based classification; awaiting community review
 8C,YOUR PACKAGE MAY NOT HAVE ARRIVED ON-SCHEDULE. VISIT UPS.COM/TARIFF FOR INFO.,customs_declared,automated rule-based classification; awaiting community review
 8D,THE PACKAGE WAS ABANDONED BY THE CUSTOMER AND WILL BE SURRENDERED TO CUSTOMS.,customs_declared,automated rule-based classification; awaiting community review
