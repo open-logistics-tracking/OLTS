@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oltrack"
+version = "0.2.0.dev0"
+description = "OLTS reference implementation — normalize carrier tracking responses into OLTS TrackingEvent / Shipment."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "OLTS Contributors" }]
+keywords = ["logistics", "tracking", "olts", "shipping", "carrier"]
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business",
+]
+dependencies = []  # 故意零运行时依赖，jsonschema 验证为 dev extra
+
+[project.optional-dependencies]
+dev = ["jsonschema>=4.18", "pytest>=7"]
+validate = ["jsonschema>=4.18"]
+
+[project.urls]
+Homepage     = "https://github.com/open-logistics-tracking/OpenLogisticsTrackingSchema"
+Repository   = "https://github.com/open-logistics-tracking/OpenLogisticsTrackingSchema"
+"Bug Tracker" = "https://github.com/open-logistics-tracking/OpenLogisticsTrackingSchema/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"oltrack" = ["data/*.csv"]
