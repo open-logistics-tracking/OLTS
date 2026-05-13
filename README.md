@@ -8,7 +8,7 @@
 
 ```
 12 carriers   |   14 mapping files   |   1761 raw codes   |   ULSC 32/32 used
-2 schemas     |   17 examples         |   oltrack-py MVP   |   零运行时依赖
+2 schemas     |   16 examples         |   oltrack-py MVP   |   零运行时依赖
 ```
 
 ---
@@ -168,7 +168,7 @@ python3 -m pytest tests/ -v   # 12 passed
 
 ```bash
 python3 tools/validate_schemas.py
-# OK — all 2 schemas + 17 examples valid
+# OK — all 2 schemas + 16 examples valid
 ```
 
 ---
