@@ -1,7 +1,255 @@
-# Source: 中国邮政 EMS 开放平台（待调研）
+# Source: 中国邮政 EMS 协议客户开放平台 api.ems.com.cn（用户登录后提供，2026-05-13）
+#   - 操作码数据字典（约 195 条，含国内运营 + 国际段 C_/O_/V_ + UPU EDA/EDB/EDC/EME 与 EXA-EXD）
+#   - 妥投代码数据字典（24 条，签收方式细分）
+#   - 未妥投代码数据字典（16 条，未签收原因细分）
+#   接口基地址：https://api.ems.com.cn/amp-prod-api/f/amp/api/open
+#   轨迹查询：apiCode=040001（拉取）/ 040002（推送）
 # Reviewer: @zhatrix
-# Coverage: ❌ PLACEHOLDER — 数据缺口待补
-#          原报告 §1 在 10 家承运商总名单中列入了中国邮政，但 §2 各章节未独立覆盖
-#          EMS 的认证、字段或状态码体系。映射需从 EMS 官方开放平台文档或真实 API
-#          响应中独立调研补充。
+# Note: EMS 同时提供三套互不重叠的码集：
+#       (1) 操作码（事件级，原始码无前缀，含数字 / C_ / O_ / V_ / EDA / EXA 等命名空间）
+#       (2) 妥投代码（投递成功时的签收方式细分，加 `signed:N` 前缀）
+#       (3) 未妥投代码（投递失败的原因分类，加 `unsigned:N` 前缀）
+#       消费方处理建议：操作码作为事件 timeline 主轴；妥投/未妥投码作为 delivered /
+#       delivery_attempted 事件的子分类细化（通过事件 notes 字段或扩展属性传递）。
+# Note: 文档中以"删除"结尾的码（207/212/304/424/448/472/474/483/492/742/743/744 +
+#       EDAD/EDCD/EMED/EXAD/EXBD/EXCD/EXDD）是事件冲销，常规消费应作废同一同事件
+#       的前一条。OLTS v0.1 把这类码映射到 exception，notes 标"事件冲销"。v0.2 引入
+#       event_type=cancellation 字段后将单独建模。
 carrier_code,carrier_name,olts_code,notes
+013,订单拦截成功,exception,运营/合规拦截
+203,收寄计费信息,picked_up,
+207,揽收环节删除邮件,exception,事件冲销：作废 203
+208,客户交接,transferred_to_carrier,
+212,客户交接取消,exception,事件冲销：作废 208
+303,揽收批量配发,in_transit,内部派工
+304,揽投配发取消,exception,事件冲销：作废 303/336/345
+305,揽投发运/封车,departed_from_hub,
+312,转退营业,return_initiated,转退至营业网点
+326,投递邮件接收-退件封发,in_return_transit,
+336,揽收直连配发,in_transit,
+345,揽收扫描配发,in_transit,
+356,处理中心分拣机落格绑定,in_transit,hub 内部操作
+358,处理中心容器绑定,in_transit,
+360,处理中心挂信齐格封发,in_transit,
+364,处理中心分拣机齐格封发,in_transit,
+365,处理中心分拣机扫描封袋,in_transit,
+368,处理中心分拨扫描,in_transit,
+370,处理中心到段封发,in_transit,
+371,处理中心指定封发-封袋,in_transit,
+374,处理中心动态封发-封袋,in_transit,
+375,处理中心二码合一封发,in_transit,
+376,处理中心扫描封发,in_transit,
+379,处理中心邮件追加,in_transit,
+389,处理中心封车,departed_from_hub,
+394,处理中心道段封发,in_transit,
+396,外系统封发,in_transit,
+399,处理中心动态调度,in_transit,
+404,交航扫描,transferred_to_carrier,跨段交接（航空）；运输模式归 notes
+405,库区退回扫描,return_initiated,
+423,出口邮件直封封发,departed_from_hub,出口段
+424,出口邮件直封封发删除,exception,事件冲销：作废 423
+447,退回邮件开拆,in_return_transit,
+448,退回邮件开拆删除,exception,事件冲销：作废 447
+456,已完成目的国清关,clearance_completed,
+457,航空公司启运,departed_from_hub,运输模式（航空）信息归 notes
+458,到达境外航站,arrived_at_hub,
+459,到达境外进口互换局,arrived_at_hub,UPU 进口互换局是邮政枢纽（非海关）
+460,离开境外进口互换局,departed_from_hub,
+461,到达境外投递局,arrived_at_destination,
+462,境外试投,delivery_attempted,
+463,境外妥投,delivered,
+464,境外收寄,picked_up,
+465,到达境外出口互换局,arrived_at_hub,
+466,发送到境外海关部门,customs_declared,
+467,境外海关清关查验,customs_inspection,
+468,境外已完成目的国清关,clearance_completed,
+469,境外海关放行,customs_released,
+470,境外海关扣留,customs_held,
+472,交航扫描删除,exception,事件冲销：作废 404
+474,库区退回扫描删除,exception,事件冲销：作废 405
+481,境外已交付航空公司,transferred_to_carrier,运输模式（航空）信息归 notes
+482,交换站退回扫描,return_initiated,
+483,交换站退回扫描删除,exception,事件冲销：作废 482
+485,境外进口互换局留存,arrived_at_hub,
+486,送交境外进口海关,customs_declared,
+487,境外进口海关放行,customs_released,
+488,到达境外经转局,arrived_at_hub,
+489,离开境外经转局,departed_from_hub,
+490,境外投递点留存,arrived_at_destination,
+491,到达境外自提点,delivery_to_locker,
+492,境外进口取消,exception,
+493,境外进口海关留存待验,customs_held,
+494,离开境外出口互换局,departed_from_hub,
+495,到达境外经转局（第三国经转）,arrived_at_hub,
+496,离开境外经转局（第三国经转）,departed_from_hub,
+498,到达境外二级处理中心,arrived_at_hub,
+499,计划交航,in_transit,
+500,航空公司接收,transferred_to_carrier,运输模式（航空）信息归 notes
+505,飞机到达进港,arrived_at_hub,运输模式（航空）信息归 notes
+506,口岸接收扫描,arrived_at_hub,
+516,总包到底寄达地,arrived_at_destination,
+520,口岸（水陆路）到达,arrived_at_hub,运输模式（水陆路）信息归 notes
+521,口岸（水陆路）离开,departed_from_hub,运输模式（水陆路）信息归 notes
+533,理货确认,in_transit,
+534,理货异常,exception,
+538,已送交承运商,transferred_to_carrier,
+542,境外试投失败,delivery_attempted,
+552,发送ITMATT,in_transit,UPU ITMATT 信息交换报文
+553,接收到M53信息（RFI/ERR）,exception,UPU M53 错误反馈
+554,接收到M53信息（RFS）,in_transit,UPU M53 RFS
+555,接收到M53信息（DNL）,in_transit,UPU M53 DNL
+556,接收到M53信息（ASC）,in_transit,UPU M53 ASC
+557,发送M54信息（补充订单）,in_transit,UPU M54 补充订单
+558,发送M54信息（安检确认）,in_transit,UPU M54 安检确认
+562,境外进口海关批准,customs_released,
+563,境外海关批准进口,customs_released,
+564,境外海关拒绝（禁止）进口,customs_held,海关拒绝进口按扣留处理
+565,到达海关指定机构,customs_declared,
+651,物流异常提醒,exception,
+702,投递下段,out_for_delivery,
+704,投递结果反馈-妥投,delivered,
+705,投递结果反馈-未妥投,delivery_attempted,
+708,退件登记,return_initiated,
+711,退回妥投,returned_to_sender,退回路径完成到发件人
+713,到达投递机构,arrived_at_destination,
+723,转窗投,delivery_attempted,转营业网点窗口投交
+741,妥投退回登记,return_initiated,从妥投态发起退回
+742,投递下段撤销,exception,事件冲销：作废 702
+743,投递妥投撤销,exception,事件冲销：作废 704
+744,投递未妥投撤销,exception,事件冲销：作废 705
+747,包裹柜/自提点已接收,delivery_to_locker,
+748,收件人已取走邮件,delivered,自提柜签收
+749,投递员取走邮件,out_for_delivery,投递员从代收点取回再投
+750,投递员收回邮件,return_initiated,从代收点取回准备退回
+751,包裹柜运营管理员取走邮件,exception,柜运营动作非派送
+756,电子渠道收件人改址,address_issue,
+764,已支付尾款,order_created,运单生效（尾款支付完成）
+801,撤单,order_cancelled,
+802,改址,address_issue,
+803,总部改址,address_issue,
+893,处理中心分拣机主动齐格,in_transit,
+911,航班起飞,departed_from_hub,运输模式（航空）信息归 notes
+912,航班降落,arrived_at_hub,运输模式（航空）信息归 notes
+913,RFID齐格封发,in_transit,
+916,处理中心包分机自动齐格,in_transit,
+931,南集齐格-总包入箱,in_transit,
+932,南集齐格-二码合一封发,in_transit,
+937,南集齐格-封袋,in_transit,
+950,送交承运商,transferred_to_carrier,
+954,邮件到达处理中心,arrived_at_hub,
+973,进口二次安检,customs_inspection,
+987,丢失已赔付（赔付给协议客户）,lost,赔付路径：协议客户
+988,丢失已赔付（赔付给收件人）,lost,赔付路径：收件人
+991,长途运输提示,in_transit,
+993,F邮件拦截指令发布,exception,F 邮件拦截
+C_001,到达,arrived_at_destination,
+C_002,待清关,customs_declared,
+C_003,已通关,clearance_completed,
+C_004,税单已出,customs_duty_paid,关税评估完成
+C_005,待征税,customs_held,税未缴留存
+C_006,待申报,customs_declared,
+C_007,申报审核未通过,customs_held,
+C_008,已放行,customs_released,
+C_009,退运,returned_to_sender,
+C_010,正在报关,customs_declared,
+C_011,海关查扣,customs_held,
+C_012,清关延误,customs_held,
+C_032,已通关,clearance_completed,与 C_003 同义不同触发链
+C_033,正在报关,customs_declared,与 C_010 同义不同触发链
+O_001,入库收寄,picked_up,
+O_002,已通关,clearance_completed,
+O_003,送往机场,in_transit,运输模式（航空）信息归 notes
+O_004,离港,departed_from_hub,
+O_005,转运中,in_transit,
+O_006,停发,exception,
+O_007,目的地转运中,in_transit,
+O_008,到达处理中心,arrived_at_hub,
+O_009,离开处理中心,departed_from_hub,
+O_010,已投递,delivered,
+O_011,退回,returned_to_sender,
+O_012,拒收,refused,
+O_013,投递失败,delivery_attempted,
+O_014,出门投递,out_for_delivery,
+O_016,已妥投,delivered,与 O_010 同义不同触发链
+O_017,到达待取,awaiting_pickup,
+O_020,邮件复重,in_transit,重量复核业务操作
+O_022,离境封发,departed_from_hub,
+O_029,互封封发,in_transit,
+O_031,等待出口清关,customs_declared,
+O_032,离开收寄机构,departed_from_hub,
+O_033,达到处理中心,arrived_at_hub,与 O_008 同义不同触发链
+O_034,离开处理中心,departed_from_hub,与 O_009 同义不同触发链
+O_035,启运,departed_from_hub,
+O_036,中转,in_transit,
+O_037,到达,arrived_at_destination,
+O_038,目的国待清关,customs_declared,
+O_039,目的国待申报,customs_declared,
+O_040,目的国申报审核未通过,customs_held,
+O_041,目的国海关查扣,customs_held,
+O_042,目的国清关延误,customs_held,
+O_043,目的国已通关,clearance_completed,
+O_044,目的国已放行,customs_released,
+O_045,出口清关异常,exception,
+O_046,出口清关完成,clearance_completed,
+O_047,承运商接收,transferred_to_carrier,
+O_048,目的国清关异常,exception,
+O_049,到达投递点,arrived_at_destination,
+O_050,已交承运商运输,transferred_to_carrier,
+O_051,到达境外目的地,arrived_at_destination,
+V_398,处理中心封车,departed_from_hub,与 389 处理中心封车同义
+V_954,邮件到达处理中心,arrived_at_hub,与 954 邮件到达处理中心同义
+EDA,进口互换局留存,arrived_at_hub,UPU 标准事件（互换局是邮政枢纽非海关）
+EDAD,进口互换局留存删除,exception,事件冲销：作废 EDA
+EDB,送交进口海关,customs_declared,UPU 标准事件
+EDC,进口海关放行,customs_released,UPU 标准事件
+EDCD,进口海关放行删除,exception,事件冲销：作废 EDC
+EME,进口海关留存待验,customs_held,UPU 标准事件
+EMED,进口海关留存待验删除,exception,事件冲销：作废 EME
+EXA,送交出口海关/安全,customs_declared,UPU 标准事件（出口段）
+EXAD,送交出口海关/安全删除,exception,事件冲销：作废 EXA
+EXB,出口海关/安全留存待验,customs_held,UPU 标准事件
+EXBD,出口海关/安全留存待验删除,exception,事件冲销：作废 EXB
+EXC,出口海关/安全放行,customs_released,UPU 标准事件
+EXCD,出口海关/安全放行删除,exception,事件冲销：作废 EXC
+EXD,出口互换局留存,arrived_at_hub,UPU 标准事件
+EXDD,出口互换局留存删除,exception,事件冲销：作废 EXD
+signed:10,本人签收,delivered,
+signed:20,他人代收,signed_by_third_party,
+signed:30,自提点,delivery_to_locker,
+signed:50,包裹柜,delivery_to_locker,
+signed:60,收发室,signed_by_third_party,
+signed:70,物业,signed_by_third_party,
+signed:80,刊邮站,delivery_to_locker,刊邮站类似自提点
+signed:90,协议信箱,delivery_to_locker,
+signed:100,其他,delivered,通用签收
+signed:120,对台仓储中心,delivery_to_locker,
+signed:150,信报箱,delivery_to_locker,
+signed:160,村（牧、矿）委会签收,signed_by_third_party,
+signed:161,家门口,delivered,家门口放置签收
+signed:162,办公室收,signed_by_third_party,
+signed:163,水表箱,delivery_to_locker,
+signed:164,电表箱,delivery_to_locker,
+signed:165,消防栓,delivery_to_locker,
+signed:166,门把手,delivered,门把手挂件签收
+signed:167,牛奶箱,delivery_to_locker,
+signed:168,鞋架,delivered,
+signed:169,无人代收,delivered,无明确代签人的签收
+signed:180,理赔签收,exception,理赔流程非常规签收
+signed:181,巡视信箱签收,delivered,
+signed:ZDY,自定义签收,delivered,
+unsigned:1,收件人名址有误/不详/不在地址且电话无法接通待再投,delivery_attempted,
+unsigned:2,收件人名址有误/不详且无法联系,address_issue,
+unsigned:3,查无此人/单位且无法联系,address_issue,
+unsigned:4,收件人不在地址且无法联系,recipient_unavailable,
+unsigned:5,迁移新址不明且无法联系,address_issue,
+unsigned:6,收件人要求延迟投递（再投）,delivery_attempted,
+unsigned:7,拒收,refused,
+unsigned:8,收件人要求自取（存局）,awaiting_pickup,
+unsigned:9,转营业窗口投交（转窗投）,delivery_to_locker,
+unsigned:10,撤回,return_initiated,
+unsigned:11,收件人改址（转）,address_issue,
+unsigned:12,寄件人改址（转）,address_issue,
+unsigned:13,邮件丢失,lost,
+unsigned:14,待收费后投递（存局）,awaiting_pickup,
+unsigned:15,等待退回仓库或发货方（存局）,return_initiated,
+unsigned:16,其他,exception,通用占位
