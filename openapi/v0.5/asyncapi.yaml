@@ -1,0 +1,130 @@
+asyncapi: 2.6.0
+info:
+  title: OLTS Tracking Events — Webhook
+  version: 0.5.0-dev
+  description: |
+    OLTS Gateway 通过 webhook 把归一化的轨迹事件推送给业务订阅方。
+
+    本 AsyncAPI spec 描述**消息 schema**和**通道**；传输层契约
+    （HMAC 签名、幂等、重试、DLQ）见 [webhook.md](./webhook.md)；
+    订阅创建的 HTTP API 见 [tracking.yaml](./tracking.yaml) 的
+    `POST /tracking/subscriptions`。
+
+    Schema $ref 到 OLTS v0.2 JSON Schemas — 字典统一。
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: OLTS Project
+    url: https://github.com/open-logistics-tracking/OpenLogisticsTrackingSchema
+
+servers:
+  webhook:
+    url: '{callbackUrl}'
+    protocol: https
+    description: Subscriber-provided webhook endpoint
+    variables:
+      callbackUrl:
+        description: URL provided when creating subscription via POST /tracking/subscriptions
+        default: https://subscriber.example.com/olts-webhook
+
+defaultContentType: application/json
+
+channels:
+  tracking/event:
+    description: |
+      单个轨迹事件推送通道。OLTS Gateway 是 publish 端，订阅方是 subscribe 端。
+      每条消息是一个独立的 TrackingEvent。
+    subscribe:
+      operationId: receiveTrackingEvent
+      summary: Receive a tracking event from OLTS Gateway
+      message:
+        $ref: '#/components/messages/TrackingEventMessage'
+
+  tracking/delivered:
+    description: Filtered channel — only `oltsCode == "delivered"` events
+    subscribe:
+      operationId: receiveDeliveredEvent
+      summary: Receive only delivered events
+      message:
+        $ref: '#/components/messages/TrackingEventMessage'
+
+  tracking/exception:
+    description: Filtered channel — only `oltsCode == "exception"` and customs/exception family events
+    subscribe:
+      operationId: receiveExceptionEvent
+      summary: Receive only exception events
+      message:
+        $ref: '#/components/messages/TrackingEventMessage'
+
+components:
+  messages:
+    TrackingEventMessage:
+      name: TrackingEventMessage
+      title: OLTS Tracking Event
+      summary: One normalized OLTS TrackingEvent
+      contentType: application/json
+      headers:
+        type: object
+        required:
+          - X-OLTS-Event-Id
+          - X-OLTS-Event-Timestamp
+          - X-OLTS-Signature
+          - X-OLTS-Subscription-Id
+          - X-OLTS-Delivery-Attempt
+        properties:
+          X-OLTS-Event-Id:
+            type: string
+            description: ULID/UUID. Idempotency key for the subscriber to dedupe.
+            example: 01HF8K2X3Z9P4VY7QWERTYUIOP
+          X-OLTS-Event-Timestamp:
+            type: string
+            description: Unix epoch seconds. Reject if older than now-300s.
+            example: "1717488131"
+          X-OLTS-Signature:
+            type: string
+            description: HMAC-SHA256 of "<timestamp>.<body>" with subscription secret. Format "sha256=<hex>".
+            example: "sha256=4f5a0e7c8b9d2e1f..."
+          X-OLTS-Subscription-Id:
+            type: string
+            description: Subscription ID returned from POST /tracking/subscriptions.
+            example: sub_1a2b3c4d
+          X-OLTS-Delivery-Attempt:
+            type: integer
+            minimum: 1
+            description: 1-based retry counter. See webhook.md "Retries" section.
+            example: 1
+          X-OLTS-Schema-Version:
+            type: string
+            default: v0.2
+            description: OLTS schema version of the event body.
+      payload:
+        $ref: '../../schemas/v0.2/tracking-event.json'
+      examples:
+        - name: sf-delivered
+          summary: 顺丰国内签收事件
+          headers:
+            X-OLTS-Event-Id: 01HF8K2X3Z9P4VY7QWERTYUIOP
+            X-OLTS-Event-Timestamp: "1717488131"
+            X-OLTS-Signature: "sha256=4f5a0e7c8b9d2e1f..."
+            X-OLTS-Subscription-Id: sub_1a2b3c4d
+            X-OLTS-Delivery-Attempt: 1
+          payload:
+            eventTime: "2024-06-04T18:42:11+08:00"
+            carrierCode: sf
+            carrierEventCode: opcode:160
+            oltsCode: delivered
+            description: 客户签收
+            location:
+              city: 北京
+              countryCode: CN
+
+  securitySchemes:
+    HMACSignature:
+      type: symmetricEncryption
+      description: |
+        Each message carries an HMAC-SHA256 signature in X-OLTS-Signature header.
+        Computed as HMAC(secret, timestamp + "." + body), hex lowercase, prefixed
+        with "sha256=". The subscription secret is exchanged out-of-band when
+        the subscription is created.
+        Full algorithm and reference implementations: see webhook.md.

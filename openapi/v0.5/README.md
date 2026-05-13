@@ -25,7 +25,19 @@
 |---|---|
 | `GET /tracking/{trackingNumber}` | 返回事件流（轻量，适合主页 timeline 展示） |
 | `GET /tracking/{trackingNumber}/shipment` | 返回完整 Shipment 实体（含 origin/destination/pieces） |
-| `POST /tracking/subscriptions` | 订阅 webhook 推送（v0.5 Draft，签名/重试待补） |
+| `POST /tracking/subscriptions` | 创建 webhook 订阅 |
+
+## Webhook 推送规范
+
+订阅创建后，OLTS Gateway 通过 HTTPS POST 把事件推到订阅方提供的
+`callbackUrl`。完整规范见两份配套文档：
+
+- [`webhook.md`](./webhook.md) — 传输层契约（HMAC-SHA256 签名 / 幂等 /
+  指数退避重试 13 次 / DLQ / subscriber 实现建议 + Python/Node.js 验签
+  reference impl）
+- [`asyncapi.yaml`](./asyncapi.yaml) — AsyncAPI 2.6 消息 schema，定义
+  3 个 channel（all / delivered / exception 过滤）+ 必传 headers
+  + 引用 v0.2 TrackingEvent JSON Schema
 
 ## 与 OLTS v0.2 关系
 
@@ -36,8 +48,8 @@ Examples 也用 `examples/v0.2/*.json` 的 `externalValue` 引用，避免重复
 
 ## v0.5 剩余工作
 
-- ⏳ Webhook 设计完整化：签名（HMAC-SHA256）+ 幂等 + 重试退避策略
-- ⏳ AsyncAPI 2.x spec for webhook 端（与 OpenAPI 互补）
+- ✅ Webhook 设计完整化（HMAC-SHA256 签名 / 幂等 / 13 次指数退避 / DLQ）—— [webhook.md](./webhook.md)
+- ✅ AsyncAPI 2.6 spec for webhook 端（与 OpenAPI 互补）—— [asyncapi.yaml](./asyncapi.yaml)
 - ⏳ 数据质量评价框架（完整度 / 时效性 / 一致性 metrics）
 - ⏳ TypeScript SDK `@oltrack/sdk` 自动生成
 
