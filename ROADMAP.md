@@ -32,7 +32,7 @@
 
 示例: [examples/v0.2/](./examples/v0.2/) — sf / dhl / usps 三个真实事件实例。
 
-## v0.5 — API 规范（2026 Q4，🚧 启动中）
+## v0.5 — API 规范（2026 Q4，✅ 主体完成）
 
 - ✅ `OpenAPI 3.1` 轨迹查询接口骨架 — [openapi/v0.5/tracking.yaml](./openapi/v0.5/tracking.yaml)
   - `GET /tracking/{trackingNumber}` — 返回事件流 (TrackingEvent[])
@@ -44,7 +44,9 @@
   [openapi/v0.5/webhook.md](./openapi/v0.5/webhook.md)
 - ✅ AsyncAPI 2.6 spec 互补 — [openapi/v0.5/asyncapi.yaml](./openapi/v0.5/asyncapi.yaml)
 - ✅ 数据质量评价框架 4 维度 15 metric — [openapi/v0.5/data-quality.md](./openapi/v0.5/data-quality.md)
-- ⏳ TypeScript SDK：`@oltrack/sdk` 自动生成
+- ✅ TypeScript SDK MVP `@oltrack/sdk` — [oltrack-ts/](./oltrack-ts/)
+  零依赖 ESM 包，完整 TypeScript 类型 (UlscCode 32 codes union /
+  TrackingEvent / Shipment)，sf reference adapter，vitest 11 测试
 
 ## v1.0 — 稳定版（2027 H1）
 

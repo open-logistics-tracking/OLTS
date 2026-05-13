@@ -2,13 +2,13 @@
 
 > 开放物流轨迹数据规范
 >
-> v0.1.0 ✅ 已发布 · v0.2.0-dev ✅ 主体完成 · v0.5.0-dev 🚧 启动中
+> v0.1.0 ✅ 已发布 · v0.2.0-dev ✅ 主体完成 · v0.5.0-dev ✅ 主体完成
 
 中国主流快递企业的物流轨迹 API 在字段命名、状态码、签名方式上完全碎片化：对接 3 家以上承运商，技术适配成本就呈指数增长。OLTS 提供一份开放的、由社区维护的统一规范，让上下游系统只需一次对接。
 
 ```
 12 carriers   |   14 mapping files   |   1761 raw codes   |   ULSC 32/32 used
-2 schemas     |   16 examples         |   oltrack-py MVP   |   OpenAPI 3.1 spec
+2 schemas + OpenAPI/AsyncAPI   |   oltrack-py + @oltrack/sdk   |   零运行时依赖
 ```
 
 ---
@@ -174,17 +174,17 @@ python3 tools/validate_schemas.py
 ---
 
 
-## v0.5 — HTTP 接口规范 🚧
+## v0.5 — HTTP 接口规范 + 多语言 SDK ✅
 
 把 OLTS 归一化数据通过 HTTP 暴露给上游消费者。OpenAPI 3.1 spec，响应 schema $ref 到 v0.2 JSON Schemas。
 
 | 交付物 | 状态 | 入口 |
 |---|---|---|
-| OpenAPI 3.1 接口骨架 | ✅ Draft | [openapi/v0.5/tracking.yaml](./openapi/v0.5/tracking.yaml) |
-| Webhook 签名 + 幂等 + 重试 | ⏳ | — |
-| AsyncAPI 2.x 互补 spec | ⏳ | — |
-| 数据质量评价框架 | ⏳ | — |
-| TypeScript SDK 自动生成 | ⏳ | — |
+| OpenAPI 3.1 接口规范（3 接口） | ✅ | [openapi/v0.5/tracking.yaml](./openapi/v0.5/tracking.yaml) |
+| Webhook 完整规范（HMAC / 幂等 / 13 次指数退避 / DLQ） | ✅ | [openapi/v0.5/webhook.md](./openapi/v0.5/webhook.md) |
+| AsyncAPI 2.6 消息 spec | ✅ | [openapi/v0.5/asyncapi.yaml](./openapi/v0.5/asyncapi.yaml) |
+| 数据质量评价框架（4 维 15 metric） | ✅ | [openapi/v0.5/data-quality.md](./openapi/v0.5/data-quality.md) |
+| TypeScript SDK `@oltrack/sdk` MVP | ✅ | [oltrack-ts/](./oltrack-ts/) |
 
 定义 3 个接口（详见 [`openapi/v0.5/README.md`](./openapi/v0.5/README.md)）:
 
@@ -193,6 +193,22 @@ python3 tools/validate_schemas.py
 - `POST /tracking/subscriptions` — Webhook 订阅（Draft）
 
 范围声明: v0.5 只规范"消费方接口"。承运商接入侧的鉴权 / 签名 / 限流由实现方包；服务端实现 OLTS 不提供 reference。
+
+
+### TypeScript SDK `@oltrack/sdk`
+
+Node.js / 浏览器消费者的零依赖 ESM 包，完整 TypeScript 类型：
+
+```typescript
+import { event, shipment, isValidUlscCode } from "@oltrack/sdk";
+import { normalizeResponse } from "@oltrack/sdk/adapters/sf";
+
+const events = normalizeResponse(sfApiResponse);
+// events: TrackingEvent[]
+// IDE 自动补全 32 个 UlscCode、tree-shaking 友好
+```
+
+完整指南：[`oltrack-ts/README.md`](./oltrack-ts/README.md)
 
 ---
 
@@ -222,7 +238,8 @@ mappings/                12 家承运商 raw_code → ULSC 映射 CSV
 schemas/v0.2/            JSON Schema (TrackingEvent + Shipment)
 examples/v0.2/           17 个 Schema 实例（覆盖 12 家）
 oltrack-py/              Python 参考实现（零运行时依赖）
-openapi/v0.5/            OpenAPI 3.1 接口规范
+openapi/v0.5/            OpenAPI 3.1 接口规范 + Webhook + AsyncAPI + 数据质量框架
+oltrack-ts/              TypeScript SDK @oltrack/sdk
 tools/                   validate.py (CSV) + validate_schemas.py (JSON Schema)
 data-sources/            12 家承运商来源元数据 + 版权归属
 posts/                   首发文章 + 后续文档
@@ -235,7 +252,7 @@ posts/                   首发文章 + 后续文档
 
 - **v0.1（已完成）**: ULSC 字典 + 12 家承运商映射表 + Python 校验
 - **v0.2（主体完成）**: TrackingEvent + Shipment JSON Schema + oltrack-py MVP
-- **v0.5（启动中）**: OpenAPI 3.1 接口规范骨架；Webhook/AsyncAPI/SDK 待补
+- **v0.5（主体完成）**: OpenAPI 3.1 + Webhook + AsyncAPI 2.6 + 数据质量框架 + TypeScript SDK MVP
 - **v1.0（2027 H1）**: 稳定版 + 多语言 SDK + 申请中物联团体标准立项
 
 完整 [ROADMAP](./ROADMAP.md)。
