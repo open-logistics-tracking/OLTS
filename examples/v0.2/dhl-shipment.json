@@ -1,0 +1,87 @@
+{
+  "trackingNumber": "0034988765432",
+  "carrierCode": "dhl",
+  "service": "express",
+  "currentStatus": "customs_released",
+  "origin": {
+    "city": "Shanghai",
+    "state": "Shanghai",
+    "country": "China",
+    "countryCode": "CN"
+  },
+  "destination": {
+    "city": "Frankfurt",
+    "state": "Hesse",
+    "country": "Germany",
+    "countryCode": "DE",
+    "postalCode": "60313"
+  },
+  "estimatedDelivery": {
+    "from": "2024-06-05T09:00:00+02:00",
+    "through": "2024-06-05T18:00:00+02:00"
+  },
+  "weight": { "value": 3.2, "unit": "KG" },
+  "dimensions": { "length": 40, "width": 30, "height": 15, "unit": "CM" },
+  "declaredValue": { "amount": 850.0, "currency": "EUR" },
+  "pieces": [
+    {
+      "pieceId": "0034988765432-1",
+      "weight": { "value": 1.8, "unit": "KG" }
+    },
+    {
+      "pieceId": "0034988765432-2",
+      "weight": { "value": 1.4, "unit": "KG" }
+    }
+  ],
+  "events": [
+    {
+      "eventTime": "2024-06-03T11:38:00+08:00",
+      "carrierCode": "dhl",
+      "carrierEventCode": "PCKDU:PUBCR",
+      "oltsCode": "picked_up",
+      "description": { "en": "Picked up", "de": "Abgeholt" },
+      "location": {
+        "name": "DHL Shanghai Gateway",
+        "city": "Shanghai",
+        "countryCode": "CN"
+      },
+      "transport": { "mode": "ROAD" }
+    },
+    {
+      "eventTime": "2024-06-03T22:15:00+08:00",
+      "carrierCode": "dhl",
+      "carrierEventCode": "status:transit",
+      "oltsCode": "departed_from_hub",
+      "description": "Departed from Shanghai gateway",
+      "location": { "name": "Shanghai Pudong Intl Airport", "city": "Shanghai", "countryCode": "CN" },
+      "transport": { "mode": "AIR", "vehicleNumber": "LH729", "operatingCarrier": "LH" }
+    },
+    {
+      "eventTime": "2024-06-04T03:17:00+02:00",
+      "carrierCode": "dhl",
+      "carrierEventCode": "DLVRD:CUSTM",
+      "oltsCode": "customs_declared",
+      "description": { "en": "Handed over to customs", "de": "Übergabe an Zoll" },
+      "location": {
+        "name": "Frankfurt Airport Customs",
+        "city": "Frankfurt",
+        "countryCode": "DE",
+        "coordinates": { "latitude": 50.0379, "longitude": 8.5622 }
+      },
+      "pieceId": "0034988765432-1"
+    },
+    {
+      "eventTime": "2024-06-04T07:55:00+02:00",
+      "carrierCode": "dhl",
+      "carrierEventCode": "RSDCP:OARRV",
+      "oltsCode": "customs_released",
+      "description": { "en": "Released from clearance processing on arrival" },
+      "location": { "name": "Frankfurt Airport Customs", "city": "Frankfurt", "countryCode": "DE" }
+    }
+  ],
+  "metadata": {
+    "service": "express",
+    "originCountry": "CN",
+    "destinationCountry": "DE"
+  }
+}

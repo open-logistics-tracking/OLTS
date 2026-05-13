@@ -22,7 +22,12 @@
   - 可选: `carrierCode` / `carrierEventCode` / `location` (结构化地址含 ISO 3166-1 alpha-2 国家码) /
     `operator` / `pieceId` / `transport` (mode + 车辆号) / `description` (单字符串或多语言字典) /
     `isLogicalEvent` / `notes` / `metadata` (兜底扩展)
-- ⏳ `Shipment` JSON Schema — 运单实体（含 origin / destination / pieces[] / events[]）
+- ✅ `Shipment` JSON Schema Draft 1 — [schemas/v0.2/shipment.json](./schemas/v0.2/shipment.json)
+  - 必填: `trackingNumber` + `events[]`（≥1 个）
+  - 可选: `carrierCode` / `service` / `currentStatus` / `origin` + `destination` (Address with ISO 3166) /
+    `estimatedDelivery` (date 或 from-through 窗口) / `actualDelivery` / `pieces[]` (含 weight+dimensions) /
+    `weight` / `dimensions` / `declaredValue` (ISO 4217) / `isReturn` / `metadata`
+  - `events[].$ref` 引用 tracking-event.json 字典统一
 - ⏳ Python 参考实现：`oltrack-py`（承运商响应 → OLTS 事件转换器）
 
 示例: [examples/v0.2/](./examples/v0.2/) — sf / dhl / usps 三个真实事件实例。

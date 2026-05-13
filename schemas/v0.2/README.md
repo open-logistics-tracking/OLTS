@@ -7,7 +7,18 @@ JSON Schema 实体定义，从 v0.1 mapping 经验中凝结。
 | Schema | 文件 | 状态 |
 |---|---|---|
 | `TrackingEvent` | [tracking-event.json](./tracking-event.json) | ✅ Draft 1 |
-| `Shipment`      | (planned)                                    | ⏳ 计划中 |
+| `Shipment`      | [shipment.json](./shipment.json)             | ✅ Draft 1 |
+
+## Shipment
+
+`Shipment` 是 `TrackingEvent` 的容器实体：
+
+- **trackingNumber + events[]** 是仅有的两个必填字段
+- 引用 `tracking-event.json` 的 `UlscCode` 定义保持字典统一
+- `pieces[]` 支持多 piece 运单（DHL/UPS 关键场景）
+- `declaredValue` 用 ISO 4217 货币代码（跨境必需）
+- `Address` 子结构含 ISO 3166-1 alpha-2，free-form addressLines 兼容国内只到城市的低粒度数据
+- `Weight` / `Dimensions` 标准单位枚举（KG/LB/G/OZ; CM/IN/M/MM）
 
 ## 设计原则
 

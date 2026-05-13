@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/open-logistics-tracking/OpenLogisticsTrackingSchema/main/schemas/v0.2/shipment.json",
+  "title": "OLTS Shipment",
+  "description": "A normalized logistics shipment with full event history. OLTS v0.2 draft.",
+  "type": "object",
+  "required": ["trackingNumber", "events"],
+  "additionalProperties": false,
+  "properties": {
+    "trackingNumber": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Carrier-assigned tracking number (e.g. '73100059800035', '1Z999AA10123456784'). The primary key for this shipment."
+    },
+    "carrierCode": {
+      "type": "string",
+      "description": "Slug identifying the carrier (matches mappings/ directory)."
+    },
+    "service": {
+      "type": "string",
+      "description": "Service level / product name as provided by carrier (e.g. 'express', 'parcel-de', 'UPS Ground', '顺丰特快')."
+    },
+    "currentStatus": {
+      "$ref": "tracking-event.json#/$defs/UlscCode",
+      "description": "Snapshot of the shipment's latest oltsCode. Convenience field; authoritative source is events[].oltsCode of the most recent event."
+    },
+    "origin": {
+      "$ref": "#/$defs/Address",
+      "description": "Origin address (where the shipment was picked up)."
+    },
+    "destination": {
+      "$ref": "#/$defs/Address",
+      "description": "Destination address (where the shipment is being delivered)."
+    },
+    "estimatedDelivery": {
+      "oneOf": [
+        { "type": "string", "format": "date" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["from", "through"],
+          "properties": {
+            "from":    { "type": "string", "format": "date-time" },
+            "through": { "type": "string", "format": "date-time" }
+          }
+        }
+      ],
+      "description": "Estimated delivery as a date or a [from, through] window. Carriers like FedEx return a window; others return a single date."
+    },
+    "actualDelivery": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Actual delivery timestamp. ISO 8601 with timezone."
+    },
+    "pieces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["pieceId"],
+        "properties": {
+          "pieceId":    { "type": "string" },
+          "weight":     { "$ref": "#/$defs/Weight" },
+          "dimensions": { "$ref": "#/$defs/Dimensions" }
+        }
+      },
+      "description": "Sub-pieces of a multi-piece shipment. Omit for single-piece shipments. DHL/UPS support piece-level tracking; events[] may carry per-piece pieceId references."
+    },
+    "events": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "tracking-event.json" },
+      "description": "Chronological tracking events. Order is carrier-dependent; consumers SHOULD sort by eventTime before display."
+    },
+    "weight":     { "$ref": "#/$defs/Weight" },
+    "dimensions": { "$ref": "#/$defs/Dimensions" },
+    "declaredValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["amount", "currency"],
+      "properties": {
+        "amount":   { "type": "number", "minimum": 0 },
+        "currency": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 4217 currency code (e.g. CNY, USD, EUR)." }
+      },
+      "description": "Declared value for customs / insurance. Mostly used for cross-border shipments."
+    },
+    "isReturn": {
+      "type": "boolean",
+      "default": false,
+      "description": "true if this shipment is a return / reverse logistics flow."
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Carrier-specific extension fields not covered by the standard properties."
+    }
+  },
+  "$defs": {
+    "Address": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name":         { "type": "string", "description": "Recipient/sender name (may be masked by carrier policy)." },
+        "company":      { "type": "string" },
+        "phone":        { "type": "string", "description": "Contact phone (may be masked)." },
+        "addressLines": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Free-form address lines (street, suite, etc.) in local language order. Many domestic Chinese carriers return only city/district granularity."
+        },
+        "city":        { "type": "string" },
+        "state":       { "type": "string", "description": "State, province or region." },
+        "country":     { "type": "string", "description": "Country name in local language." },
+        "countryCode": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "description": "ISO 3166-1 alpha-2 country code (e.g. 'CN', 'US', 'DE')."
+        },
+        "postalCode":  { "type": "string" }
+      },
+      "description": "Postal address. All fields optional — provide what the carrier returns. SHOULD respect carrier-side masking (don't unmask phone numbers/names that were masked upstream)."
+    },
+    "Weight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "unit"],
+      "properties": {
+        "value": { "type": "number", "minimum": 0 },
+        "unit":  { "type": "string", "enum": ["KG", "LB", "G", "OZ"] }
+      }
+    },
+    "Dimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["length", "width", "height", "unit"],
+      "properties": {
+        "length": { "type": "number", "minimum": 0 },
+        "width":  { "type": "number", "minimum": 0 },
+        "height": { "type": "number", "minimum": 0 },
+        "unit":   { "type": "string", "enum": ["CM", "IN", "M", "MM"] }
+      }
+    }
+  }
+}

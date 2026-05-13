@@ -1,0 +1,64 @@
+{
+  "trackingNumber": "SF1234567890",
+  "carrierCode": "sf",
+  "service": "顺丰特快",
+  "currentStatus": "delivered",
+  "origin": {
+    "city": "上海",
+    "state": "上海",
+    "country": "中国",
+    "countryCode": "CN"
+  },
+  "destination": {
+    "city": "北京",
+    "state": "北京",
+    "country": "中国",
+    "countryCode": "CN"
+  },
+  "estimatedDelivery": "2024-06-05",
+  "actualDelivery": "2024-06-04T18:42:11+08:00",
+  "weight": { "value": 1.5, "unit": "KG" },
+  "events": [
+    {
+      "eventTime": "2024-06-03T09:15:00+08:00",
+      "carrierCode": "sf",
+      "carrierEventCode": "opcode:30",
+      "oltsCode": "picked_up",
+      "description": "揽收成功",
+      "location": {
+        "name": "上海浦东陆家嘴营业部",
+        "city": "上海",
+        "countryCode": "CN"
+      },
+      "operator": { "name": "张师傅", "phone": "186****1234" }
+    },
+    {
+      "eventTime": "2024-06-03T22:48:00+08:00",
+      "carrierCode": "sf",
+      "carrierEventCode": "opcode:70",
+      "oltsCode": "departed_from_hub",
+      "description": "离开中转场",
+      "location": {
+        "name": "上海浦东集散中心",
+        "city": "上海",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-04T18:42:11+08:00",
+      "carrierCode": "sf",
+      "carrierEventCode": "opcode:160",
+      "oltsCode": "delivered",
+      "description": "客户签收",
+      "location": {
+        "name": "北京朝阳CBD营业部",
+        "city": "北京",
+        "countryCode": "CN"
+      },
+      "operator": { "name": "李师傅", "phone": "139****5678" }
+    }
+  ],
+  "metadata": {
+    "expressStatus": 6
+  }
+}
