@@ -70,23 +70,21 @@ DHL/UPS API 支持子包裹级事件，国内承运商基本是整票级。`piec
 
 ## 校验
 
+Repo 自带的脚本一行命令：
+
 ```bash
-pip install jsonschema
-python3 -c "
-import json
-from jsonschema import Draft202012Validator
-schema = json.load(open('schemas/v0.2/tracking-event.json'))
-Draft202012Validator.check_schema(schema)
-print('Schema valid')
-"
+pip install 'jsonschema>=4.18'
+python3 tools/validate_schemas.py
 ```
 
-实例校验：
+校验 2 件事：
+1. v0.2 每个 schema 文件本身的 Draft 2020-12 语法正确
+2. examples/v0.2/ 下所有 *.json 实例通过对应 schema 的实例校验
+   （routing 规则：`*-event.json` → tracking-event.json，
+   `*-shipment.json` → shipment.json）
 
-```python
-from jsonschema import validate
-validate(instance=event_obj, schema=schema)
-```
+跨文件 $ref 用 `referencing` 库正确解析（不是已 deprecated 的
+`RefResolver`）。
 
 ## examples/
 
