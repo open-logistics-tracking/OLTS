@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { categoryOf, event, isValidUlscCode, shipment } from "../src/index.js";
-import { normalizeResponse, normalizeToShipment } from "../src/adapters/sf.js";
+import { normalizeResponse as sfNormalize, normalizeToShipment as sfShip } from "../src/adapters/sf.js";
+import { normalizeResponse, normalizeToShipment } from "../src/adapters/dhl.js";
 
 describe("ulsc", () => {
   it("isValidUlscCode accepts known codes", () => {
@@ -64,7 +65,7 @@ describe("shipment()", () => {
 
 describe("sf adapter", () => {
   it("normalizes a single routeResps[] item", () => {
-    const events = normalizeResponse({
+    const events = sfNormalize({
       apiResultCode: "A0000",
       msgData: {
         waybillNo: "SF1234567890",
@@ -87,12 +88,12 @@ describe("sf adapter", () => {
   });
   it("throws on API error response", () => {
     expect(() =>
-      normalizeResponse({ apiResultCode: "E001", apiErrorMsg: "bad sig" })
+      sfNormalize({ apiResultCode: "E001", apiErrorMsg: "bad sig" })
     ).toThrow(/SF API error/);
   });
   it("throws on unknown opcode", () => {
     expect(() =>
-      normalizeResponse({
+      sfNormalize({
         apiResultCode: "A0000",
         msgData: {
           waybillNo: "SF1234567890",
@@ -102,7 +103,7 @@ describe("sf adapter", () => {
     ).toThrow(/unknown SF opcode/);
   });
   it("normalizeToShipment returns a Shipment", () => {
-    const ship = normalizeToShipment({
+    const ship = sfShip({
       apiResultCode: "A0000",
       msgData: {
         waybillNo: "SF1234567890",
@@ -118,5 +119,91 @@ describe("sf adapter", () => {
     expect(ship.currentStatus).toBe("delivered");
     expect(ship.events).toHaveLength(2);
     expect(ship.metadata?.expressStatus).toBe(6);
+  });
+});
+
+
+describe("dhl adapter", () => {
+  it("normalizes events with event:ric status", () => {
+    const events = normalizeResponse({
+      shipments: [{
+        trackingNumber: "0034988765432",
+        service: "express",
+        events: [
+          {
+            timestamp: "2024-06-04T03:17:00+02:00",
+            statusCode: "transit",
+            status: "DLVRD:CUSTM",
+            description: "Handed over to customs",
+            location: { address: { addressLocality: "Frankfurt - DE", countryCode: "DE" } },
+          },
+        ],
+      }],
+    });
+    expect(events).toHaveLength(1);
+    expect(events[0]!.oltsCode).toBe("customs_declared");
+    expect(events[0]!.carrierEventCode).toBe("DLVRD:CUSTM");
+    expect(events[0]!.location?.countryCode).toBe("DE");
+    expect(events[0]!.location?.city).toBe("Frankfurt");
+  });
+
+  it("falls back to status:statusCode form when no event:ric", () => {
+    const events = normalizeResponse({
+      shipments: [{
+        trackingNumber: "0034988765432",
+        events: [
+          {
+            timestamp: "2024-06-03T11:38:00+08:00",
+            statusCode: "delivered",
+            location: { address: { countryCode: "CN" } },
+          },
+        ],
+      }],
+    });
+    expect(events[0]!.oltsCode).toBe("delivered");
+    expect(events[0]!.carrierEventCode).toBe("status:delivered");
+  });
+
+  it("throws on unknown DHL code", () => {
+    expect(() =>
+      normalizeResponse({
+        shipments: [{
+          trackingNumber: "X",
+          events: [{ timestamp: "2024-06-04T03:17:00+02:00", status: "UNKWN:XXXXX" }],
+        }],
+      })
+    ).toThrow(/unknown DHL raw code/);
+  });
+
+  it("throws on missing status fields", () => {
+    expect(() =>
+      normalizeResponse({
+        shipments: [{ trackingNumber: "X", events: [{ timestamp: "2024-06-04T03:17:00+02:00" }] }],
+      })
+    ).toThrow(/missing both status and statusCode/);
+  });
+
+  it("normalizeToShipment yields full Shipment", () => {
+    const ship = normalizeToShipment({
+      shipments: [{
+        trackingNumber: "0034988765432",
+        service: "express",
+        origin: { address: { countryCode: "CN" } },
+        destination: { address: { countryCode: "DE" } },
+        estimatedTimeOfDelivery: "2024-06-05",
+        events: [
+          { timestamp: "2024-06-03T09:15:00+08:00", status: "PCKDU:PUBCR" },
+          { timestamp: "2024-06-04T03:17:00+02:00", status: "DLVRD:ACCPT" },
+        ],
+      }],
+    });
+    expect(ship.trackingNumber).toBe("0034988765432");
+    expect(ship.carrierCode).toBe("dhl");
+    expect(ship.service).toBe("express");
+    expect(ship.origin?.countryCode).toBe("CN");
+    expect(ship.destination?.countryCode).toBe("DE");
+    expect(ship.events).toHaveLength(2);
+    expect(ship.currentStatus).toBe("delivered");  // 最后事件 ACCPT → delivered
+    expect(ship.estimatedDelivery).toBe("2024-06-05");
   });
 });

@@ -69,8 +69,9 @@ if (isValidUlscCode(maybeCode)) {
 
 | Adapter | 文件 | 状态 |
 |---|---|---|
-| 顺丰 sf | `src/adapters/sf.ts` | ✅ MVP（部分 opcode 内联） |
-| 其他 11 家 | — | ⏳ 等社区贡献 |
+| 顺丰 sf | `src/adapters/sf.ts` | ✅ MVP（10 个核心 opcode 内联）|
+| DHL | `src/adapters/dhl.ts` | ✅ MVP（25 个核心 event:ric 内联）|
+| 其他 10 家 | — | ⏳ 等社区贡献 |
 
 每个 adapter 暴露 3 个函数：
 - `normalizeEvent(rawItem) → TrackingEvent` (单事件)
