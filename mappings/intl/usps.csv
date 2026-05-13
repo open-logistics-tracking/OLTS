@@ -1,15 +1,163 @@
-# Source: USPS Tracking V3 OpenAPI spec (usps-tracking_19.yaml, 用户提供 2026-05-13)
+# Source: USPS Publication 199 — Intelligent Mail Package Barcode (IMpb)
+#   Implementation Guide for Confirmation Services and Electronic Verification System
+#   - Appendix G-4: USPS Domestic Tracking Scan Events (72 个 2 位数字 event code)
+#     来源 PDF: infor/usps/pub-199-intelligent-mail-package-barcode-impb-implementation-guide.pdf
+#     (2019 v20 老版本，含完整 G-4 表；最新 v34 已把 G-4 移到 PostalPro 单独 PDF)
+#   - Appendix G-5: Scan Event Codes – International Mail (~50 个 2-字符 alpha event code)
+#     来源 PDF: infor/usps/Pub 199_v34_04012026.pdf (v34 最新版仍含完整 G-5)
 # Reviewer: @zhatrix
-# Coverage: 🟡 PARTIAL — 仅 1 条数据，待补 Pub 199 lookup table
-#   原因：USPS Tracking V3 OpenAPI spec 中 trackingEvents[].eventCode 和
-#         trackingDetails.status / statusCategory 字段均为 type:string，
-#         没有内联 enum 定义，文档明确指向外部 lookup table：
-#           * USPS Publication 199 Appendix G-4: Domestic Tracking Scan Events
-#           * USPS Publication 199 Appendix G-5: Scan Event Codes - International Mail
-#         （http://postalpro.usps.com/pub199）
-#   YAML spec 内的 enum 字段（mailClass / mailType / itemShape / MailingEventType /
-#   accessControl 等）都是元数据分类，不是 tracking event status，故不进映射。
-# Next: 用户登录 PostalPro 后提供 Pub 199 Appendix G-4/G-5 状态码表，预估补全后约
-#       100+ 条 raw eventCode → ULSC 映射。
+# Coverage: ✅ W3 complete — 122 条 USPS 官方 PTR Event Codes
+#   - 国内 72 条 (Appendix G-4，使用 2 位数字代码 01-89)
+#   - 国际 50 条 (Appendix G-5，使用 2 字符 alpha 代码 A0/AR/B1/CO 等)
+#   两套互不冲突（域内数字 vs 国际字母）；H0/H8 国际拒投 Action+Reason 子码组合
+#   60+ 条暂未纳入（消费方很少直接消费此细粒度），可在 v0.2 扩展。
+# Note: USPS Tracking API 的 trackingEvents[].eventCode 字段返回这些原始代码。
+#       消费方应优先使用 eventCode 做事件 timeline 主轴。同 event code 在 USPS
+#       多种 description 子类型下复用（如 01 涵盖 14+ 种"投递到 X"子分类），
+#       本映射取 Status Category 高层归类，sub-type 细节归 description 字段。
 carrier_code,carrier_name,olts_code,notes
-03,USPS in possession of item,picked_up,USPS Tracking V3 sample response example (Pub 199 完整表待补)
+01,Delivered (multiple sub-types: mailbox / front door / parcel locker / individual / agent / etc.),delivered,
+02,Notice left (delivery attempt),delivery_attempted,Notice left family base; codes 51-56 are sub-reason variants
+03,USPS in possession of item (acceptance),picked_up,
+04,Refused,refused,
+05,Unable to deliver - problem with address,address_issue,
+06,Forwarded,in_transit,转发到新地址
+07,Arrival at Post Office unit,arrived_at_destination,
+08,Missent,in_transit,误发已重新路由
+09,Return to sender (undeliverable as addressed),return_initiated,
+10,Processed through facility,in_transit,通过 USPS 分拣中心处理
+11,Seized by law enforcement,exception,
+12,Visible damage,damaged,
+13,Delivered with signature,delivered,常与 01 配对（认证签收）
+14,Available for pickup,awaiting_pickup,
+15,Mis-shipped,in_transit,
+16,Available for pickup (returns agent),awaiting_pickup,Parcel Return Service 路径
+17,Delivered to agent,signed_by_third_party,
+21,No such number,address_issue,
+22,No such street,address_issue,
+23,No such address,address_issue,
+24,Forward expired,address_issue,
+25,Addressee unknown,recipient_unavailable,
+26,Vacant address,address_issue,
+27,Unclaimed (max hold time expired) - return to sender,return_initiated,
+28,Return to sender,return_initiated,
+29,Return to sender,returned_to_sender,
+30,No access,delivery_attempted,
+31,Picked up at USPS facility,arrived_at_hub,
+32,Arrived at post office,arrived_at_destination,
+33,Processed at facility,in_transit,
+34,Picked up by agent,signed_by_third_party,
+35,Vault turnover,in_transit,USPS 内部
+36,Transfer to employee,in_transit,USPS 内部
+38,Registered mail dispatch signature,in_transit,挂号邮件交接
+39,Registered mail dispatch witness,in_transit,
+40,Transfer from vault,in_transit,
+41,Received at opening unit,arrived_at_hub,
+42,USPS hand off to shipping partner,transferred_to_carrier,
+43,Picked up,picked_up,
+44,Customer recall / intercepted,order_cancelled,客户拦截订单
+45,Tendered to military agent,transferred_to_carrier,
+46,Duplicate label ID,exception,
+51,Business closed (notice left),delivery_attempted,02 Notice Left 子变体
+52,Notice left,delivery_attempted,02 Notice Left 子变体
+53,Receptacle blocked (notice left),delivery_attempted,02 Notice Left 子变体
+54,Receptacle full / item oversized (notice left),delivery_attempted,02 Notice Left 子变体
+55,No secure location available (notice left),delivery_attempted,02 Notice Left 子变体
+56,No authorized recipient available (notice left),delivery_attempted,02 Notice Left 子变体
+57,Local weather delay,exception,
+58,Held at post office customer request,awaiting_pickup,
+59,Retrieved from parcel locker (physical out delivery scan),delivered,
+60,Tendered to agent for final delivery,transferred_to_carrier,Parcel Return Service
+61,Received by agent,transferred_to_carrier,
+62,Recipient notified by agent,awaiting_pickup,
+63,Delivered to recipient by agent,signed_by_third_party,
+64,Undelivered to recipient by agent,delivery_attempted,
+70,Delivery day verified,in_transit,信息性
+71,Delivery delay (next delivery day),delivery_attempted,
+72,Animal interference,exception,
+73,Available for redelivery or pickup,awaiting_pickup,
+74,Redelivery scheduled,delivery_attempted,
+80,Picked up by shipping partner,picked_up,
+81,Arrived shipping partner facility,arrived_at_hub,
+82,Departed shipping partner facility,departed_from_hub,
+83,Arrive USPS sort facility,arrived_at_hub,
+84,Acceptance at destination,arrived_at_destination,Parcel Return Service
+85,At parcel return facility,arrived_at_hub,Parcel Return Service
+86,At parcel return merchant,returned_to_sender,Parcel Return Service
+87,Picked up by agent,picked_up,Parcel Return Service
+89,Pre-shipment info sent to USPS,order_created,
+A0,Foreign acceptance,picked_up,Appendix G-5 国际段
+AF,Handoff to intermediate airline carrier,transferred_to_carrier,
+AG,Received from intermediate airline carrier,transferred_to_carrier,
+AH,Delivered to postal agent,signed_by_third_party,
+AJ,Intermediate transfer airport,arrived_at_hub,
+AP,Accepted by origin airline carrier,transferred_to_carrier,
+AR,Arrived at international service center,arrived_at_hub,
+AS,Arrived in destination country,arrived_at_destination,
+AT,Origin airline carrier departed/uplift,departed_from_hub,
+B0,Foreign arrival at outward office,arrived_at_hub,
+B1,Customs clearance,clearance_completed,
+B2,Into customs,customs_declared,
+B3,Out of customs,customs_released,
+B5,Outbound - out of US customs,customs_released,
+BA,Bad address,address_issue,Appendix G-5 国际段
+BB,Arrived at international service center,arrived_at_hub,
+BR,Delivered by broker,delivered,
+BX,Bumped delay,exception,
+C0,Foreign international dispatch,departed_from_hub,
+CA,Closed on arrival,arrived_at_hub,
+CC,Awaiting consignee collection,awaiting_pickup,
+CD,Clearance delay,customs_held,
+CI,Inbound into customs,customs_declared,
+CM,Customer moved,address_issue,
+CO,Inbound out of customs,customs_released,
+CR,Release from customs/bond,customs_released,
+D0,Processed through office of exchange,in_transit,
+D1,Arrived at facility,arrived_at_hub,
+D2,Departed facility,departed_from_hub,
+DD,International dispatch ready,departed_from_hub,
+DF,Held at delivery depot/delivery office,awaiting_pickup,
+DG,Out for delivery,out_for_delivery,
+DH,Collect for pickup,awaiting_pickup,
+DL,Delivered (with signature),delivered,
+DN,Delivered damaged,damaged,
+DP,Disposal,exception,
+DT,Transit mail dispatch,in_transit,
+E0,Customs clearance (intl),clearance_completed,
+EA,Enroute arrival,arrived_at_hub,
+ED,Enroute departure,departed_from_hub,
+F0,Customs clearance processing complete,clearance_completed,
+G0,Arrival at post office,arrived_at_destination,
+H0,Attempted delivery abroad (multiple sub-codes by Action/Reason),delivery_attempted,H0 family has 60+ Action+Reason sub-combinations
+H8,Foreign return to sender (multiple sub-codes),returned_to_sender,H8 family has multiple Action+Reason sub-combinations
+HP,Held for payment,customs_held,
+HX,Holiday delay,exception,
+I0,Delivered,delivered,Appendix G-5 国际段
+IC,Receipt into customs/bond,customs_declared,
+J0,Arrival at transit office from exchange,arrived_at_hub,
+K0,Depart from transit office of exchange,departed_from_hub,
+K1,Forwarding to US customs,customs_declared,
+K2,Contact US customs,customs_declared,
+K3,Forwarded by USPS,in_transit,
+K4,Return to sender - improper documentation,return_initiated,
+K5,Return to sender - abandonment,return_initiated,
+ND,Not delivered,delivery_attempted,
+NH,Not home,recipient_unavailable,
+NP,Origin post is preparing shipment,order_created,
+OH,On hold,exception,
+OK,International delivered with signature,delivered,
+OS,Originating PMPC scan,picked_up,
+PD,Partial delivery,delivered,
+PE,EPG origin post is preparing shipment,order_created,
+PO,Processed at origin,picked_up,
+PU,Shipment pickup,picked_up,
+RD,Refused delivery,refused,
+RE,Refused entry by customs,customs_held,
+RT,Returned to consignor,returned_to_sender,
+SC,Service change,exception,
+SS,Shipment stopped,exception,
+TA,Transit mail arrival,arrived_at_hub,
+TP,Onforwarded to third party,transferred_to_carrier,
+TR,Transferred through service center,transferred_to_carrier,
+WC,With courier,out_for_delivery,
+WX,Weather delay,exception,

@@ -26,7 +26,7 @@
 | DHL | `dhl.csv` | ✅ W3（287 条 = 5 status + 282 event:ric） | DHL Unified Tracking API + DHL Parcel DE 官方 ICE event/RIC 完整组合表 |
 | FedEx | `fedex.csv` | ✅ W3（48 条 = 30 ScanEvent + 14 commit + 4 notif） | Shopify active_shipping FedEx TRACKING_STATUS_CODES (开源 Ruby 库) + OpenAPI enum |
 | UPS | `ups.csv` | ✅ W3（774 条，规则化分类） | rocketshipit.com PHP UPS API docs（整理自 UPS Track Web Service 官方表）|
-| USPS | `usps.csv` | 🟡 W3 partial（1 条示例） | usps-tracking_19.yaml；待用户提供 USPS Pub 199 Appendix G-4/G-5 |
+| USPS | `usps.csv` | ✅ W3（122 条 = 72 域内 G-4 + 50 国际 G-5） | USPS Pub 199 Appendix G-4 (2019 v20 PDF) + G-5 (v34 PDF)，infor/usps/ 本地 |
 
 ## 贡献新承运商
 
