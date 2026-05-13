@@ -1,0 +1,6 @@
+# Source: 申通快递开放平台（待调研）
+# Reviewer: @zhatrix
+# Coverage: ❓ PLACEHOLDER — 原报告 §1 总名单列入了申通，但 §2 各章节未
+#           独立覆盖申通的认证、字段或状态码体系。待从申通开放平台官方
+#           文档独立调研补充。
+carrier_code,carrier_name,olts_code,notes

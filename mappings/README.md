@@ -13,11 +13,11 @@
 | 顺丰速运 | `sf.csv` | ✅ W2（20 条 = 10 status + 10 opcode） | 调研报告 §2.5 |
 | 京东物流 | `jdl.csv` | ✅ W2 补缺（75 条 = 12 status + 63 state） | open.jdl.com 官方文档（用户登录后提供，2024-08-14 / 2024-01-03 / 2023-04-19 三份合并） |
 | 中国邮政 | `ems.csv` | ✅ W2 补缺（235 条 = 195 opcode + 24 signed + 16 unsigned） | api.ems.com.cn 协议客户开放平台官方文档（用户登录后提供）|
-| 申通快递 | `sto.csv` | ⏳ W4 | 申通开放平台 |
-| 韵达速递 | `yunda.csv` | ⏳ W4 | 韵达开放平台 |
-| 极兔速递 | `jtexpress.csv` | ⏳ W4 | 极兔开放平台 |
-| 菜鸟 | `cainiao.csv` | ⏳ W4 | 菜鸟开放平台 |
-| 德邦快递 | `deppon.csv` | ⏳ W4 | 德邦开放平台 |
+| 申通快递 | `sto.csv` | ❓ 占位 | 调研报告未独立覆盖 |
+| 韵达速递 | `yunda.csv` | 🟡 W4 partial（2 条） | 调研报告 §2.3（仅 GOT/SIGNED） |
+| 极兔速递 | `jtexpress.csv` | ❓ 占位 | 调研报告 §2.4 字段层有述但无具体码值 |
+| 菜鸟 | `cainiao.csv` | ✅ W4（13 核心 + 14-26 扩展范围未细化） | 调研报告 §2.6 |
+| 德邦快递 | `deppon.csv` | ❓ 占位 | 调研报告未覆盖（大件/零担为主） |
 
 ### 国际（`intl/`）
 

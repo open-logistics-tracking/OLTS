@@ -1,0 +1,6 @@
+# Source: 德邦快递开放平台（待调研）
+# Reviewer: @zhatrix
+# Coverage: ❓ PLACEHOLDER — 原报告未单独覆盖德邦（其定位为大件/零担为主，
+#           与一般小件快递业务模式有差异）。待从德邦开放平台官方文档独立
+#           调研补充。德邦轨迹模型可能引入"零担承运单"等大件物流特有概念。
+carrier_code,carrier_name,olts_code,notes

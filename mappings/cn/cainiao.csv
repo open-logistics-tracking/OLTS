@@ -1,0 +1,22 @@
+# Source: 快递企业开放平台API对比分析报告.md §2.6 菜鸟速递开放平台
+#   接口: TMS_PRACTICE_TRACE_INFO (edi-daily.xpm.cainiao.com)
+# Reviewer: @zhatrix
+# Coverage: ✅ W4 (13 条核心码 00-13)；14-18 为 B2B 专用、19-26 为扩展状态
+#           原报告未详细列出具体含义，待官方文档/真实样本补完
+# Note: 菜鸟明确提示"可能新增状态，商家需自行过滤所需状态"——消费方应做
+#       未知码兜底（默认归 in_transit 或 exception）
+carrier_code,carrier_name,olts_code,notes
+00,揽收,picked_up,
+01,分拨收货,arrived_at_hub,分拨中心收件
+02,分拨发货,departed_from_hub,分拨中心发件
+03,站点到货,arrived_at_destination,末端站点到达
+04,小件员领件（派件中）,out_for_delivery,
+05,滞留,exception,
+06,拒收,refused,
+07,签收,delivered,
+08,退货出站,return_initiated,
+09,退货入库,in_return_transit,
+10,退商家出库,in_return_transit,
+11,退商家成功,returned_to_sender,
+12,退商家失败,exception,
+13,中转出站,departed_from_hub,

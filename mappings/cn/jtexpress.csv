@@ -1,0 +1,6 @@
+# Source: 快递企业开放平台API对比分析报告.md §2.4 极兔速递开放平台
+# Reviewer: @zhatrix
+# Coverage: ❓ PLACEHOLDER — 原报告 §2.4 仅描述了 scanType 字段（轨迹中的
+#           扫描类型/物流状态），但未给出具体码值枚举。待官方文档或真实
+#           API 响应样本补完。
+carrier_code,carrier_name,olts_code,notes

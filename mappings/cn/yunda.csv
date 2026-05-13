@@ -1,0 +1,8 @@
+# Source: 快递企业开放平台API对比分析报告.md §2.3 韵达开放平台
+#   接口: openapi.yundaex.com (前置条件: 必须先完成轨迹订阅)
+# Reviewer: @zhatrix
+# Coverage: 🟡 W4 partial (仅 2 条) — 原报告标"文档仅展示 2 个状态码，
+#           完整列表需联系韵达获取"。待韵达官方/真实 API 响应样本补完。
+carrier_code,carrier_name,olts_code,notes
+GOT,已揽收,picked_up,
+SIGNED,已签收,delivered,
