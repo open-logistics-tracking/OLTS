@@ -1,0 +1,49 @@
+{
+  "name": "@oltrack/sdk",
+  "version": "0.5.0-dev.0",
+  "description": "OLTS reference TypeScript SDK — normalize carrier tracking responses into OLTS TrackingEvent / Shipment.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./adapters/*": {
+      "import": "./dist/adapters/*.js",
+      "types": "./dist/adapters/*.d.ts"
+    }
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "logistics",
+    "tracking",
+    "olts",
+    "shipping",
+    "carrier",
+    "normalize"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/open-logistics-tracking/OpenLogisticsTrackingSchema.git",
+    "directory": "oltrack-ts"
+  },
+  "homepage": "https://github.com/open-logistics-tracking/OpenLogisticsTrackingSchema",
+  "bugs": "https://github.com/open-logistics-tracking/OpenLogisticsTrackingSchema/issues",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.4",
+    "vitest": "^1.6"
+  }
+}
