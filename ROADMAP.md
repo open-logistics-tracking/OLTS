@@ -32,12 +32,18 @@
 
 示例: [examples/v0.2/](./examples/v0.2/) — sf / dhl / usps 三个真实事件实例。
 
-## v0.5 — API 规范（2026 Q4）
+## v0.5 — API 规范（2026 Q4，🚧 启动中）
 
-- OpenAPI 3.0 轨迹查询接口（`GET /tracking/{tracking_number}`）
-- 订阅/推送接口（Webhook + AsyncAPI）
-- 数据质量评价框架（完整度 / 时效性 / 一致性）
-- TypeScript SDK：`@oltrack/sdk`
+- ✅ `OpenAPI 3.1` 轨迹查询接口骨架 — [openapi/v0.5/tracking.yaml](./openapi/v0.5/tracking.yaml)
+  - `GET /tracking/{trackingNumber}` — 返回事件流 (TrackingEvent[])
+  - `GET /tracking/{trackingNumber}/shipment` — 返回完整 Shipment 实体
+  - `POST /tracking/subscriptions` — 订阅 webhook（Draft，签名/重试待补）
+  - 响应 schema $ref 到 v0.2 JSON Schema，字典统一
+  - 错误响应规范（code + message + 可选 carrier 信息）
+- ⏳ Webhook 完整化（HMAC-SHA256 签名 + 幂等 + 重试退避）
+- ⏳ AsyncAPI 2.x spec 互补
+- ⏳ 数据质量评价框架（完整度 / 时效性 / 一致性 metrics）
+- ⏳ TypeScript SDK：`@oltrack/sdk` 自动生成
 
 ## v1.0 — 稳定版（2027 H1）
 

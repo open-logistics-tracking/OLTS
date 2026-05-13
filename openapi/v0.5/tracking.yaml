@@ -1,0 +1,251 @@
+openapi: 3.1.0
+info:
+  title: OLTS Tracking API
+  description: |
+    OLTS v0.5 Draft — 物流轨迹查询统一接口规范。
+
+    这份 OpenAPI 3.1 spec 定义了一个**消费方接口**：聚合平台、品牌方中台、
+    物流 SaaS 厂商可以**对外暴露**这套接口，让自己的客户用一套字段消费 OLTS
+    归一化后的轨迹数据。
+
+    本规范不规定承运商接入侧的鉴权/签名/限流（每家都不一样）；它规范的是
+    "把 OLTS TrackingEvent / Shipment 通过 HTTP 暴露给上游消费者"这一层。
+
+    Schema 引用 OLTS v0.2 JSON Schemas — 字典统一。
+  version: 0.5.0-dev
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: OLTS Project
+    url: https://github.com/open-logistics-tracking/OpenLogisticsTrackingSchema
+
+servers:
+  - url: https://api.example.com/olts/v0.5
+    description: Example deployment (替换为你的服务地址)
+
+tags:
+  - name: tracking
+    description: 轨迹查询接口
+
+paths:
+  /tracking/{trackingNumber}:
+    get:
+      summary: Get tracking events for a shipment
+      description: |
+        返回指定运单号的归一化轨迹事件列表。每个事件符合 OLTS v0.2
+        TrackingEvent JSON Schema。
+
+        消费方约定:
+          - 默认按 eventTime 升序排序（与多数承运商默认相反，但便于流式消费）
+          - oltsCode 已经做归一化映射，业务可直接用作 case 分支
+          - location.countryCode 始终 ISO 3166-1 alpha-2（无值时省略）
+      operationId: getTrackingEvents
+      tags: [tracking]
+      parameters:
+        - $ref: '#/components/parameters/TrackingNumber'
+        - $ref: '#/components/parameters/Carrier'
+        - $ref: '#/components/parameters/Language'
+      responses:
+        '200':
+          description: Tracking events
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [trackingNumber, events]
+                properties:
+                  trackingNumber:
+                    type: string
+                  carrierCode:
+                    type: string
+                  events:
+                    type: array
+                    items:
+                      $ref: '../../schemas/v0.2/tracking-event.json'
+              examples:
+                sf-domestic:
+                  summary: 顺丰国内派送 3 events
+                  externalValue: '../../examples/v0.2/sf-shipment.json'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+
+  /tracking/{trackingNumber}/shipment:
+    get:
+      summary: Get full shipment (with events embedded)
+      description: |
+        返回完整 Shipment 实体，含 origin / destination / pieces / events 等。
+        响应符合 OLTS v0.2 Shipment JSON Schema。
+
+        用于需要完整运单上下文的场景（如打印面单详情、面向最终用户的展示）。
+        如果只需要事件流，用 /tracking/{trackingNumber}（响应小一些）。
+      operationId: getShipment
+      tags: [tracking]
+      parameters:
+        - $ref: '#/components/parameters/TrackingNumber'
+        - $ref: '#/components/parameters/Carrier'
+        - $ref: '#/components/parameters/Language'
+      responses:
+        '200':
+          description: Shipment with events
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/v0.2/shipment.json'
+              examples:
+                dhl-crossborder:
+                  summary: DHL 跨境含清关
+                  externalValue: '../../examples/v0.2/dhl-shipment.json'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+
+  /tracking/subscriptions:
+    post:
+      summary: Subscribe to tracking event webhooks
+      description: |
+        订阅某个运单号的事件 webhook 推送。当承运商上游有新事件时，会
+        POST 到 callbackUrl，body 是 OLTS TrackingEvent dict。
+
+        v0.5 Draft —— webhook 签名 / 重试 / 幂等 / AsyncAPI spec 待补。
+      operationId: createSubscription
+      tags: [tracking]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [trackingNumber, callbackUrl]
+              properties:
+                trackingNumber:
+                  type: string
+                  description: 运单号
+                carrierCode:
+                  type: string
+                  description: 承运商 slug。如未指定，服务端可自动识别。
+                callbackUrl:
+                  type: string
+                  format: uri
+                  description: 接收 webhook 推送的 URL。
+                events:
+                  type: array
+                  items:
+                    type: string
+                    enum: [delivered, exception, all]
+                  description: 想订阅的事件类别。默认 ['all']。
+                  default: [all]
+      responses:
+        '201':
+          description: Subscription created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  subscriptionId:
+                    type: string
+                  expiresAt:
+                    type: string
+                    format: date-time
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+components:
+  parameters:
+    TrackingNumber:
+      name: trackingNumber
+      in: path
+      required: true
+      description: 运单号（carrier-assigned）。
+      schema:
+        type: string
+        minLength: 1
+      example: SF1234567890
+    Carrier:
+      name: carrier
+      in: query
+      required: false
+      description: |
+        承运商 slug（如 'sf', 'dhl'）。绝大多数运单号有歧义，需要消费方指定。
+        如果运单号格式独特（如 UPS 1Z 开头），服务端可自动识别。
+      schema:
+        type: string
+        examples: [sf, yto, dhl, ups]
+    Language:
+      name: lang
+      in: query
+      required: false
+      description: 响应描述字段的语言偏好（BCP 47 tag）。默认 zh。
+      schema:
+        type: string
+        default: zh
+        examples: [zh, en, ja]
+
+  responses:
+    BadRequest:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: BAD_REQUEST
+            message: trackingNumber is required
+    NotFound:
+      description: Tracking number not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: NOT_FOUND
+            message: tracking number SF999999999 not found
+    RateLimited:
+      description: Too many requests (carrier-side or local quota)
+      headers:
+        Retry-After:
+          schema:
+            type: integer
+          description: Seconds to wait before retrying
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ServerError:
+      description: Internal or upstream carrier error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          enum:
+            - BAD_REQUEST
+            - NOT_FOUND
+            - UNAUTHORIZED
+            - FORBIDDEN
+            - RATE_LIMITED
+            - CARRIER_ERROR
+            - INTERNAL_ERROR
+        message:
+          type: string
+        carrier:
+          type: string
+          description: 出错时上游承运商 slug（如有）。
+        carrierMessage:
+          type: string
+          description: 上游承运商原始错误信息（如有）。
