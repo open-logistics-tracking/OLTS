@@ -1,0 +1,87 @@
+{
+  "trackingNumber": "YT2024060312345",
+  "carrierCode": "yto",
+  "service": "圆通快递",
+  "currentStatus": "delivered",
+  "origin": {
+    "city": "杭州",
+    "state": "浙江",
+    "countryCode": "CN"
+  },
+  "destination": {
+    "city": "上海",
+    "state": "上海",
+    "countryCode": "CN"
+  },
+  "actualDelivery": "2024-06-04T16:30:00+08:00",
+  "weight": {
+    "value": 1.2,
+    "unit": "KG"
+  },
+  "events": [
+    {
+      "eventTime": "2024-06-03T09:15:33+08:00",
+      "carrierCode": "yto",
+      "carrierEventCode": "GOT",
+      "oltsCode": "picked_up",
+      "description": "已揽收",
+      "location": {
+        "name": "杭州西湖区营业部",
+        "city": "杭州",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-03T18:42:00+08:00",
+      "carrierCode": "yto",
+      "carrierEventCode": "ARRIVAL",
+      "oltsCode": "arrived_at_hub",
+      "description": "到达杭州转运中心",
+      "location": {
+        "name": "杭州转运中心",
+        "city": "杭州",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-03T22:30:00+08:00",
+      "carrierCode": "yto",
+      "carrierEventCode": "DEPARTURE",
+      "oltsCode": "departed_from_hub",
+      "description": "已发出，下一站上海",
+      "location": {
+        "name": "杭州转运中心",
+        "city": "杭州",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-04T08:20:00+08:00",
+      "carrierCode": "yto",
+      "carrierEventCode": "SENT_SCAN",
+      "oltsCode": "out_for_delivery",
+      "description": "派件中",
+      "location": {
+        "name": "上海浦东营业部",
+        "city": "上海",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-04T16:30:00+08:00",
+      "carrierCode": "yto",
+      "carrierEventCode": "SIGNED",
+      "oltsCode": "delivered",
+      "description": "签收成功",
+      "location": {
+        "name": "上海浦东营业部",
+        "city": "上海",
+        "countryCode": "CN"
+      },
+      "operator": {
+        "name": "王师傅",
+        "phone": "139****8888"
+      }
+    }
+  ]
+}

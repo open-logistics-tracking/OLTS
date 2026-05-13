@@ -1,0 +1,67 @@
+{
+  "trackingNumber": "73100059800035",
+  "carrierCode": "zto",
+  "service": "中通快递",
+  "currentStatus": "delivered",
+  "origin": {
+    "city": "金华",
+    "state": "浙江",
+    "countryCode": "CN"
+  },
+  "destination": {
+    "city": "漳州",
+    "state": "福建",
+    "countryCode": "CN"
+  },
+  "events": [
+    {
+      "eventTime": "2024-06-03T09:00:00+08:00",
+      "carrierCode": "zto",
+      "carrierEventCode": "收件",
+      "oltsCode": "picked_up",
+      "description": "快件已收件",
+      "location": {
+        "name": "金华浦江县",
+        "city": "金华",
+        "state": "浙江",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-03T20:00:00+08:00",
+      "carrierCode": "zto",
+      "carrierEventCode": "发件",
+      "oltsCode": "departed_from_hub",
+      "description": "已离开金华转运中心",
+      "location": {
+        "name": "金华转运中心",
+        "city": "金华",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-04T15:00:00+08:00",
+      "carrierCode": "zto",
+      "carrierEventCode": "到件",
+      "oltsCode": "arrived_at_hub",
+      "description": "到达漳州转运中心",
+      "location": {
+        "name": "漳州转运中心",
+        "city": "漳州",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-04T22:48:00+08:00",
+      "carrierCode": "zto",
+      "carrierEventCode": "派件",
+      "oltsCode": "out_for_delivery",
+      "description": "快递员正在派送",
+      "location": {
+        "name": "漳州芗城区营业部",
+        "city": "漳州",
+        "countryCode": "CN"
+      }
+    }
+  ]
+}

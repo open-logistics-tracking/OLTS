@@ -1,0 +1,59 @@
+{
+  "trackingNumber": "777031922725111",
+  "carrierCode": "sto",
+  "service": "申通快递",
+  "currentStatus": "delivered",
+  "origin": {
+    "city": "上海",
+    "state": "上海",
+    "countryCode": "CN"
+  },
+  "destination": {
+    "city": "上海",
+    "state": "上海",
+    "countryCode": "CN"
+  },
+  "actualDelivery": "2024-06-04T16:48:11+08:00",
+  "events": [
+    {
+      "eventTime": "2024-06-03T11:20:00+08:00",
+      "carrierCode": "sto",
+      "carrierEventCode": "收件",
+      "oltsCode": "picked_up",
+      "description": "快件已收件",
+      "location": {
+        "name": "青浦重固网点",
+        "city": "上海",
+        "countryCode": "CN"
+      },
+      "operator": {
+        "name": "张三",
+        "code": "007"
+      }
+    },
+    {
+      "eventTime": "2024-06-04T14:00:00+08:00",
+      "carrierCode": "sto",
+      "carrierEventCode": "派件",
+      "oltsCode": "out_for_delivery",
+      "description": "正在派送",
+      "location": {
+        "name": "青浦重固网点",
+        "city": "上海",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-04T16:48:11+08:00",
+      "carrierCode": "sto",
+      "carrierEventCode": "签收",
+      "oltsCode": "delivered",
+      "description": "快件已由【李四】签收",
+      "location": {
+        "name": "青浦重固网点",
+        "city": "上海",
+        "countryCode": "CN"
+      }
+    }
+  ]
+}

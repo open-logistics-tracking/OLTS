@@ -1,0 +1,84 @@
+{
+  "trackingNumber": "3309876541228",
+  "carrierCode": "yunda",
+  "service": "韵达国际",
+  "currentStatus": "delivered",
+  "origin": {
+    "city": "香港",
+    "countryCode": "HK"
+  },
+  "destination": {
+    "city": "凉山彝族自治州",
+    "state": "四川",
+    "countryCode": "CN"
+  },
+  "events": [
+    {
+      "eventTime": "2019-08-03T18:13:36+08:00",
+      "carrierCode": "yunda",
+      "carrierEventCode": "action:GOT",
+      "oltsCode": "picked_up",
+      "description": "已揽收",
+      "location": {
+        "name": "香港海港韵达公司吐露港分部",
+        "countryCode": "HK"
+      }
+    },
+    {
+      "eventTime": "2019-08-05T22:26:41+08:00",
+      "carrierCode": "yunda",
+      "carrierEventCode": "action:DEPARTURE",
+      "oltsCode": "departed_from_hub",
+      "description": "已离开广东深圳公司",
+      "location": {
+        "name": "广东深圳公司",
+        "city": "深圳",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2019-08-07T06:47:41+08:00",
+      "carrierCode": "yunda",
+      "carrierEventCode": "action:ARRIVAL",
+      "oltsCode": "arrived_at_hub",
+      "description": "已到达四川成都分拨中心",
+      "location": {
+        "name": "四川成都分拨中心",
+        "city": "成都",
+        "state": "四川",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2019-08-08T14:39:24+08:00",
+      "carrierCode": "yunda",
+      "carrierEventCode": "action:SENT",
+      "oltsCode": "out_for_delivery",
+      "description": "快递员倪锋正在为您派件",
+      "location": {
+        "name": "四川西昌市公司礼州镇分部",
+        "state": "四川",
+        "countryCode": "CN"
+      },
+      "operator": {
+        "name": "倪锋",
+        "phone": "18009019939"
+      }
+    },
+    {
+      "eventTime": "2019-08-09T19:50:26+08:00",
+      "carrierCode": "yunda",
+      "carrierEventCode": "action:SIGNED",
+      "oltsCode": "delivered",
+      "description": "快件已被合作驿站代签收",
+      "location": {
+        "name": "四川西昌市公司礼州镇分部",
+        "state": "四川",
+        "countryCode": "CN"
+      },
+      "metadata": {
+        "signer": "合作驿站"
+      }
+    }
+  ]
+}

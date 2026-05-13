@@ -1,0 +1,76 @@
+{
+  "trackingNumber": "CN20240605000123",
+  "carrierCode": "cainiao",
+  "service": "菜鸟标快",
+  "currentStatus": "delivered",
+  "origin": {
+    "city": "杭州",
+    "state": "浙江",
+    "countryCode": "CN"
+  },
+  "destination": {
+    "city": "杭州",
+    "state": "浙江",
+    "countryCode": "CN"
+  },
+  "events": [
+    {
+      "eventTime": "2024-06-05T09:30:00+08:00",
+      "carrierCode": "cainiao",
+      "carrierEventCode": "00",
+      "oltsCode": "picked_up",
+      "description": "揽收",
+      "location": {
+        "name": "杭州西湖区营业部",
+        "city": "杭州",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-05T18:00:00+08:00",
+      "carrierCode": "cainiao",
+      "carrierEventCode": "02",
+      "oltsCode": "departed_from_hub",
+      "description": "分拨发货",
+      "location": {
+        "name": "杭州萧山分拨中心",
+        "city": "杭州",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-06T08:30:00+08:00",
+      "carrierCode": "cainiao",
+      "carrierEventCode": "03",
+      "oltsCode": "arrived_at_destination",
+      "description": "站点到货",
+      "location": {
+        "name": "杭州西湖区营业部",
+        "city": "杭州",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-06T13:00:00+08:00",
+      "carrierCode": "cainiao",
+      "carrierEventCode": "04",
+      "oltsCode": "out_for_delivery",
+      "description": "小件员领件，派件中",
+      "location": {
+        "city": "杭州",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-06T15:42:00+08:00",
+      "carrierCode": "cainiao",
+      "carrierEventCode": "07",
+      "oltsCode": "delivered",
+      "description": "签收",
+      "location": {
+        "city": "杭州",
+        "countryCode": "CN"
+      }
+    }
+  ]
+}

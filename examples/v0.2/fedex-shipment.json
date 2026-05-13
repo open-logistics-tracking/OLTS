@@ -1,0 +1,87 @@
+{
+  "trackingNumber": "794613841234",
+  "carrierCode": "fedex",
+  "service": "FedEx International Priority",
+  "currentStatus": "delivered",
+  "origin": {
+    "city": "Shenzhen",
+    "countryCode": "CN"
+  },
+  "destination": {
+    "city": "Memphis",
+    "state": "TN",
+    "countryCode": "US",
+    "postalCode": "38116"
+  },
+  "declaredValue": {
+    "amount": 1200.0,
+    "currency": "USD"
+  },
+  "weight": {
+    "value": 5.5,
+    "unit": "LB"
+  },
+  "events": [
+    {
+      "eventTime": "2024-09-12T10:30:00-05:00",
+      "carrierCode": "fedex",
+      "carrierEventCode": "OC",
+      "oltsCode": "order_created",
+      "description": "Shipment information sent to FedEx"
+    },
+    {
+      "eventTime": "2024-09-12T14:25:00-05:00",
+      "carrierCode": "fedex",
+      "carrierEventCode": "PU",
+      "oltsCode": "picked_up",
+      "description": "Picked up",
+      "location": {
+        "name": "FedEx Shenzhen Hub",
+        "city": "Shenzhen",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-09-12T22:00:00-05:00",
+      "carrierCode": "fedex",
+      "carrierEventCode": "DP",
+      "oltsCode": "departed_from_hub",
+      "description": "Departed FedEx location",
+      "transport": {
+        "mode": "AIR"
+      }
+    },
+    {
+      "eventTime": "2024-09-13T08:15:00-05:00",
+      "carrierCode": "fedex",
+      "carrierEventCode": "AR",
+      "oltsCode": "arrived_at_hub",
+      "description": "Arrived at FedEx location",
+      "location": {
+        "name": "Memphis FedEx Hub",
+        "city": "Memphis",
+        "state": "TN",
+        "countryCode": "US"
+      }
+    },
+    {
+      "eventTime": "2024-09-13T13:30:00-05:00",
+      "carrierCode": "fedex",
+      "carrierEventCode": "OD",
+      "oltsCode": "out_for_delivery",
+      "description": "Out for delivery"
+    },
+    {
+      "eventTime": "2024-09-13T17:42:00-05:00",
+      "carrierCode": "fedex",
+      "carrierEventCode": "DL",
+      "oltsCode": "delivered",
+      "description": "Delivered",
+      "location": {
+        "city": "Memphis",
+        "state": "TN",
+        "countryCode": "US"
+      }
+    }
+  ]
+}

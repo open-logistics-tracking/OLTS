@@ -1,0 +1,71 @@
+{
+  "trackingNumber": "9405511899223456789012",
+  "carrierCode": "usps",
+  "service": "Priority Mail",
+  "currentStatus": "delivered",
+  "origin": {
+    "city": "RICHMOND",
+    "state": "VA",
+    "countryCode": "US",
+    "postalCode": "23227"
+  },
+  "destination": {
+    "city": "CEDAR RAPIDS",
+    "state": "IA",
+    "countryCode": "US",
+    "postalCode": "52404"
+  },
+  "events": [
+    {
+      "eventTime": "2023-08-02T07:31:00Z",
+      "carrierCode": "usps",
+      "carrierEventCode": "03",
+      "oltsCode": "picked_up",
+      "description": "USPS in possession of item",
+      "location": {
+        "city": "RICHMOND",
+        "state": "VA",
+        "countryCode": "US",
+        "postalCode": "23227"
+      }
+    },
+    {
+      "eventTime": "2023-08-03T05:12:00Z",
+      "carrierCode": "usps",
+      "carrierEventCode": "10",
+      "oltsCode": "in_transit",
+      "description": "Processed through facility",
+      "location": {
+        "city": "RICHMOND",
+        "state": "VA",
+        "countryCode": "US"
+      }
+    },
+    {
+      "eventTime": "2023-08-04T14:45:00Z",
+      "carrierCode": "usps",
+      "carrierEventCode": "07",
+      "oltsCode": "arrived_at_destination",
+      "description": "Arrival at Post Office",
+      "location": {
+        "city": "CEDAR RAPIDS",
+        "state": "IA",
+        "countryCode": "US",
+        "postalCode": "52404"
+      }
+    },
+    {
+      "eventTime": "2023-08-05T11:30:00Z",
+      "carrierCode": "usps",
+      "carrierEventCode": "01",
+      "oltsCode": "delivered",
+      "description": "Delivered to mailbox",
+      "location": {
+        "city": "CEDAR RAPIDS",
+        "state": "IA",
+        "countryCode": "US",
+        "postalCode": "52404"
+      }
+    }
+  ]
+}

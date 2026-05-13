@@ -1,0 +1,92 @@
+{
+  "trackingNumber": "JD0123456789",
+  "carrierCode": "jdl",
+  "service": "京东物流次日达",
+  "currentStatus": "delivered",
+  "origin": {
+    "city": "北京",
+    "state": "北京",
+    "countryCode": "CN"
+  },
+  "destination": {
+    "city": "上海",
+    "state": "上海",
+    "countryCode": "CN"
+  },
+  "actualDelivery": "2024-06-04T15:30:00+08:00",
+  "events": [
+    {
+      "eventTime": "2024-06-03T10:00:00+08:00",
+      "carrierCode": "jdl",
+      "carrierEventCode": "state:10010",
+      "oltsCode": "order_created",
+      "description": "订单初始化",
+      "metadata": {
+        "status": 100
+      }
+    },
+    {
+      "eventTime": "2024-06-03T11:05:00+08:00",
+      "carrierCode": "jdl",
+      "carrierEventCode": "state:200001",
+      "oltsCode": "picked_up",
+      "description": "配送员完成揽收",
+      "location": {
+        "name": "北京朝阳CBD营业部",
+        "city": "北京",
+        "countryCode": "CN"
+      },
+      "operator": {
+        "name": "配送员1"
+      },
+      "metadata": {
+        "status": 420
+      }
+    },
+    {
+      "eventTime": "2024-06-03T22:00:00+08:00",
+      "carrierCode": "jdl",
+      "carrierEventCode": "state:200017",
+      "oltsCode": "arrived_at_hub",
+      "description": "分拣中心收货",
+      "location": {
+        "name": "北京亦庄分拣中心",
+        "city": "北京",
+        "countryCode": "CN"
+      },
+      "metadata": {
+        "status": 430
+      }
+    },
+    {
+      "eventTime": "2024-06-04T13:00:00+08:00",
+      "carrierCode": "jdl",
+      "carrierEventCode": "state:11000",
+      "oltsCode": "out_for_delivery",
+      "description": "派件",
+      "location": {
+        "name": "上海徐汇营业部",
+        "city": "上海",
+        "countryCode": "CN"
+      },
+      "metadata": {
+        "status": 440
+      }
+    },
+    {
+      "eventTime": "2024-06-04T15:30:00+08:00",
+      "carrierCode": "jdl",
+      "carrierEventCode": "state:10034",
+      "oltsCode": "delivered",
+      "description": "妥投",
+      "location": {
+        "name": "上海徐汇营业部",
+        "city": "上海",
+        "countryCode": "CN"
+      },
+      "metadata": {
+        "status": 510
+      }
+    }
+  ]
+}

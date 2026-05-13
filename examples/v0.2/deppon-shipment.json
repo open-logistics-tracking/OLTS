@@ -1,0 +1,95 @@
+{
+  "trackingNumber": "DPK664037073357",
+  "carrierCode": "deppon",
+  "service": "德邦大件快递360",
+  "currentStatus": "delivered",
+  "origin": {
+    "city": "佛山",
+    "state": "广东",
+    "countryCode": "CN"
+  },
+  "destination": {
+    "city": "郑州",
+    "state": "河南",
+    "countryCode": "CN"
+  },
+  "weight": {
+    "value": 28.0,
+    "unit": "KG"
+  },
+  "dimensions": {
+    "length": 80,
+    "width": 50,
+    "height": 40,
+    "unit": "CM"
+  },
+  "events": [
+    {
+      "eventTime": "2024-06-03T11:00:00+08:00",
+      "carrierCode": "deppon",
+      "carrierEventCode": "order:GOT",
+      "oltsCode": "order_created",
+      "description": "已开单"
+    },
+    {
+      "eventTime": "2024-06-03T15:30:00+08:00",
+      "carrierCode": "deppon",
+      "carrierEventCode": "trace:GOT",
+      "oltsCode": "order_created",
+      "description": "快件已被收件员揽收",
+      "location": {
+        "name": "佛山南海区平洲玉器街营业部",
+        "city": "佛山",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-04T02:30:00+08:00",
+      "carrierCode": "deppon",
+      "carrierEventCode": "trace:DEPARTURE",
+      "oltsCode": "departed_from_hub",
+      "description": "运输中，离开广州转运中心",
+      "location": {
+        "name": "广州转运中心",
+        "city": "广州",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-05T20:15:00+08:00",
+      "carrierCode": "deppon",
+      "carrierEventCode": "trace:ARRIVAL",
+      "oltsCode": "arrived_at_hub",
+      "description": "货物已到达郑州管城区陇海路经营分部",
+      "location": {
+        "name": "郑州管城区陇海路经营分部",
+        "city": "郑州",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-06T10:30:00+08:00",
+      "carrierCode": "deppon",
+      "carrierEventCode": "trace:SENT_SCAN",
+      "oltsCode": "out_for_delivery",
+      "description": "派送中",
+      "location": {
+        "name": "郑州管城区陇海路经营分部",
+        "city": "郑州",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-06T14:15:00+08:00",
+      "carrierCode": "deppon",
+      "carrierEventCode": "trace:SIGNED",
+      "oltsCode": "delivered",
+      "description": "正常签收",
+      "location": {
+        "name": "客户签收",
+        "city": "郑州",
+        "countryCode": "CN"
+      }
+    }
+  ]
+}

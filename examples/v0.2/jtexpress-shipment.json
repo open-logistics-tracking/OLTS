@@ -1,0 +1,75 @@
+{
+  "trackingNumber": "JT4000096429493",
+  "carrierCode": "jtexpress",
+  "service": "极兔速递",
+  "currentStatus": "delivered",
+  "origin": {
+    "city": "南京",
+    "state": "江苏",
+    "countryCode": "CN"
+  },
+  "destination": {
+    "city": "南京",
+    "state": "江苏",
+    "countryCode": "CN"
+  },
+  "events": [
+    {
+      "eventTime": "2020-07-18T08:52:43+08:00",
+      "carrierCode": "jtexpress",
+      "carrierEventCode": "scan:1",
+      "oltsCode": "picked_up",
+      "description": "极兔小哥已取件",
+      "location": {
+        "name": "南京雨花台春江新城网点",
+        "city": "南京",
+        "state": "江苏",
+        "countryCode": "CN"
+      },
+      "operator": {
+        "name": "test1040",
+        "phone": "13123456789"
+      }
+    },
+    {
+      "eventTime": "2020-07-18T08:52:51+08:00",
+      "carrierCode": "jtexpress",
+      "carrierEventCode": "scan:4",
+      "oltsCode": "arrived_at_hub",
+      "description": "快件到达南京转运中心",
+      "location": {
+        "name": "南京转运中心",
+        "city": "南京",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2020-07-18T08:52:53+08:00",
+      "carrierCode": "jtexpress",
+      "carrierEventCode": "scan:3",
+      "oltsCode": "departed_from_hub",
+      "description": "快件离开南京转运中心",
+      "location": {
+        "name": "南京转运中心",
+        "city": "南京",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2020-07-18T08:53:05+08:00",
+      "carrierCode": "jtexpress",
+      "carrierEventCode": "scan:10",
+      "oltsCode": "delivered",
+      "description": "包裹已签收，签收人本人签收",
+      "location": {
+        "name": "南京玄武网点",
+        "city": "南京",
+        "countryCode": "CN"
+      },
+      "operator": {
+        "name": "test1042",
+        "phone": "13123456789"
+      }
+    }
+  ]
+}

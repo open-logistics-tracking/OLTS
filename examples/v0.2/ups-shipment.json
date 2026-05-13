@@ -1,0 +1,102 @@
+{
+  "trackingNumber": "1Z999AA10123456784",
+  "carrierCode": "ups",
+  "service": "UPS Ground",
+  "currentStatus": "delivered",
+  "origin": {
+    "city": "Atlanta",
+    "state": "GA",
+    "countryCode": "US"
+  },
+  "destination": {
+    "city": "New York",
+    "state": "NY",
+    "countryCode": "US",
+    "postalCode": "10001"
+  },
+  "weight": {
+    "value": 5.5,
+    "unit": "LB"
+  },
+  "events": [
+    {
+      "eventTime": "2024-09-10T16:45:00-04:00",
+      "carrierCode": "ups",
+      "carrierEventCode": "PU",
+      "oltsCode": "picked_up",
+      "description": "Pickup",
+      "location": {
+        "city": "Atlanta",
+        "state": "GA",
+        "countryCode": "US"
+      },
+      "metadata": {
+        "statusCode": "003",
+        "statusType": "I"
+      }
+    },
+    {
+      "eventTime": "2024-09-11T03:20:00-04:00",
+      "carrierCode": "ups",
+      "carrierEventCode": "DP",
+      "oltsCode": "departed_from_hub",
+      "description": "Departed from facility",
+      "location": {
+        "city": "Atlanta",
+        "state": "GA",
+        "countryCode": "US"
+      },
+      "metadata": {
+        "statusType": "I"
+      }
+    },
+    {
+      "eventTime": "2024-09-12T08:00:00-04:00",
+      "carrierCode": "ups",
+      "carrierEventCode": "AR",
+      "oltsCode": "arrived_at_hub",
+      "description": "Arrived at facility",
+      "location": {
+        "city": "New York",
+        "state": "NY",
+        "countryCode": "US"
+      },
+      "metadata": {
+        "statusType": "I"
+      }
+    },
+    {
+      "eventTime": "2024-09-12T14:30:00-04:00",
+      "carrierCode": "ups",
+      "carrierEventCode": "OD",
+      "oltsCode": "out_for_delivery",
+      "description": "Out for delivery",
+      "location": {
+        "city": "New York",
+        "state": "NY",
+        "countryCode": "US"
+      },
+      "metadata": {
+        "statusType": "D"
+      }
+    },
+    {
+      "eventTime": "2024-09-12T18:55:42-04:00",
+      "carrierCode": "ups",
+      "carrierEventCode": "F4",
+      "oltsCode": "delivered",
+      "description": "Package/Shipment delivered",
+      "location": {
+        "name": "Front Door",
+        "city": "New York",
+        "state": "NY",
+        "countryCode": "US",
+        "postalCode": "10001"
+      },
+      "metadata": {
+        "statusCode": "011",
+        "statusType": "D"
+      }
+    }
+  ]
+}

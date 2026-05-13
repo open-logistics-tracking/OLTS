@@ -1,0 +1,76 @@
+{
+  "trackingNumber": "EE123456789CN",
+  "carrierCode": "ems",
+  "service": "EMS国际特快专递",
+  "currentStatus": "customs_released",
+  "origin": {
+    "city": "Shanghai",
+    "countryCode": "CN"
+  },
+  "destination": {
+    "city": "Frankfurt",
+    "state": "Hesse",
+    "countryCode": "DE"
+  },
+  "declaredValue": {
+    "amount": 320.0,
+    "currency": "EUR"
+  },
+  "weight": {
+    "value": 0.8,
+    "unit": "KG"
+  },
+  "events": [
+    {
+      "eventTime": "2024-06-03T10:30:00+08:00",
+      "carrierCode": "ems",
+      "carrierEventCode": "203",
+      "oltsCode": "picked_up",
+      "description": "已收寄",
+      "location": {
+        "name": "Shanghai Pudong Office",
+        "city": "Shanghai",
+        "countryCode": "CN"
+      }
+    },
+    {
+      "eventTime": "2024-06-03T22:15:00+08:00",
+      "carrierCode": "ems",
+      "carrierEventCode": "305",
+      "oltsCode": "departed_from_hub",
+      "description": "揽投发运/封车",
+      "location": {
+        "name": "Shanghai Sorting Center",
+        "city": "Shanghai",
+        "countryCode": "CN"
+      },
+      "transport": {
+        "mode": "AIR"
+      }
+    },
+    {
+      "eventTime": "2024-06-04T03:20:00+02:00",
+      "carrierCode": "ems",
+      "carrierEventCode": "470",
+      "oltsCode": "customs_held",
+      "description": "境外海关扣留",
+      "location": {
+        "name": "Frankfurt Customs",
+        "city": "Frankfurt",
+        "countryCode": "DE"
+      }
+    },
+    {
+      "eventTime": "2024-06-04T08:45:00+02:00",
+      "carrierCode": "ems",
+      "carrierEventCode": "469",
+      "oltsCode": "customs_released",
+      "description": "境外海关放行",
+      "location": {
+        "name": "Frankfurt Customs",
+        "city": "Frankfurt",
+        "countryCode": "DE"
+      }
+    }
+  ]
+}
