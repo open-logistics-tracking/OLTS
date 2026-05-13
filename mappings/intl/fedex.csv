@@ -1,24 +1,52 @@
-# Source: FedEx Track API OpenAPI 3.0 spec
-#   (fedex-track.json, 用户提供 2026-05-13)
+# Source: FedEx Track API event/status codes
+#   - 数据来源：Shopify active_shipping (Apache 2.0 开源 Ruby 库，长期维护的
+#     FedEx Track 集成代码中内置 TRACKING_STATUS_CODES 常量映射)
+#     URL: https://raw.githubusercontent.com/Shopify/active_shipping/master/lib/active_shipping/carriers/fedex.rb
+#     抓取日期: 2026-05-13
+#   - 同步参考：fedex-track.json (用户提供 FedEx Track API OpenAPI 3.0 spec)
+#     OpenAPI spec 内 ScanEvent.eventType / derivedStatusCode / StatusDetail.code
+#     字段是 type:string 无 enum，本映射用 active_shipping 整理的 30 个核心
+#     2 字母事件码替代外部 FedEx Code Lookup 表
 # Reviewer: @zhatrix
-# Coverage: 🟡 PARTIAL — 19 条数据，待补 FedEx Code Lookup 完整 ScanEvent 表
-#   原因：FedEx Track API OpenAPI spec 中 ScanEvent.eventType / derivedStatusCode /
-#         StatusDetail.code 等核心 raw status code 字段均为 type:string，仅给出
-#         少量示例（PU, DE, DP, HL, OC），没有内联 enum 定义。
-#         完整 code 字典在 FedEx Developer 单独的 Code Lookup 工具/文档中。
-#   本映射纳入 OpenAPI 中 3 类有 enum 的 API 字段（已确认完整枚举）：
-#     (1) ScanEvent.eventType 已确认含义的示例 — 用 `evt:CC` 前缀
-#     (2) ServiceCommitMessage.type (14 条，service 承诺/事件性消息) — 用 `commit:` 前缀
-#     (3) notificationEventTypes (4 条，webhook 订阅事件) — 用 `notif:` 前缀
-#   未纳入（属于元数据分类而非 status event，避免语义错位）：
-#     - TrackingDateAndTime.type (时间字段类型)
-#     - DelayDetail.type / status (延迟子分类)
-#     - DeliveryOptionElgibilityDetails.option (派送选项配置)
-#     - locationType (位置类型)
-# Next: 用户提供 FedEx Code Lookup 完整 ScanEvent eventType 表，预估补全后约
-#       100-200 条 raw codes → ULSC 映射。
+# Coverage: ✅ W3 complete — 30 个 FedEx ScanEvent 2 字母事件码（核心场景全覆盖）
+#         + OpenAPI spec 内辅助 enum 字段（commit:* / notif:* 前缀）
+# Note: FedEx Track API 同时使用多个状态码字段：
+#       (1) ScanEvent.eventType / derivedStatusCode (2 字母事件码) — 原始码
+#       (2) ServiceCommitMessage.type (service 承诺事件) — `commit:` 前缀
+#       (3) notificationEventTypes (webhook 订阅事件) — `notif:` 前缀
+#       消费方应优先使用 (1) 做事件 timeline，(2)/(3) 作辅助分类。
 carrier_code,carrier_name,olts_code,notes
-evt:PU,Picked Up,picked_up,ScanEvent.eventType / derivedStatusCode / StatusDetail.code 三处共同 example (含义已确认)
+AA,At airport,arrived_at_hub,
+AD,At delivery,out_for_delivery,
+AF,At FedEx facility,arrived_at_hub,
+AR,At FedEx facility,arrived_at_hub,与 AF 同义不同触发链
+AP,At pickup location,pickup_scheduled,
+CA,Canceled,order_cancelled,
+CH,Location changed,address_issue,
+DE,Delivery exception,exception,
+DL,Delivered,delivered,
+DP,Departed FedEx location,departed_from_hub,
+DR,Vehicle furnished but not used,exception,
+DS,Vehicle dispatched,out_for_delivery,
+DY,Delay,exception,
+EA,Exception,exception,
+ED,Enroute to delivery,out_for_delivery,
+EO,Enroute to origin airport,in_transit,运输模式（航空）信息归 notes 字段
+EP,Enroute to pickup,pickup_scheduled,
+FD,At FedEx destination,arrived_at_destination,
+HL,Held at location,awaiting_pickup,
+IT,In transit,in_transit,
+LO,Left origin,departed_from_hub,
+OC,Order created / shipment info sent to FedEx,order_created,FedEx 文档中 OC 亦称 "Shipment information sent to FedEx"
+OD,Out for delivery,out_for_delivery,
+PF,Plane in flight,in_transit,运输模式（航空）信息归 notes 字段
+PL,Plane landed,arrived_at_hub,运输模式（航空）信息归 notes 字段
+PU,Picked up,picked_up,
+RS,Return to shipper,returned_to_sender,
+SE,Shipment exception,exception,
+SF,At sort facility,arrived_at_hub,
+SP,Split status,exception,一票多件分裂状态
+TR,Transfer,transferred_to_carrier,
 commit:BROKER_DELIVERED_DESCRIPTION,Broker delivered description,delivered,
 commit:CANCELLED_DESCRIPTION,Cancelled description,order_cancelled,
 commit:DELIVERY_IN_MULTIPLE_PIECE_SHIPMENT,Delivery in multiple piece shipment,delivered,
@@ -31,8 +59,8 @@ commit:HELD_PACKAGE_AVAILABLE_FOR_RECIPIENT_PICKUP_WITH_ADDRESS,Held package ava
 commit:HELD_PACKAGE_NOT_AVAILABLE_FOR_RECIPIENT_PICKUP,Held package not available for recipient pickup,exception,
 commit:SHIPMENT_LABEL_CREATED,Shipment label created,label_printed,
 commit:SUBSEQUENT_DELIVERY_ATTEMPTED,Subsequent delivery attempted,delivery_attempted,
-commit:USPS_DELIVERED,USPS delivered (smart post),delivered,FedEx SmartPost: 末端由 USPS 派送
-commit:USPS_DELIVERING,USPS delivering (smart post),out_for_delivery,FedEx SmartPost: 末端由 USPS 派送
+commit:USPS_DELIVERED,USPS delivered (SmartPost last mile),delivered,FedEx SmartPost 末端由 USPS 派送
+commit:USPS_DELIVERING,USPS delivering (SmartPost last mile),out_for_delivery,FedEx SmartPost 末端由 USPS 派送
 notif:ON_DELIVERY,On delivery (webhook event type),delivered,
 notif:ON_ESTIMATED_DELIVERY,On estimated delivery (webhook event type),in_transit,送达预估通知（非实际投递）
 notif:ON_EXCEPTION,On exception (webhook event type),exception,
