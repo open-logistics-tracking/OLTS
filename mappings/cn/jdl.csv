@@ -1,7 +1,88 @@
-# Source: 快递企业开放平台API对比分析报告.md §2.7（京东物流开放平台，2026-05 调研）
+# Source: 京东物流开放平台 open.jdl.com 官方文档（用户登录后提供，2026-05-13）
+#   - 一级订单状态（12 条，更新于 2024-08-14）：
+#     https://open.jdl.com/#/open-business-document/access-guide/267/54018
+#   - 节点编码（事件级，更新于 2024-01-03）：
+#     https://open.jdl.com/#/open-business-document/access-guide/267/54128
+#   - 全程跟踪查询完整映射（更新于 2023-04-19）：
+#     https://open.jdl.com/#/open-business-document/access-guide/442/55086
 # Reviewer: @zhatrix
-# Coverage: ❌ PLACEHOLDER — 数据缺口待补
-#          原报告 §2.7 仅给出请求参数和错误码（1000/2001/2100/2101/4000），未公开
-#          物流状态码体系。物流状态码需从京东物流官方开发者文档或真实 API 响应中补充，
-#          预留至 W4 或后续小版本一并交付。
+# Note: JDL 同时提供两套状态码——`status`（一级订单分类，类似顺丰 expressStatus）和
+#       `state`（节点编码，事件级，类似顺丰 opcode）。两套都映射到此文件，用 `status:N`
+#       和 `state:N` 前缀区分原始命名空间。消费方应优先使用 state 做事件级 timeline，
+#       status 用于呈现整体状态徽标。
 carrier_code,carrier_name,olts_code,notes
+status:100,已接单,order_created,
+status:390,已下发,pickup_scheduled,配送员已分配但尚未取件
+status:403,控单中,exception,运营态异常（控单/卡审）
+status:420,已揽收,picked_up,
+status:430,运输中,in_transit,
+status:440,派送中,out_for_delivery,
+status:480,已拦截,exception,运营/合规拦截
+status:500,异常终止,exception,
+status:510,妥投,delivered,
+status:530,拒收,refused,
+status:690,已取消物流信息推送,order_cancelled,
+status:700,退款,exception,退款流程归异常分支
+state:10010,订单初始化,order_created,
+state:10032,分拣中心验货,arrived_at_hub,文档中亦称分拣验收/分拣三方验货
+state:10033,站点验货&第三方运单回传,arrived_at_destination,
+state:10034,妥投,delivered,
+state:10035,拒收,refused,
+state:10042,部分妥投,delivered,一票多件中部分妥投，按整体妥投处理；细分场景归 notes
+state:10054,分拣中心发货,departed_from_hub,
+state:11000,派件,out_for_delivery,文档中亦称配送员收货
+state:200000,其他,exception,通用占位事件
+state:200001,揽收,picked_up,文档中亦称配送员完成揽收/配送员上门收货已收货
+state:200002,运单修改补打,label_printed,
+state:200003,站点再投,delivery_attempted,
+state:200004,铁路收货交接,arrived_at_hub,
+state:200006,铁路出发,departed_from_hub,运输模式（铁路）信息归入事件 notes 字段
+state:200007,铁路到达,arrived_at_hub,
+state:200008,铁路提货登记,arrived_at_hub,
+state:200009,铁路提货交接,arrived_at_hub,
+state:200010,取消完成,order_cancelled,
+state:200011,已配载,in_transit,
+state:200012,公路发货,departed_from_hub,
+state:200013,在途转运,in_transit,
+state:200017,分拣中心收货,arrived_at_hub,
+state:200018,揽收任务分配,pickup_scheduled,
+state:200019,站点装箱发货,departed_from_hub,
+state:200020,换单打印,label_printed,新运单号在 operationRemark 备注字段中
+state:200023,协商再投,delivery_attempted,
+state:200030,抢单成功,pickup_scheduled,众包揽收抢单
+state:200031,待再投,delivery_attempted,
+state:200032,再投后报废,exception,
+state:200033,再投后退回,returned_to_sender,
+state:200034,揽收任务分配,pickup_scheduled,与 200018 同义不同触发链
+state:200035,配送员接受揽收任务,pickup_scheduled,
+state:200036,待取件,pickup_scheduled,
+state:200037,抢单成功,pickup_scheduled,众包抢单模式
+state:200038,骑士到店,in_transit,众包/同城配送场景
+state:200039,温馨提示,in_transit,信息性事件，无业务状态变化
+state:200040,转三方,transferred_to_carrier,
+state:200050,订单入站,arrived_at_destination,
+state:200051,自提上架,delivery_to_locker,
+state:200052,终止揽收,pickup_failed,categoryName 标 690 已取消，事件本质是揽收失败
+state:200053,揽件再取,pickup_scheduled,首次揽件失败后再取
+state:200054,上门接货退货完成,returned_to_sender,
+state:200055,已交付高铁,departed_from_hub,运输模式（高铁）信息归入事件 notes 字段
+state:200056,高铁提货,arrived_at_hub,
+state:200057,便民点收货,delivery_to_locker,
+state:200058,三方揽收交接成功,transferred_to_carrier,
+state:200059,三方揽收交接终止,pickup_failed,
+state:200060,三方收货退货,return_initiated,
+state:200061,交接任务分配,transferred_to_carrier,
+state:200062,待支付,order_created,运单尚未支付生效
+state:200063,已支付,order_created,运单支付生效
+state:200064,众包超时未抢单,pickup_failed,
+state:200065,申请退款成功,exception,退款流程归异常分支
+state:200066,退款成功,exception,退款流程归异常分支
+state:200067,取货失败,pickup_failed,
+state:200068,O2O拒收退回,refused,O2O/同城拒收
+state:200069,待拒收,delivery_attempted,
+state:200070,弃货,exception,
+state:200071,团购成功,order_created,团购业务订单生效
+state:200072,分拣中心分拣,in_transit,hub 内部操作
+state:200075,站点收货,arrived_at_destination,
+state:200076,封车,departed_from_hub,
+state:200077,站点装箱,in_transit,
