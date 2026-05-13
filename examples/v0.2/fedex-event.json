@@ -1,0 +1,16 @@
+{
+  "eventTime": "2024-09-15T14:30:00-04:00",
+  "carrierCode": "fedex",
+  "carrierEventCode": "HL",
+  "oltsCode": "awaiting_pickup",
+  "description": "Held at location for recipient pickup",
+  "location": {
+    "name": "FedEx World Service Center",
+    "city": "New York",
+    "state": "NY",
+    "country": "United States",
+    "countryCode": "US",
+    "postalCode": "10001"
+  },
+  "notes": "Held at FedEx World Service Center; recipient can pick up"
+}

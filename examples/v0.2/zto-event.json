@@ -1,0 +1,13 @@
+{
+  "eventTime": "2024-06-04T14:22:00+08:00",
+  "carrierCode": "zto",
+  "carrierEventCode": "派件",
+  "oltsCode": "out_for_delivery",
+  "description": "【漳州市】快递员正在派送，如有问题请电联（13860810307）",
+  "location": {
+    "name": "漳州芗城区营业部",
+    "city": "漳州",
+    "state": "福建",
+    "countryCode": "CN"
+  }
+}

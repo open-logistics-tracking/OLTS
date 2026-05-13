@@ -1,0 +1,17 @@
+{
+  "eventTime": "2024-06-03T09:15:33+08:00",
+  "carrierCode": "yto",
+  "carrierEventCode": "GOT",
+  "oltsCode": "picked_up",
+  "description": "已揽收",
+  "location": {
+    "name": "杭州西湖区营业部",
+    "city": "杭州",
+    "state": "浙江",
+    "countryCode": "CN"
+  },
+  "operator": {
+    "name": "王师傅",
+    "phone": "139****8888"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "eventTime": "2024-06-08T11:42:30+08:00",
+  "carrierCode": "deppon",
+  "carrierEventCode": "trace:BACK_SIGNED",
+  "oltsCode": "returned_to_sender",
+  "description": "退回件签收",
+  "location": {
+    "name": "深圳南山区营业部",
+    "city": "深圳",
+    "state": "广东",
+    "countryCode": "CN"
+  },
+  "metadata": {
+    "transportType": "RCP",
+    "isReturn": true
+  }
+}

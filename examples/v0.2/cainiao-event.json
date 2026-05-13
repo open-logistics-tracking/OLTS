@@ -1,0 +1,13 @@
+{
+  "eventTime": "2024-06-06T15:30:00+08:00",
+  "carrierCode": "cainiao",
+  "carrierEventCode": "09",
+  "oltsCode": "in_return_transit",
+  "description": "退货入库",
+  "location": {
+    "name": "杭州萧山仓储中心",
+    "city": "杭州",
+    "state": "浙江",
+    "countryCode": "CN"
+  }
+}

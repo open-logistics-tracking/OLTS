@@ -1,0 +1,21 @@
+{
+  "eventTime": "2024-06-03T11:05:00+08:00",
+  "carrierCode": "jdl",
+  "carrierEventCode": "state:200001",
+  "oltsCode": "picked_up",
+  "description": "配送员完成揽收",
+  "location": {
+    "name": "北京朝阳CBD营业部",
+    "city": "北京",
+    "state": "北京",
+    "countryCode": "CN"
+  },
+  "operator": {
+    "name": "配送员1",
+    "phone": "186****1234"
+  },
+  "metadata": {
+    "status": 420,
+    "operationRemark": "客户在前台"
+  }
+}

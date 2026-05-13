@@ -1,0 +1,18 @@
+{
+  "eventTime": "2024-06-04T16:48:11+08:00",
+  "carrierCode": "sto",
+  "carrierEventCode": "签收",
+  "oltsCode": "delivered",
+  "description": "快件已由【李四】签收",
+  "location": {
+    "name": "青浦重固网点",
+    "city": "上海",
+    "state": "上海",
+    "countryCode": "CN"
+  },
+  "operator": {
+    "name": "张三",
+    "phone": "021-2871662",
+    "code": "007"
+  }
+}

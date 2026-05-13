@@ -1,0 +1,20 @@
+{
+  "eventTime": "2024-09-12T18:55:42-04:00",
+  "carrierCode": "ups",
+  "carrierEventCode": "F4",
+  "oltsCode": "delivered",
+  "description": "Package/Shipment delivered",
+  "location": {
+    "name": "Front Door",
+    "city": "Atlanta",
+    "state": "GA",
+    "country": "United States",
+    "countryCode": "US",
+    "postalCode": "30303"
+  },
+  "isLogicalEvent": false,
+  "metadata": {
+    "statusCode": "011",
+    "statusType": "D"
+  }
+}

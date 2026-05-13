@@ -1,0 +1,17 @@
+{
+  "eventTime": "2024-06-05T03:20:00+02:00",
+  "carrierCode": "ems",
+  "carrierEventCode": "470",
+  "oltsCode": "customs_held",
+  "description": "境外海关扣留",
+  "location": {
+    "name": "Frankfurt Customs Office",
+    "city": "Frankfurt",
+    "state": "Hesse",
+    "countryCode": "DE"
+  },
+  "transport": {
+    "mode": "AIR"
+  },
+  "notes": "EMS 国际段操作码 470，对应 UPU EME 进口海关留存待验"
+}

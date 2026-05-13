@@ -1,0 +1,17 @@
+{
+  "eventTime": "2024-06-04T22:30:00+08:00",
+  "carrierCode": "yunda",
+  "carrierEventCode": "action:CLEARANCE_FINISH",
+  "oltsCode": "customs_released",
+  "description": "清关结束",
+  "location": {
+    "name": "上海口岸海关",
+    "city": "上海",
+    "state": "上海",
+    "countryCode": "CN"
+  },
+  "transport": {
+    "mode": "AIR"
+  },
+  "notes": "韵达国际段轨迹 action 字段"
+}

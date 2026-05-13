@@ -1,0 +1,20 @@
+{
+  "eventTime": "2024-06-04T10:18:42+08:00",
+  "carrierCode": "jtexpress",
+  "carrierEventCode": "scan:11",
+  "oltsCode": "exception",
+  "description": "问题件扫描 - A2 客户拒收",
+  "location": {
+    "name": "南京玄武网点",
+    "city": "南京",
+    "state": "江苏",
+    "countryCode": "CN"
+  },
+  "operator": {
+    "name": "test1042",
+    "phone": "13123456789"
+  },
+  "metadata": {
+    "problemType": "A2"
+  }
+}
