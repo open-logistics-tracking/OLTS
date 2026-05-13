@@ -6,6 +6,7 @@ OLTS v0.1 的核心产物：**32 个统一物流状态码**，覆盖国内快递
 
 - [`ulsc.csv`](./ulsc.csv) — 字典源数据（CSV，UTF-8）
 - `ulsc.json` — 同一字典的 JSON 形态（v0.2 自动生成）
+- [`state-machine.md`](./state-machine.md) — 32 码间合法转移图 + Mermaid 可视化 + 校验函数提议（v0.5→v1.0 过渡）
 
 ## 7 大类
 

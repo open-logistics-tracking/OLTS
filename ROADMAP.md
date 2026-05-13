@@ -48,12 +48,21 @@
   零依赖 ESM 包，完整 TypeScript 类型 (UlscCode 32 codes union /
   TrackingEvent / Shipment)，sf reference adapter，vitest 11 测试
 
-## v1.0 — 稳定版（2027 H1）
+## v1.0 — 稳定版（2027 H1，🚧 准备中）
 
-- 规范全面稳定，承诺向后兼容
-- 多语言 SDK（Python / TypeScript / Java / Go）
-- 申请中物联团体标准立项（T/CFLP）
-- 建立技术指导委员会（TSC）
+- ⏳ 规范全面稳定，承诺向后兼容（schema 字段不再破坏性变更）
+- ⏳ 多语言 SDK（Python ✅ / TypeScript ✅ / Java ⏳ / Go ⏳ / Rust ⏳）
+- ⏳ 申请中物联团体标准立项（T/CFLP）
+- ⏳ 建立技术指导委员会（TSC）
+
+### v1.0 准备工作（已启动）
+
+- ✅ ULSC 状态转移图 — [ulsc/state-machine.md](./ulsc/state-machine.md)
+  32 码合法转移定义 + Mermaid 可视化 + 校验函数提议（Python/TS）
+  + 完整转移矩阵的 v1.0 计划 + 4 个边缘情况说明
+- ⏳ `ulsc/transitions.csv` 32×32 矩阵化（自动化 validator 输入）
+- ⏳ `oltrack.state_machine` / `@oltrack/sdk/state-machine` 实现
+- ⏳ 中物联团体标准立项书草稿
 
 ## v2.0+ — 国家标准路径（2028+）
 
