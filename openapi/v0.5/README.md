@@ -50,7 +50,7 @@ Examples 也用 `examples/v0.2/*.json` 的 `externalValue` 引用，避免重复
 
 - ✅ Webhook 设计完整化（HMAC-SHA256 签名 / 幂等 / 13 次指数退避 / DLQ）—— [webhook.md](./webhook.md)
 - ✅ AsyncAPI 2.6 spec for webhook 端（与 OpenAPI 互补）—— [asyncapi.yaml](./asyncapi.yaml)
-- ⏳ 数据质量评价框架（完整度 / 时效性 / 一致性 metrics）
+- ✅ 数据质量评价框架（4 维度 / 15 metric / SQL 示例）—— [data-quality.md](./data-quality.md)
 - ⏳ TypeScript SDK `@oltrack/sdk` 自动生成
 
 ## 校验

@@ -43,7 +43,7 @@
 - ✅ Webhook 完整化（HMAC-SHA256 签名 + 幂等 + 13 次指数退避 + DLQ）—
   [openapi/v0.5/webhook.md](./openapi/v0.5/webhook.md)
 - ✅ AsyncAPI 2.6 spec 互补 — [openapi/v0.5/asyncapi.yaml](./openapi/v0.5/asyncapi.yaml)
-- ⏳ 数据质量评价框架（完整度 / 时效性 / 一致性 metrics）
+- ✅ 数据质量评价框架 4 维度 15 metric — [openapi/v0.5/data-quality.md](./openapi/v0.5/data-quality.md)
 - ⏳ TypeScript SDK：`@oltrack/sdk` 自动生成
 
 ## v1.0 — 稳定版（2027 H1）
