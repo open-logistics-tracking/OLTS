@@ -1,0 +1,7 @@
+# Source: 快递企业开放平台API对比分析报告.md §2.7（京东物流开放平台，2026-05 调研）
+# Reviewer: @zhatrix
+# Coverage: ❌ PLACEHOLDER — 数据缺口待补
+#          原报告 §2.7 仅给出请求参数和错误码（1000/2001/2100/2101/4000），未公开
+#          物流状态码体系。物流状态码需从京东物流官方开发者文档或真实 API 响应中补充，
+#          预留至 W4 或后续小版本一并交付。
+carrier_code,carrier_name,olts_code,notes

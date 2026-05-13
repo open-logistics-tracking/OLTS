@@ -1,0 +1,27 @@
+# Source: 快递企业开放平台API对比分析报告.md §2.5（顺丰开放平台 v2.1，2026-05 调研）
+# Reviewer: @zhatrix
+# Note: 顺丰 API 同时提供两套状态码——`expressStatus`（快件整体状态，10 个）与
+#       `opcode`（事件级操作码，10+ 个）。两套都映射到此文件，用 `status:N` 与
+#       `opcode:N` 前缀区分原始命名空间。消费方应优先使用 opcode 做事件级 timeline，
+#       expressStatus 用于呈现整体状态徽标。
+carrier_code,carrier_name,olts_code,notes
+status:0,无轨迹,exception,API 暂无任何轨迹数据；实务上视为系统异常
+status:1,已下单,order_created,
+status:2,已揽件,picked_up,
+status:3,运输中,in_transit,
+status:4,到达派件网点,arrived_at_destination,
+status:5,派送中,out_for_delivery,
+status:6,已签收,delivered,
+status:7,签收异常,delivery_attempted,签收异常按 ULSC 归为派送未果
+status:8,退件/转寄,returned_to_sender,转寄/退件合并为同一整体状态；细分场景在事件描述字段补充
+status:9,取消/关闭,order_cancelled,
+opcode:10,下单成功,order_created,
+opcode:30,揽收成功,picked_up,
+opcode:50,已发车/运输中,in_transit,
+opcode:60,到达中转场,arrived_at_hub,
+opcode:70,离开中转场,departed_from_hub,
+opcode:80,到达网点,arrived_at_destination,
+opcode:100,派送中,out_for_delivery,
+opcode:160,客户签收,delivered,
+opcode:161,代收/快递柜签收,signed_by_third_party,代收与快递柜签收原报告合并；细分语义在事件描述字段补充
+opcode:170,拒收退回,refused,事件级映射到拒收（refused）；后续若包裹回到发件人会另发 returned_to_sender 事件

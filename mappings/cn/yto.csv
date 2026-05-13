@@ -1,0 +1,14 @@
+# Source: 快递企业开放平台API对比分析报告.md §2.1（圆通速递开放平台，2026-05 调研）
+# Reviewer: @zhatrix
+carrier_code,carrier_name,olts_code,notes
+GOT,已揽收,picked_up,
+ARRIVAL,已收入,arrived_at_hub,到达分拣/转运中心
+DEPARTURE,已发出,departed_from_hub,
+SENT_SCAN,派件,out_for_delivery,
+INBOUND,自提柜入柜,delivery_to_locker,
+SIGNED,签收成功,delivered,
+FAILED,签收失败,delivery_attempted,签收失败按 ULSC 归为派送未果
+FORWARDING,转寄,in_transit,转寄按通用运输中处理；具体转寄路径在事件描述字段补充
+TMS_RETURN,退回,returned_to_sender,
+AIRSEND,航空发货,departed_from_hub,运输模式（航空）信息归入事件 notes 字段
+AIRPICK,航空提货,arrived_at_hub,运输模式（航空）信息归入事件 notes 字段

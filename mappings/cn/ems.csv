@@ -1,0 +1,7 @@
+# Source: 中国邮政 EMS 开放平台（待调研）
+# Reviewer: @zhatrix
+# Coverage: ❌ PLACEHOLDER — 数据缺口待补
+#          原报告 §1 在 10 家承运商总名单中列入了中国邮政，但 §2 各章节未独立覆盖
+#          EMS 的认证、字段或状态码体系。映射需从 EMS 官方开放平台文档或真实 API
+#          响应中独立调研补充。
+carrier_code,carrier_name,olts_code,notes
