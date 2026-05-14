@@ -148,7 +148,7 @@ UPDATE shipment_events e
 可以把映射作为 git submodule 嵌入自己的服务：
 
 ```bash
-git submodule add https://github.com/open-logistics-tracking/OpenLogisticsTrackingSchema vendor/olts
+git submodule add https://github.com/open-logistics-tracking/olts vendor/olts
 git submodule update --remote
 ```
 
@@ -190,4 +190,4 @@ git submodule update --remote
 *作者：[@zhatrix](https://github.com/zhatrix)。欢迎转载，请保留项目链接。*
 
 *意见、批评、PR 都来自这里：*
-*https://github.com/open-logistics-tracking/OpenLogisticsTrackingSchema*
+*https://github.com/open-logistics-tracking/olts*
