@@ -1,33 +1,34 @@
 # 为什么中国物流需要一个开源轨迹标准
 
-> 2026-05
+> 2026-05 · updated for OLTS v0.5-dev
 
 ## TL;DR
 
-物流轨迹数据在中国是事实上的"通天塔"——10 家承运商、10 套字段命名、10 套状态码、10 套签名算法。
+物流轨迹数据在中国是事实上的"通天塔"：承运商 API 在字段命名、状态码、时间格式、签名算法上高度碎片化。对接 3 家以上承运商，成本就不再只是写 HTTP client，而是反复做同一件事：**把每家的轨迹事件翻译成自己业务能理解的统一状态**。
 
-OLTS（**Open Logistics Tracking Schema**）想做一件务实的事：**先把状态码归一**。不发明新数据模型、不强推 schema、不绑架谁。一份 32 码的统一字典 + 一份覆盖 **12 家承运商、1761 条 raw codes** 的开源映射表。
+OLTS（**Open Logistics Tracking Schema**）的路线很务实：先把状态码归一，再沉淀 schema、接口规范和参考 SDK。当前仓库已经包含：
 
 ```
-12 carriers   |   1761 raw codes   |   ULSC 32/32 used   |   CC BY 4.0 + Apache 2.0
+14 carriers   |   14 mapping files   |   1761 raw codes   |   ULSC 32/32 used
+2 JSON Schemas   |   28 examples   |   OpenAPI/AsyncAPI   |   oltrack-py + @oltrack/sdk
 ```
 
-GitHub：[open-logistics-tracking/OpenLogisticsTrackingSchema](https://github.com/open-logistics-tracking/OpenLogisticsTrackingSchema)
+项目入口：[OpenLogisticsTrackingSchema](../README.md)
 
 ---
 
 ## 一、痛点是真实的
 
-电商对接 3 家以上承运商时，技术成本指数增长。原因不是"对接量大"，而是**每家都用完全不同的概念**：
+电商、品牌中台、物流 SaaS 对接 3 家以上承运商时，技术成本指数增长。原因不是"接口数量多"，而是**每家都用不同概念表达同一件事**：
 
 | 维度 | 圆通 | 中通 | 顺丰 | 京东 |
 |---|---|---|---|---|
-| 时间字段 | `upload_Time` | `opTime` | `acceptTime` | `operateTime` |
+| 时间字段 | `upload_Time` | `scanDate` / `opTime` | `acceptTime` | `operationTime` |
 | 状态字段 | `infoContent` | `scanType` | `opcode` | `state` |
-| 状态值类型 | 英文缩写 | 中文/英文/数字三套 | 数字 | 6 位数字 |
+| 状态值类型 | 英文缩写 | 中文 / 英文 / 数字三套 | 数字 | 6 位数字 |
 | 签名算法 | Base64(MD5(...)) | MD5/SHA256 可选 | HMAC-SHA256 | APPKEY+APPSECRET |
 
-国际段更复杂。DHL Parcel DE 一个 event 配多个 RIC 子原因码，**282 个组合**。USPS Pub 199 Appendix G-4 有 70+ 域内事件码，G-5 还有 50+ 国际邮件 UPU 标准码。UPS 公开的 status code 表 **774 条**。
+国际段更复杂。DHL Parcel DE 一个 event 配多个 RIC 子原因码，形成数百个组合；USPS Pub 199 同时有域内事件码和国际邮件 UPU 标准码；UPS 的 status code 表规模更大，当前映射收录 **774 条**。
 
 ### 行业成本量化（粗估）
 
@@ -37,79 +38,88 @@ GitHub：[open-logistics-tracking/OpenLogisticsTrackingSchema](https://github.co
 |---|---:|
 | 读文档 + 注册 + 申请 sandbox 凭证 | 2 |
 | 实现签名算法（每家都不一样） | 2 |
-| 字段归一化（时间/状态/地址） | 3 |
+| 字段归一化（时间 / 状态 / 地址） | 3 |
 | 状态码映射（业务侧统一态） | 2 |
 | 异常处理 + 监控 + 重试 | 3 |
 | 接入测试 + 上线 | 2 |
 | **每家小计** | **14 人天** |
 
-对接 6 家：~80 人天。整个行业重复了几万遍。
-
-这不是技术问题，是**协调成本问题**。
+对接 6 家：约 80 人天。整个行业反复做同一套状态映射和字段归一化，这不是算法问题，是**协调成本问题**。
 
 ## 二、为什么不等团体标准
 
-中物联 **GB/T 45815-2025**（2025-07 实施）定义了物流数据交换的**框架**。但它**不规定**：
+中物联 **GB/T 45815-2025** 定义了物流数据交换的框架，但它不解决这些落地问题：
 
-- 每个事件类型用什么 code
+- 每个扫描事件用什么状态码
 - 状态码之间的语义关系
-- 各家承运商的 raw code 怎么映射到统一码
+- 各家承运商 raw code 怎么映射到统一码
+- 消费方接口如何返回统一后的轨迹事件
 
-这些是行业**事实上的协调缺口**。等标准化机构自上而下补完，3-5 年起步。
+国际上 IATA ONE Record、UN/CEFACT BRS、GS1 EPCIS 都有可借鉴的设计，但没有一个能直接覆盖中国快递的"扫描节点级"颗粒度和国内承运商状态码体系。
 
-国际上 IATA ONE Record、UN/CEFACT BRS、GS1 EPCIS 都有可借鉴的设计，但没有一个直接适配中国快递的"扫描节点级"颗粒度。
+OLTS 的定位不是替代标准化机构，而是把事实上的行业经验先整理成可运行、可验证、可社区维护的开放资料。
 
-## 三、OLTS 的范围（v0.1）
+## 三、OLTS 做什么
 
-**只做一件事**：发布一份开源的、社区维护的"状态码归一字典 + 承运商映射表"。
+OLTS 分三层推进：
 
-不做：
-- 新的 schema 提案（避免与 GB/T 45815 冲突）
-- API 调用层抽象（每家签名算法太不同，硬统一只会引入新约束）
-- SDK / 库（让消费者自己选语言生态）
+1. **v0.1：统一状态码与映射表**
+   [`ulsc/ulsc.csv`](../ulsc/ulsc.csv) 定义 32 个 ULSC 统一码，覆盖预下单、揽收、运输、清关、派送、异常、退回 7 大类；[`mappings/`](../mappings/) 维护各承运商 raw code 到 ULSC 的映射。
 
-做的：
-- **ULSC**（Unified Logistics Status Codes）：32 个核心码，7 大类，覆盖国内+国际+清关全链路
-- 每家承运商的 raw code → ULSC 映射 CSV（4 列：`carrier_code` / `carrier_name` / `olts_code` / `notes`）
-- 一份 Python 校验脚本 (`tools/validate.py`) + 一份 CSV 格式规范
+2. **v0.2：JSON Schema 与示例**
+   [`TrackingEvent`](../schemas/v0.2/tracking-event.json) 描述单个轨迹事件，[`Shipment`](../schemas/v0.2/shipment.json) 描述完整运单；[`examples/v0.2/`](../examples/v0.2/) 提供 28 个脱敏/合成示例。
 
-## 四、v0.1 现在长什么样
+3. **v0.5：消费方 API 与 SDK MVP**
+   [`openapi/v0.5/tracking.yaml`](../openapi/v0.5/tracking.yaml) 定义查询接口，[`webhook.md`](../openapi/v0.5/webhook.md) 和 [`asyncapi.yaml`](../openapi/v0.5/asyncapi.yaml) 定义推送契约；[`oltrack-py`](../oltrack-py/) 与 [`@oltrack/sdk`](../oltrack-ts/) 提供参考实现。
 
-**12 家承运商、14 个映射文件、1761 条 raw codes**，全部通过字典 + CSV 字段双重校验：
+OLTS 不做的事也很明确：
+
+- 不替你调用承运商 API
+- 不统一上游承运商鉴权 / 签名 / 限流
+- 不保存真实运单数据
+- 不把承运商原始 PDF / YAML 文档 mirror 进仓库
+
+## 四、现在长什么样
+
+**14 家承运商、14 个映射文件、1761 条 raw codes**，全部通过字典 + CSV 字段双重校验：
+
+```bash
+python3 tools/validate.py
+```
 
 ### 国内 10 家
 
-| 承运商 | raw codes | 数据来源 |
+| 承运商 | raw codes | 映射文件 |
 |---|---:|---|
-| 圆通 yto | 11 | 圆通开放平台官方文档 |
-| 中通 zto | 24 | japi.zto.com 接口文档 |
-| 申通 sto | 29 | open.sto.cn 物流详情接口 |
-| 韵达 yunda | 26 | openapi.yundaex.com 轨迹接口 |
-| 顺丰 sf | 20 | 顺丰开放平台 v2.1（status + opcode 两套）|
-| 京东 jdl | 75 | open.jdl.com 三份官方文档 |
-| 邮政 ems | **237** | api.ems.com.cn 协议客户开放平台 |
-| 极兔 jtexpress | 46 | openapi.jtexpress.com.cn |
-| 菜鸟 cainiao | 14 | TMS_PRACTICE_TRACE_INFO 接口 |
-| 德邦 deppon | 24 | dpopen.deppon.com（订单+轨迹两层）|
+| 圆通 yto | 11 | [`mappings/cn/yto.csv`](../mappings/cn/yto.csv) |
+| 中通 zto | 24 | [`mappings/cn/zto.csv`](../mappings/cn/zto.csv) |
+| 申通 sto | 29 | [`mappings/cn/sto.csv`](../mappings/cn/sto.csv) |
+| 韵达 yunda | 26 | [`mappings/cn/yunda.csv`](../mappings/cn/yunda.csv) |
+| 顺丰 sf | 20 | [`mappings/cn/sf.csv`](../mappings/cn/sf.csv) |
+| 京东 jdl | 75 | [`mappings/cn/jdl.csv`](../mappings/cn/jdl.csv) |
+| 邮政 ems | 237 | [`mappings/cn/ems.csv`](../mappings/cn/ems.csv) |
+| 极兔 jtexpress | 46 | [`mappings/cn/jtexpress.csv`](../mappings/cn/jtexpress.csv) |
+| 菜鸟 cainiao | 14 | [`mappings/cn/cainiao.csv`](../mappings/cn/cainiao.csv) |
+| 德邦 deppon | 24 | [`mappings/cn/deppon.csv`](../mappings/cn/deppon.csv) |
 
 ### 国际 4 家
 
-| 承运商 | raw codes | 数据来源 |
+| 承运商 | raw codes | 映射文件 |
 |---|---:|---|
-| DHL | **287** | DHL Unified API + Parcel DE ICE 官方表 |
-| FedEx | 49 | Shopify active_shipping 开源库 + OpenAPI |
-| UPS | **774** | rocketshipit PHP UPS docs（业内整理）|
-| USPS | 145 | Pub 199 Appendix G-4（国内）+ G-5（国际）|
+| DHL | 287 | [`mappings/intl/dhl.csv`](../mappings/intl/dhl.csv) |
+| FedEx | 49 | [`mappings/intl/fedex.csv`](../mappings/intl/fedex.csv) |
+| UPS | 774 | [`mappings/intl/ups.csv`](../mappings/intl/ups.csv) |
+| USPS | 145 | [`mappings/intl/usps.csv`](../mappings/intl/usps.csv) |
 
-**ULSC 32 码 100% 启用**——含损坏、丢失、地址异常、收件人不在、待自提、清关扣留等细分异常码。
+数据来源和版权说明见 [`data-sources/`](../data-sources/)；映射格式见 [`MAPPING_FORMAT.md`](../MAPPING_FORMAT.md)。
 
 ## 五、3 个典型对接场景
 
 ### 场景 A：腰部电商品牌方（年发件 100-1000 万）
 
-正在自建物流中台，对接 3-5 家承运商。最痛的不是抓 API，是**每家都要自己造一套统一状态**。
+正在自建物流中台，对接 3-5 家承运商。最痛的不是抓 API，是每家都要自己造一套统一状态。
 
-OLTS 直接拿来用：
+OLTS 可以直接作为映射表使用：
 
 ```sql
 -- 在你的事件表里加一列 olts_code
@@ -127,56 +137,57 @@ UPDATE shipment_events e
 
 ### 场景 B：跨境电商物流中台
 
-国内段顺丰/京东 + 国际段 DHL/UPS + 清关节点。OLTS 的 ULSC 字典含 6 个清关码（`customs_declared` / `customs_held` / `customs_inspection` / `customs_released` / `customs_duty_paid` / `clearance_completed`），DHL/USPS/EMS 映射里都已经用上。
+国内段顺丰 / 京东 + 国际段 DHL / UPS + 清关节点。OLTS 的 ULSC 字典含 6 个清关码：`customs_declared` / `customs_held` / `customs_inspection` / `customs_released` / `customs_duty_paid` / `clearance_completed`。DHL、USPS、EMS 等映射已经使用这些清关码。
 
 跨境前端不需要为每家承运商写一套"清关状态翻译"。
 
 ### 场景 C：物流 SaaS 厂商做对外开放接口
 
-你给客户提供"统一物流接口"，背后接了 10+ 承运商。OLTS 给你一个**已经辩论过的**统一码字典——不用自己定义、不用自己说服客户、不用自己维护映射表。
+你给客户提供"统一物流接口"，背后接了 10+ 承运商。OLTS 给你一个已经辩论过的统一码字典、JSON Schema 和消费方 HTTP 接口规范。
 
-把映射作为 git submodule 嵌入自己的服务：
+可以把映射作为 git submodule 嵌入自己的服务：
 
 ```bash
 git submodule add https://github.com/open-logistics-tracking/OpenLogisticsTrackingSchema vendor/olts
+git submodule update --remote
 ```
 
-升级一行命令：`git submodule update --remote`。
+如果你要对外暴露统一查询接口，可以直接参考 [`openapi/v0.5/`](../openapi/v0.5/)。
 
 ## 六、能贡献什么
 
 如果你：
 
-**对接过某家承运商**：你的真实 API 响应样本 + 状态码映射经验，是最珍贵的贡献。
-→ 提 Issue 描述场景，或直接 PR 一份 `mappings/cn/<carrier>.csv` 增量。
+**对接过某家承运商**：你的脱敏 API 响应样本 + 状态码映射经验，是最珍贵的贡献。
+→ 提 Issue 描述场景，或直接 PR 一份 `mappings/cn/<carrier>.csv` / `mappings/intl/<carrier>.csv` 增量。
 
-**做物流数据服务**（聚合/分析/中台）：把你内部的 carrier→统一状态映射表脱敏后开源。
-→ PR 形式：每家一个 CSV，遵循 [`MAPPING_FORMAT.md`](https://github.com/open-logistics-tracking/OpenLogisticsTrackingSchema/blob/main/MAPPING_FORMAT.md)。
+**做物流数据服务**（聚合 / 分析 / 中台）：把内部 carrier → 统一状态映射表脱敏后开源。
+→ PR 形式：每家一个 CSV，遵循 [`MAPPING_FORMAT.md`](../MAPPING_FORMAT.md)。
 
-**维护开源运输库**（如 Python `shippo`、Node `easypost`、Go `goship`）：把内置 status mapping 跟 OLTS 字典对齐。
-→ 你的库的用户可以零成本切换。
+**维护开源运输库**（如 Python、Node、Go 物流 SDK）：把内置 status mapping 跟 ULSC 字典对齐。
+→ 你的库的用户可以零成本获得统一状态码。
 
-**审查 UPS 426 条 exception**：[`mappings/intl/ups.csv`](https://github.com/open-logistics-tracking/OpenLogisticsTrackingSchema/blob/main/mappings/intl/ups.csv) 中 346 条规则化分类标"automated rule-based classification; awaiting community review"。手工 spot review 一条改一条，PR 友好。
-→ 这是 UPS 操作员/QA/数据分析师的"举手之劳"贡献。
+**审查 UPS 异常细化**：[`mappings/intl/ups.csv`](../mappings/intl/ups.csv) 中仍有大量规则化分类标记为 `automated rule-based classification; awaiting community review`。
+→ 手工 spot review 一条改一条，PR 友好。
 
-**做 OLTS 适配验证**：拿真实运单跑一遍 OLTS 映射，反馈不对的地方。
-→ 提 Issue，附原始响应（脱敏）+ 你认为应该映射到哪个 ULSC 码。
+**做 OLTS 适配验证**：拿脱敏运单样本跑 [`oltrack-py`](../oltrack-py/) + schema 校验，反馈不对的映射。
+→ 提 Issue 时请移除或脱敏运单号、手机号、姓名、详细地址、签收人、证件号、API token/header。
 
 ## 七、长期方向
 
-| 版本 | 范围 | 时间 |
+| 版本 | 范围 | 状态 |
 |---|---|---|
-| **v0.1** ✅ | ULSC 字典 + 12 家映射表 + Python 校验 | 2026-05 完成 |
-| **v0.2** | 从映射凝结 `TrackingEvent` JSON Schema + 时间/地址结构化 + Python 转换器 | 2026 Q3 |
-| **v0.5** | OpenAPI 3.0 轨迹查询/推送接口 + 数据质量评价 + TypeScript SDK | 2026 Q4 |
-| **v1.0** | 稳定版 + 多语言 SDK + 申请中物联团体标准立项 | 2027 H1 |
-| **v2.0+** | GB/T 国家标准 + 与 GS1 EPCIS / UN/CEFACT / IATA ONE Record 互操作 | 2028+ |
+| **v0.1** | ULSC 字典 + 14 家映射表 + Python 校验 | ✅ 已完成 |
+| **v0.2** | `TrackingEvent` / `Shipment` JSON Schema + 28 examples + Python 参考实现 | ✅ 主体完成 |
+| **v0.5** | OpenAPI 3.1 查询接口 + Webhook + AsyncAPI + 数据质量评价 + TypeScript SDK MVP | ✅ 主体完成 |
+| **v1.0** | 稳定版 + 状态转移图/矩阵 + 多语言 SDK + 团体标准立项准备 | 🚧 准备中 |
+| **v2.0+** | GB/T 国家标准路径 + 与 GS1 EPCIS / UN/CEFACT / IATA ONE Record 互操作 | 规划中 |
 
-但 v0.1 这个阶段，**只做映射表**。先把行业的"状态码协调成本"降下来，比什么都重要。
+当前更完整的路线见 [`ROADMAP.md`](../ROADMAP.md)。ULSC 状态转移图见 [`ulsc/state-machine.md`](../ulsc/state-machine.md)。
 
 ---
 
-*作者：[@zhatrix](https://github.com/zhatrix)。这篇是 OLTS 首发文，欢迎转载，请保留 GitHub 链接。*
+*作者：[@zhatrix](https://github.com/zhatrix)。欢迎转载，请保留项目链接。*
 
 *意见、批评、PR 都来自这里：*
 *https://github.com/open-logistics-tracking/OpenLogisticsTrackingSchema*
