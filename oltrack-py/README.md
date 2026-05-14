@@ -59,8 +59,12 @@ print(lookup("ups", "F4"))         # → "delivered"
 |---|---|---|
 | 顺丰 sf | `adapters/sf.py` | ✅ Reference impl |
 | DHL | `adapters/dhl.py` | ✅ Reference impl |
+| 圆通 yto | `adapters/yto.py` | ✅ MVP |
+| 中通 zto | `adapters/zto.py` | ✅ MVP |
+| 京东物流 jdl | `adapters/jdl.py` | ✅ MVP |
+| UPS | `adapters/ups.py` | ✅ MVP |
 
-剩余 10 家（yto/zto/sto/yunda/jdl/ems/jtexpress/cainiao/deppon/fedex/ups/usps）等社区贡献。
+剩余 8 家（sto/yunda/ems/jtexpress/cainiao/deppon/fedex/usps）等社区贡献。
 模板见 `adapters/sf.py` —— 通常 100-150 行：解析响应、字段重命名、调 `mappings.lookup()` 拿 olts_code、组装 TrackingEvent dict。
 
 ## 测试

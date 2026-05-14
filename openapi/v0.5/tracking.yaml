@@ -114,7 +114,7 @@ paths:
         订阅某个运单号的事件 webhook 推送。当承运商上游有新事件时，会
         POST 到 callbackUrl，body 是 OLTS TrackingEvent dict。
 
-        v0.5 Draft —— webhook 签名 / 重试 / 幂等 / AsyncAPI spec 待补。
+        v0.5 Draft —— webhook 传输层契约见 webhook.md，消息 schema 见 asyncapi.yaml。
       operationId: createSubscription
       tags: [tracking]
       requestBody:

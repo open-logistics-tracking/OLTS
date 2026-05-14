@@ -87,7 +87,7 @@ npm run build       # tsc → dist/
 npm test            # vitest run
 ```
 
-预期: 11 个测试全部通过（ulsc 类型守卫 / category / event / shipment auto-derive / sf adapter 正向 + 错误响应 + 未知 opcode + shipment 构造）。
+预期: 17 个测试全部通过（ulsc 类型守卫 / category / event / shipment auto-derive / sf+dhl adapter 正向 + 错误响应 + 未知码 + shipment 构造）。
 
 ## 与 oltrack-py 对比
 
@@ -95,9 +95,9 @@ npm test            # vitest run
 |---|---|---|
 | 数据源 | 运行时读 `mappings/*.csv` | 内联部分常用映射（v0.5 MVP）|
 | ULSC enum | Python Enum + frozenset | TypeScript union + Set |
-| Adapter | sf + dhl | sf only（MVP） |
+| Adapter | sf + dhl + yto + zto + jdl + ups | sf + dhl（MVP） |
 | Schema 校验 | optional jsonschema | 暂无（计划用 [ajv](https://ajv.js.org/)）|
-| 测试 | pytest 12 个 | vitest 11 个 |
+| 测试 | pytest 18 个 | vitest 17 个 |
 
 ## v1.0 计划
 

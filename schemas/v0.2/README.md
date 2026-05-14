@@ -88,12 +88,12 @@ python3 tools/validate_schemas.py
 
 ## examples/
 
-参见 [examples/v0.2/](../../examples/v0.2/) — 3 个真实事件实例覆盖国内、国际、清关、签收等典型场景。
+参见 [examples/v0.2/](../../examples/v0.2/) — 28 个脱敏/合成示例覆盖国内、国际、清关、签收等典型场景。
 
 ## 路线
 
-- v0.2: `TrackingEvent` ✅ + `Shipment` ⏳
-- v0.5: 含 schema 的 OpenAPI 3.0 接口规范
+- v0.2: `TrackingEvent` ✅ + `Shipment` ✅
+- v0.5: 含 schema 的 OpenAPI 3.1 接口规范
 - v1.0: 稳定版，承诺向后兼容
 
 完整见 [ROADMAP.md](../../ROADMAP.md)。

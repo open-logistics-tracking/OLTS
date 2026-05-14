@@ -7,7 +7,7 @@
 中国主流快递企业的物流轨迹 API 在字段命名、状态码、签名方式上完全碎片化：对接 3 家以上承运商，技术适配成本就呈指数增长。OLTS 提供一份开放的、由社区维护的统一规范，让上下游系统只需一次对接。
 
 ```
-12 carriers   |   14 mapping files   |   1761 raw codes   |   ULSC 32/32 used
+14 carriers   |   14 mapping files   |   1761 raw codes   |   ULSC 32/32 used
 2 schemas + OpenAPI/AsyncAPI   |   oltrack-py + @oltrack/sdk   |   零运行时依赖
 ```
 
@@ -88,8 +88,8 @@ python3 tools/validate.py
 |---|---|---|
 | `TrackingEvent` JSON Schema Draft 2020-12 | ✅ Draft 1 | [schemas/v0.2/tracking-event.json](./schemas/v0.2/tracking-event.json) |
 | `Shipment` JSON Schema Draft 2020-12 | ✅ Draft 1 | [schemas/v0.2/shipment.json](./schemas/v0.2/shipment.json) |
-| Examples（事件级，12 家） | ✅ | [examples/v0.2/](./examples/v0.2/)`*-event.json` |
-| Examples（运单级，2 家示范） | ✅ | [examples/v0.2/](./examples/v0.2/)`*-shipment.json` |
+| Examples（事件级，14 家） | ✅ | [examples/v0.2/](./examples/v0.2/)`*-event.json` |
+| Examples（运单级，14 家） | ✅ | [examples/v0.2/](./examples/v0.2/)`*-shipment.json` |
 | Schema 校验工具（含 examples） | ✅ | `python3 tools/validate_schemas.py` |
 | Python 参考实现 `oltrack-py` | ✅ MVP | [oltrack-py/](./oltrack-py/) |
 
@@ -161,14 +161,14 @@ assert lookup("ups", "F4") == "delivered"
 
 ```bash
 cd oltrack-py
-python3 -m pytest tests/ -v   # 12 passed
+python3 -m pytest tests/ -v   # 18 passed
 ```
 
 ### Schema 校验
 
 ```bash
 python3 tools/validate_schemas.py
-# OK — all 2 schemas + 16 examples valid
+# OK — all 2 schemas + 28 examples valid
 ```
 
 ---
@@ -234,14 +234,14 @@ const events = normalizeResponse(sfApiResponse);
 
 ```
 ulsc/                    32 码字典定稿
-mappings/                12 家承运商 raw_code → ULSC 映射 CSV
+mappings/                14 家承运商 raw_code → ULSC 映射 CSV
 schemas/v0.2/            JSON Schema (TrackingEvent + Shipment)
-examples/v0.2/           17 个 Schema 实例（覆盖 12 家）
+examples/v0.2/           28 个 Schema 实例（覆盖 14 家）
 oltrack-py/              Python 参考实现（零运行时依赖）
 openapi/v0.5/            OpenAPI 3.1 接口规范 + Webhook + AsyncAPI + 数据质量框架
 oltrack-ts/              TypeScript SDK @oltrack/sdk
 tools/                   validate.py (CSV) + validate_schemas.py (JSON Schema)
-data-sources/            12 家承运商来源元数据 + 版权归属
+data-sources/            14 家承运商来源元数据 + 版权归属
 posts/                   首发文章 + 后续文档
 快递企业开放平台API对比分析报告.md     初期调研：国内 10 家
 国际物流轨迹格式调研报告.md             初期调研：国际 + 清关节点
@@ -250,7 +250,7 @@ posts/                   首发文章 + 后续文档
 
 ## 路线图（节选）
 
-- **v0.1（已完成）**: ULSC 字典 + 12 家承运商映射表 + Python 校验
+- **v0.1（已完成）**: ULSC 字典 + 14 家承运商映射表 + Python 校验
 - **v0.2（主体完成）**: TrackingEvent + Shipment JSON Schema + oltrack-py MVP
 - **v0.5（主体完成）**: OpenAPI 3.1 + Webhook + AsyncAPI 2.6 + 数据质量框架 + TypeScript SDK MVP
 - **v1.0（2027 H1）**: 稳定版 + 多语言 SDK + 申请中物联团体标准立项

@@ -4,7 +4,7 @@
 
 **形态**：状态码字典 + 承运商映射表（CSV）。不写 schema、不写 API spec、不写 SDK。
 
-**交付**：12 家承运商（国内 10 + 国际 4）、14 个映射文件、1761 条 raw status codes、ULSC 32/32 全启用、Python 校验脚本、首发文章草稿。
+**交付**：14 家承运商（国内 10 + 国际 4）、14 个映射文件、1761 条 raw status codes、ULSC 32/32 全启用、Python 校验脚本、首发文章草稿。
 
 | 周 | 任务 | 产出 |
 |---|---|---|
@@ -28,16 +28,16 @@
     `estimatedDelivery` (date 或 from-through 窗口) / `actualDelivery` / `pieces[]` (含 weight+dimensions) /
     `weight` / `dimensions` / `declaredValue` (ISO 4217) / `isReturn` / `metadata`
   - `events[].$ref` 引用 tracking-event.json 字典统一
-- ⏳ Python 参考实现：`oltrack-py`（承运商响应 → OLTS 事件转换器）
+- ✅ Python 参考实现：`oltrack-py`（承运商响应 → OLTS 事件转换器）
 
-示例: [examples/v0.2/](./examples/v0.2/) — sf / dhl / usps 三个真实事件实例。
+示例: [examples/v0.2/](./examples/v0.2/) — 28 个脱敏/合成事件与运单实例。
 
 ## v0.5 — API 规范（2026 Q4，✅ 主体完成）
 
 - ✅ `OpenAPI 3.1` 轨迹查询接口骨架 — [openapi/v0.5/tracking.yaml](./openapi/v0.5/tracking.yaml)
   - `GET /tracking/{trackingNumber}` — 返回事件流 (TrackingEvent[])
   - `GET /tracking/{trackingNumber}/shipment` — 返回完整 Shipment 实体
-  - `POST /tracking/subscriptions` — 订阅 webhook（Draft，签名/重试待补）
+  - `POST /tracking/subscriptions` — 订阅 webhook（签名/重试见配套规范）
   - 响应 schema $ref 到 v0.2 JSON Schema，字典统一
   - 错误响应规范（code + message + 可选 carrier 信息）
 - ✅ Webhook 完整化（HMAC-SHA256 签名 + 幂等 + 13 次指数退避 + DLQ）—
@@ -46,7 +46,7 @@
 - ✅ 数据质量评价框架 4 维度 15 metric — [openapi/v0.5/data-quality.md](./openapi/v0.5/data-quality.md)
 - ✅ TypeScript SDK MVP `@oltrack/sdk` — [oltrack-ts/](./oltrack-ts/)
   零依赖 ESM 包，完整 TypeScript 类型 (UlscCode 32 codes union /
-  TrackingEvent / Shipment)，sf reference adapter，vitest 11 测试
+  TrackingEvent / Shipment)，sf + dhl MVP adapters，vitest 17 测试
 
 ## v1.0 — 稳定版（2027 H1，🚧 准备中）
 

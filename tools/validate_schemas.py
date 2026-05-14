@@ -22,6 +22,7 @@ deprecated RefResolver).
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -45,6 +46,11 @@ EXAMPLE_ROUTES = [
     ("-event.json",    "tracking-event.json"),
 ]
 
+PII_PATTERNS = [
+    ("mainland China mobile phone", re.compile(r"(?<!\d)1[3-9]\d{9}(?!\d)")),
+    ("mainland China ID number", re.compile(r"(?<!\d)\d{17}[\dXx](?!\d)")),
+]
+
 
 def build_registry(schemas: dict[str, dict]) -> Registry:
     """Register each schema under both its filename and its $id so $ref
@@ -55,6 +61,28 @@ def build_registry(schemas: dict[str, dict]) -> Registry:
         if "$id" in schema:
             resources.append((schema["$id"], DRAFT202012.create_resource(schema)))
     return Registry().with_resources(resources)
+
+
+def iter_strings(value: object, path: str = ""):
+    """Yield (json_pointer, string_value) pairs from nested JSON data."""
+    if isinstance(value, str):
+        yield path or "/", value
+    elif isinstance(value, list):
+        for idx, item in enumerate(value):
+            yield from iter_strings(item, f"{path}/{idx}")
+    elif isinstance(value, dict):
+        for key, item in value.items():
+            yield from iter_strings(item, f"{path}/{key}")
+
+
+def pii_errors(instance: object) -> list[str]:
+    """Detect obvious unmasked personal data in public examples."""
+    errors: list[str] = []
+    for pointer, text in iter_strings(instance):
+        for label, pattern in PII_PATTERNS:
+            if pattern.search(text):
+                errors.append(f"{label} at {pointer}: {text!r}")
+    return errors
 
 
 def main() -> int:
@@ -111,6 +139,12 @@ def main() -> int:
                 print(f"❌ {rel} → {target}: {e.message} at /{loc}", file=sys.stderr)
         else:
             print(f"✅ example {rel} validates against {target}")
+
+        pii = pii_errors(instance)
+        if pii:
+            instance_errors += len(pii)
+            for e in pii[:5]:
+                print(f"❌ {rel}: possible unmasked PII — {e}", file=sys.stderr)
 
     if instance_errors:
         print(f"\nFAILED: {instance_errors} instance validation error(s)", file=sys.stderr)
