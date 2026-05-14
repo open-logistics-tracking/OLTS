@@ -2,13 +2,14 @@
 
 > 开放物流轨迹数据规范
 >
-> v0.1.0 ✅ 已发布 · v0.2.0-dev ✅ 主体完成 · v0.5.0-dev ✅ 主体完成
+> v0.1.0 ✅ 已发布 · v0.2.0-dev ✅ 主体完成 · v0.5.0-dev ✅ 主体完成 · v1.0-prep 🚧 状态机
 
 中国主流快递企业的物流轨迹 API 在字段命名、状态码、签名方式上完全碎片化：对接 3 家以上承运商，技术适配成本就呈指数增长。OLTS 提供一份开放的、由社区维护的统一规范，让上下游系统只需一次对接。
 
 ```
 14 carriers   |   14 mapping files   |   1761 raw codes   |   ULSC 32/32 used
-2 schemas + OpenAPI/AsyncAPI   |   oltrack-py + @oltrack/sdk   |   零运行时依赖
+2 schemas + OpenAPI/AsyncAPI   |   oltrack-py (6 adapters) + @oltrack/sdk (2 adapters)
+ULSC 状态机（69 转移 / 5 终态 / SDK validator 双语言）   |   零运行时依赖
 ```
 
 ---
@@ -151,17 +152,21 @@ assert lookup("ups", "F4") == "delivered"
 
 完整指南：[`oltrack-py/README.md`](./oltrack-py/README.md)
 
-**当前 adapter 覆盖**：
+**当前 adapter 覆盖**：6/14 ✅
 
 | Adapter | 文件 | 状态 |
 |---|---|---|
 | 顺丰 sf | `oltrack-py/src/oltrack/adapters/sf.py` | ✅ Reference impl |
 | DHL | `oltrack-py/src/oltrack/adapters/dhl.py` | ✅ Reference impl |
-| 其他 10 家（yto/zto/sto/yunda/jdl/ems/jtexpress/cainiao/deppon/fedex/ups/usps） | — | ⏳ 等社区贡献 |
+| 圆通 yto | `oltrack-py/src/oltrack/adapters/yto.py` | ✅ |
+| 中通 zto | `oltrack-py/src/oltrack/adapters/zto.py` | ✅ |
+| 京东 jdl | `oltrack-py/src/oltrack/adapters/jdl.py` | ✅ |
+| UPS | `oltrack-py/src/oltrack/adapters/ups.py` | ✅ |
+| 其余 8 家（sto/yunda/ems/jtexpress/cainiao/deppon/fedex/usps） | — | ⏳ 等社区贡献 |
 
 ```bash
 cd oltrack-py
-python3 -m pytest tests/ -v   # 18 passed
+python3 -m pytest -q   # 58 passed (18 normalize + 40 state_machine)
 ```
 
 ### Schema 校验
@@ -208,7 +213,49 @@ const events = normalizeResponse(sfApiResponse);
 // IDE 自动补全 32 个 UlscCode、tree-shaking 友好
 ```
 
-完整指南：[`oltrack-ts/README.md`](./oltrack-ts/README.md)
+**Adapter 覆盖**：2/14 — `sf` / `dhl`（其余等社区贡献）。完整指南：[`oltrack-ts/README.md`](./oltrack-ts/README.md)
+
+```bash
+cd oltrack-ts && npm test   # 45 passed (16 normalize + 29 state-machine)
+```
+
+---
+
+## v1.0-prep — ULSC 状态机 🚧
+
+ULSC 32 码不是平的，它们之间存在合法的转移序列。OLTS 把这套关系矩阵化、SDK 化，为消费方提供事件流校验能力。
+
+| 交付物 | 状态 | 入口 |
+|---|---|---|
+| 状态转移图（Mermaid + 业务流说明） | ✅ | [ulsc/state-machine.md](./ulsc/state-machine.md) |
+| 转移矩阵 CSV（69 条 / 5 终态 / 3 universal） | ✅ | [ulsc/transitions.csv](./ulsc/transitions.csv) |
+| Python validator `oltrack.state_machine` | ✅ | `oltrack-py/src/oltrack/state_machine.py` |
+| TypeScript validator `@oltrack/sdk` | ✅ | `oltrack-ts/src/state-machine.ts` |
+| 数据质量 M13（状态机合规度 metric） | ✅ Spec | [openapi/v0.5/data-quality.md](./openapi/v0.5/data-quality.md) |
+
+```python
+from oltrack.state_machine import is_valid_transition, validate_event_sequence
+
+is_valid_transition("picked_up", "arrived_at_hub")
+# (True, '首站到件')
+
+is_valid_transition("delivered", "picked_up")
+# (False, 'delivered is terminal; cannot transition further')
+
+is_valid_transition("delivered", "return_initiated", context={"rma": True})
+# (True, 'exceptional (RMA 客户发起退货)')
+
+validate_event_sequence(["picked_up", "in_transit", "in_transit", "delivered"])
+# []   ← 全合法（同码重复允许）
+```
+
+```typescript
+import { isValidTransition, validateEventSequence } from "@oltrack/sdk";
+
+isValidTransition("picked_up", "arrived_at_hub");      // { valid: true, ... }
+isValidTransition("delivered", "return_initiated");    // { valid: false, ... }
+isValidTransition("delivered", "return_initiated", { rma: true });  // { valid: true, ... }
+```
 
 ---
 
@@ -233,7 +280,7 @@ const events = normalizeResponse(sfApiResponse);
 ## Repo 结构
 
 ```
-ulsc/                    32 码字典定稿
+ulsc/                    32 码字典 + 状态机（state-machine.md / transitions.csv）
 mappings/                14 家承运商 raw_code → ULSC 映射 CSV
 schemas/v0.2/            JSON Schema (TrackingEvent + Shipment)
 examples/v0.2/           28 个 Schema 实例（覆盖 14 家）
@@ -253,6 +300,7 @@ posts/                   首发文章 + 后续文档
 - **v0.1（已完成）**: ULSC 字典 + 14 家承运商映射表 + Python 校验
 - **v0.2（主体完成）**: TrackingEvent + Shipment JSON Schema + oltrack-py MVP
 - **v0.5（主体完成）**: OpenAPI 3.1 + Webhook + AsyncAPI 2.6 + 数据质量框架 + TypeScript SDK MVP
+- **v1.0-prep（进行中）**: ULSC 状态机（transitions.csv + 双语言 validator）
 - **v1.0（2027 H1）**: 稳定版 + 多语言 SDK + 申请中物联团体标准立项
 
 完整 [ROADMAP](./ROADMAP.md)。
